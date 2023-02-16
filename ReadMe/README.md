@@ -65,7 +65,11 @@ El esquema de base de datos podría ser parecido al siguiente:
 ---
 
 ## MÓDULO 01. Introducción a Entity Framework <a name="Tema_01_Intro"></a>
-Toma de contacto con EF. 
+**Objetivo:** creación y configuración de una base de datos.
+**Principales características:**
+* Code First: a partir de C#, se crea la BDD.
+* Database First: ya existe la BDD.
+
 
 ### 1.1 Configurando una aplicación de consola con EF Core y Code first <a name="Tema_01_Demo_Consola"></a>
 
@@ -120,6 +124,15 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 ## MÓDULO 02. Modelado de base de datos <a name="Tema_02_Modelado_BDD"></a>
-Toma de contacto con EF. 
-
+**Objetivo:** creación y configuración de una base de datos.
+**Principales características:**
+* Creación de la BDD de la que se basará el resto de ejemplos.
+* Creación de llaves primarias, tanto por convención como por configuración.
+* Campos de texto: longitud máxima de los campos, que no sean nulos y tipo de dato de la columna.
+* Campos espaciales (longitud, latitud): utilización de la librería [**NetApologySuite**](https://github.com/NetTopologySuite/NetTopologySuite).
+* Campos Unicode para reducir el tamaño de dicho campo.
+* Configuración de relaciones 1 a 1, 1 a N, N a N.
+* Configuración de relaciones N a N de manera automática (renunciando al control de la clase intermedia) o manual (debemos configurar completamente la tabla intermedia, aunque es recomendable).
+* Cambiar las convenciones utilizadas por EF Core.
+* Utilización de **IEntityTypeConfiguration** para separar en clases las configuraciones de Fluent API.
 ---
