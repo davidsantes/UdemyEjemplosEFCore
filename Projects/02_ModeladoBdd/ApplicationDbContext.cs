@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModeladoBdd.Entidades;
+using ModeladoBdd.Entidades.Configuraciones;
 using System.Reflection;
 
 namespace ModeladoBdd
@@ -21,7 +22,11 @@ namespace ModeladoBdd
 
             //Para hacer el cambio de nombre a una tabla que no sigue la convención de nombres:
             //modelBuilder.Entity<Genero>().ToTable(name: "TablaGeneros", schema: "Peliculas");
-            
+
+            //Para hacerlo uno a uno:
+            //modelBuilder.ApplyConfiguration(new GeneroConfig());
+
+            //Para hacerlo por el ensamblado:
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

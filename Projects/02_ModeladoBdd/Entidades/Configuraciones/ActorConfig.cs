@@ -13,6 +13,9 @@ namespace ModeladoBdd.Entidades.Configuraciones
                .IsRequired();
             //Para hacer el cambio de tipo, y que no sea datetime, sino solo date:
             //builder.Property(prop => prop.FechaNacimiento).HasColumnType("date");
+            //Para evitar que por convención convierta a "date"
+            //builder.Property(prop => prop.Nombre)
+            //    .HasColumnType("datetime2");
         }
     }
 }

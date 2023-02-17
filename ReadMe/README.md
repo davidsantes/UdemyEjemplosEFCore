@@ -130,10 +130,13 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Creación de llaves primarias, tanto por convención como por configuración.
 * Campos de texto: longitud máxima de los campos, que no sean nulos y tipo de dato de la columna.
 * Campos espaciales (longitud, latitud): utilización de la librería [**NetApologySuite**](https://github.com/NetTopologySuite/NetTopologySuite).
-* Campos Unicode para reducir el tamaño de dicho campo.
+* Campos Unicode para reducir el tamaño de dicho campo y que no acepte caracteres extraños en una URL (```varchar``` vs ```nvarchar```).
 * Configuración de relaciones 1 a 1, 1 a N, N a N.
 * Configuración de relaciones N a N de manera automática (renunciando al control de la clase intermedia) o manual (debemos configurar completamente la tabla intermedia, aunque es recomendable).
-* Hacer configuraciones por convenciones automáticas de EF, por atributo en la entidad (```Key, StringLength, MaxLength, Required, etc```) y por Fluent API del ```DBContext``` (método ```OnModelCreating```).
+* Hacer configuraciones por convenciones automáticas de EF:
+  * Por atributo en la entidad (```Key, StringLength, MaxLength, Required, etc```)
+  * Por Fluent API del ```DBContext``` (método ```OnModelCreating```).
+  * Configurando convenciones reutilizables: por ejemplo, si queremos que un ```DateTime``` de c# se mapee siempre a ```date``` de SQL.
 * Utilización de **IEntityTypeConfiguration** para separar en clases las configuraciones de Fluent API.
 ---
 
@@ -173,3 +176,64 @@ Toma de contacto con EF y una aplicación ASP MVC.
     * Modo 1: Poner en el campo el atributo [Column(TypeName = "Date")]
     * Modo 2: A través de Fluent API, revisar ```ApplicationDbContext``` (método ```OnModelCreating```) y ```ActorConfig.cs```. El código está comentado.
   * Mapear a nullable: ```DateTime? FechaNacimiento```.
+
+### 2.6 Otras propiedades interesantes <a name="Tema_02_Modelado_OtrasPropiedades"></a>
+* **Uso de Enums**: campo de tipo enum, en SalaDeCine.cs, de tipo ```TipoSalaDeCine``` (enum).
+  * Creará un campo de tipo numérico.
+* **Valores por defecto**:
+  * Para configurar valores por defecto, utilizaremos en la configuración **HasDefaultValue** (un valor por defecto de C#) o **HasDefaultValueSql** (para utilizar funciones de sql como ```getdate()```).
+
+### 2.7 Creando entidades <a name="Tema_02_Modelado_CreandoEntidades"></a>
+* Clase ```Cine```, características destacables:
+  * Ubicación geográfica, que se guardará en BDD en un campo de tipo ```geography```. Para ello, se utilizará la librería [NetTopologySuite](https://github.com/NetTopologySuite/NetTopologySuite) y el tipo ```Point```.
+  * Para usar [NetTopologySuite](https://github.com/NetTopologySuite/NetTopologySuite) en el program.cs, cuando se crea ```builder.Services.AddDbContext```, hay que informarlo.
+* Clase ```SalaDeCine```, características destacables:
+  * La propiedad **Precio** es decimal. Por defecto creará en la base de datos un ```decimal(18,2)```. Para limitar las precisiones a 9 y 2 comas flotantes, y que ocupe casi la mitad de bytes:
+    * Modo 1: Revisar SalaDeCine.cs ```[Precision(precision: 9, scale: 2)]```
+    * Modo 2: A través de Fluent API (revisar la clase ```SalaDeCineConfig.cs```)
+* Clase ```Pelicula```, características destacables:
+  * La propiedad **Url** solo aceptará **Unicode** (```varchar```), por lo que no aceptará caracteres extraños (```nvarchar```). Para hacerlo:
+    * Modo 1: Revisar Pelicula.cs ```[Unicode(false)]```
+    * Modo 2: A través de Fluent API (revisar la clase ```PeliculaConfig.cs```)   
+
+### 2.8 Creando relaciones <a name="Tema_02_Modelado_CreandoRelaciones"></a> 
+* **Relación 1 a 1**:
+  * Oferta de un cine:
+    * 1 Cine tiene 1 oferta.
+    * Para enlazar:
+      * Clase ```Cine```: tendrá como propiedad a ```CineOferta```.
+      * Clase ```CineOferta```: tendrá como propiedad el cine ```CineId```.      
+* **Relación 1 a N**:
+  * Cine con sus salas de cine (2D, 3D, etc):
+    * 1 Cine tiene N salas con precios diferentes.
+    * Para enlazar:
+      * Clase ```Cine```: tendrá una lista de ```SalaDeCine```. En este caso, es ```HashSet``` (no ordena aunque es más rápido). Si se quiere, podría ser ```ICollection```, ```List```, etc.
+      * Clase ```CineOferta```: tendrá como propiedad a ```Cine```.      
+* **Relación N a N**:
+  * 1 película puede tener N géneros, y 1 género puede tener N películas.
+  * 1 película puede emitirse en N salas de cine, y 1 sala de cine puede emitir N películas.
+  * 1 actor puede participar en N películas, y 1 película pueden participar N actores.
+  * Para enlazar, modos de generación:
+    * **De manera automática (No recomendado)**: se renuncia al control directo de la tabla intermedia, ya que no existe entidad que lo maneje.
+      * Clase ```Pelicula``` una lista de ```Generos```. Se ha puesto como HashSet.
+      * Clase ```Genero``` una lista de ```Peliculas```. Se ha puesto como HashSet.
+      * Clase ```Pelicula``` una lista de ```SalaDeCine```. Se ha puesto como HashSet.
+      * Clase ```SalaDeCine``` una lista de ```Peliculas```. Se ha puesto como HashSet.      
+    * **De manera manual (Sí recomendado)**: si se quiere introducir información extra en la tabla intermedia que relacione película y actores, como el nombre del personaje y el nombre de los actores, o en qué orden se mostrarán los actores en una película.
+      * Clase ```PeliculaActor``` es la entidad intermedia, donde estarán: 
+        * Las propiedades de unión ```PeliculaId``` y ```ActorId```.
+        * Las propiedades de navegación ```Pelicula``` y ```Actor```.
+      * Clase ```Pelicula```, una lista de ```PeliculaActor```.
+      * Clase ```Actor```, una lista de ```PeliculaActor```.
+      * Se deberá configurar la llave primaria compuesta:
+        * Mediante Fluent API: ```builder.HasKey(prop => new { prop.PeliculaId, prop.ActorId });```
+
+### 2.9 Configurando convenciones reutilizables <a name="Tema_02_Modelado_ConfigurandoConvenciones"></a> 
+* Por ejemplo, EF mapea un string a un nvarchar(max). Esto no quiere decir que no se pueda tener dicho caso, sino que no va a ser el comportamiento por defecto.
+* De esta manera se puede ahorrar mucho código repetido.
+* Existe un ejemplo en ```ApplicationDbContext```, método ```ConfigureConventions```, para que los métodos ```DateTime``` sean mapeados a ```Date```.
+* Si se quiere que algún método ```DateTime``` se convierta a otro tipo, habrá que hacerlo explícitamente. Existe un ejemplo comentado en ```ActorConfig```.
+
+### 2.10 Organizando OnModelCreating para organizar el código <a name="Tema_02_Modelado_OrganizandoOnModelCreating"></a> 
+* Se pueden crear clases más pequeñas para organizar el Fluent API. Revisar ```OnModelCreating```.
+* Se podrán registrar las clases 1 a 1 o todo el ensamblado a la vez.
