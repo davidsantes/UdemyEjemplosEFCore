@@ -124,7 +124,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 ## MÓDULO 02. Modelado de base de datos <a name="Tema_02_Modelado_BDD"></a>
-**Objetivo:** creación y configuración de una base de datos.
+**Objetivo:** creación y configuración de una base de datos a través de Code First y migraciones. Exceptuando las migraciones, el resto vale para Database first).
 **Principales características:**
 * Creación de la BDD de la que se basará el resto de ejemplos a través de entidades cine, película, actor, etc, de c# (code first).
 * Creación de llaves primarias, tanto por convención como por configuración.
@@ -166,3 +166,10 @@ Toma de contacto con EF y una aplicación ASP MVC.
   * **Columnas**:  revisar código comentado en Genero.cs ```[Column("NombreGenero")]```.
   * **A través de Fluent API**: revisar ```ApplicationDbContext``` (método ```OnModelCreating```) y ```GeneroConfig.cs```. El código está comentado.
 
+### 2.5 Creando la entidad Actor: Mapeo de DateTime a Date <a name="Tema_02_Modelado_MapeoDateTimeDate"></a>
+* Campo Actor.cs **FechaNacimiento**, de tipo fecha:
+  * Por defecto, un campo ```DateTime``` se va a mapear en BDD con un tipo ```datetime2``` (con hora, minutos...) y no va a ser null.
+  * Mapear a tipo ```Date``` en vez de ```datetime2```:
+    * Modo 1: Poner en el campo el atributo [Column(TypeName = "Date")]
+    * Modo 2: A través de Fluent API, revisar ```ApplicationDbContext``` (método ```OnModelCreating```) y ```ActorConfig.cs```. El código está comentado.
+  * Mapear a nullable: ```DateTime? FechaNacimiento```.

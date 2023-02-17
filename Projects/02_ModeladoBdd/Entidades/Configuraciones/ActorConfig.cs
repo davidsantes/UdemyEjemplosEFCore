@@ -11,6 +11,8 @@ namespace ModeladoBdd.Entidades.Configuraciones
             builder.Property(prop => prop.Nombre)
                .HasMaxLength(150)
                .IsRequired();
+            //Para hacer el cambio de tipo, y que no sea datetime, sino solo date:
+            //builder.Property(prop => prop.FechaNacimiento).HasColumnType("date");
         }
     }
 }
