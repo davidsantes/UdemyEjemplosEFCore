@@ -1,0 +1,136 @@
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\appsettings.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\EFCorePeliculas.exe
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\EFCorePeliculas.deps.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\EFCorePeliculas.runtimeconfig.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\EFCorePeliculas.pdb
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Castle.Core.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Humanizer.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Proxies.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\NetTopologySuite.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\NetTopologySuite.IO.SqlServerBytes.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Runtime.Caching.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.csproj.AssemblyReference.cache
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.AssemblyInfoInputs.cache
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.AssemblyInfo.cs
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.csproj.CoreCompileInputs.cache
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\scopedcss\bundle\EFCorePeliculas.styles.css
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.csproj.CopyComplete
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\refint\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.pdb
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\EFCorePeliculas.genruntimeconfig.cache
+C:\Users\D695839\Desktop\Entity Framework de verdad\6.0\Modulo 3 - Consultando datos\Fin\EFCorePeliculas\EFCorePeliculas\obj\Debug\net6.0\ref\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\appsettings.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\EFCorePeliculas.exe
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\EFCorePeliculas.deps.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\EFCorePeliculas.runtimeconfig.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\EFCorePeliculas.pdb
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Castle.Core.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Humanizer.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Proxies.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\NetTopologySuite.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\NetTopologySuite.IO.SqlServerBytes.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Runtime.Caching.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\System.Windows.Extensions.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.csproj.AssemblyReference.cache
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.AssemblyInfoInputs.cache
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.AssemblyInfo.cs
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.csproj.CoreCompileInputs.cache
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\scopedcss\bundle\EFCorePeliculas.styles.css
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.csproj.CopyComplete
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\refint\EFCorePeliculas.dll
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.pdb
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\EFCorePeliculas.genruntimeconfig.cache
+C:\Users\D695839\Desktop\UdemyEjemplosEFCore\Projects\03_ConsultandoDatos\obj\Debug\net6.0\ref\EFCorePeliculas.dll
