@@ -19,6 +19,9 @@ namespace ModeladoBdd
         {
             base.OnModelCreating(modelBuilder);
 
+            //Para hacer el cambio de nombre a una tabla que no sigue la convención de nombres:
+            //modelBuilder.Entity<Genero>().ToTable(name: "TablaGeneros", schema: "Peliculas");
+            
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 

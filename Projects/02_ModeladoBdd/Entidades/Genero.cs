@@ -8,10 +8,11 @@ namespace ModeladoBdd.Entidades
     {
         //[Key]
         public int Identificador { get; set; }
-        //[StringLength(150)]
-        //[MaxLength(150)]
-        //[Required]
+        //StringLength y MaxLength son dos opciones para realizar la misma configuración
+        //[StringLength(150)] o [MaxLength(150)]
+        //
         //[Column("NombreGenero")]
+        //[Required]
         public string Nombre { get; set; }
         public HashSet<Pelicula> Peliculas { get; set; }
     }

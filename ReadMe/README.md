@@ -126,13 +126,43 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ## MÓDULO 02. Modelado de base de datos <a name="Tema_02_Modelado_BDD"></a>
 **Objetivo:** creación y configuración de una base de datos.
 **Principales características:**
-* Creación de la BDD de la que se basará el resto de ejemplos.
+* Creación de la BDD de la que se basará el resto de ejemplos a través de entidades cine, película, actor, etc, de c# (code first).
 * Creación de llaves primarias, tanto por convención como por configuración.
 * Campos de texto: longitud máxima de los campos, que no sean nulos y tipo de dato de la columna.
 * Campos espaciales (longitud, latitud): utilización de la librería [**NetApologySuite**](https://github.com/NetTopologySuite/NetTopologySuite).
 * Campos Unicode para reducir el tamaño de dicho campo.
 * Configuración de relaciones 1 a 1, 1 a N, N a N.
 * Configuración de relaciones N a N de manera automática (renunciando al control de la clase intermedia) o manual (debemos configurar completamente la tabla intermedia, aunque es recomendable).
-* Cambiar las convenciones utilizadas por EF Core.
+* Hacer configuraciones por convenciones automáticas de EF, por atributo en la entidad (```Key, StringLength, MaxLength, Required, etc```) y por Fluent API del ```DBContext``` (método ```OnModelCreating```).
 * Utilización de **IEntityTypeConfiguration** para separar en clases las configuraciones de Fluent API.
 ---
+
+### 2.0 Migraciones ⚙️ <a name="Tema_02_Modelado_Migraciones"></a>
+* ```Add-Migration Inicial```: Código necesario para la migración de todas las entidades.
+* ```Update-Database```: ejecución de la migración y creación de la BDD **[EFCorePeliculasDB_01Introduccion]**.
+
+#### 2.0.1 ¿Cómo queda la base de datos? 🔩
+![My Image](02_Modelado_BDD.PNG)
+
+### 2.1 Creando el proyecto <a name="Tema_02_Modelado_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **02_Modelado_Bdd**
+* BDD utilizada: **[EFCorePeliculasDB_02_Modelado_BDD]**
+
+### 2.2 Llaves primarias <a name="Tema_02_Modelado_Llaves_Primarias"></a>
+* **Con convención de EF**: si un campo se llama "Id" o "NombreTablaId" automáticamente se configura como una llave primaria
+* **Sin convención de EF**: para determinar que un campo [identificador] es una llave primaria, se puede hacer con atributos ```[Key]``` o mediante Fluent API del ```ApplicationDbContext``` (método ```OnModelCreating```)
+
+### 2.3 Longitud máxima de campos <a name="Tema_02_Modelado_Longitud_Campos"></a>
+* Longitud máxima:
+  * **StringLength y MaxLength**: revisar la clase Genero.cs.
+  * **A través de Fluent API**: revisar ```ApplicationDbContext``` (método ```OnModelCreating```)
+* Campos no nulos:
+  * **Required**: revisar la clase Genero.cs.
+  * **A través de Fluent API**: revisar ```ApplicationDbContext``` (método ```OnModelCreating```) 
+
+### 2.4 Cambiando nombres y esquema de tablas y columnas <a name="Tema_02_Modelado_Nombres_Esquema"></a>
+* Si no quiero que la tabla o columnas, utilicen el mismo nombre que la entidad, o si quiero añadir (opcionalmente), el esquema:
+  * **Tablas**: revisar código comentado en Genero.cs ```[Table("TablaGeneros", Schema = "peliculas")]```.
+  * **Columnas**:  revisar código comentado en Genero.cs ```[Column("NombreGenero")]```.
+  * **A través de Fluent API**: revisar ```ApplicationDbContext``` (método ```OnModelCreating```) y ```GeneroConfig.cs```. El código está comentado.
+
