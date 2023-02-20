@@ -20,8 +20,8 @@ namespace EFCorePeliculas.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<PeliculaDTO>> Get(int id)
+        [HttpGet("getEagerLoading/{id:int}")]
+        public async Task<ActionResult<PeliculaDTO>> GetEagerLoading(int id)
         {
             var pelicula = await context.Peliculas
                 .Include(p => p.Generos.OrderByDescending(g => g.Nombre))
@@ -36,6 +36,7 @@ namespace EFCorePeliculas.Controllers
                 return NotFound();
             }
 
+            //También se puede hacer con ProjectTo de Automapper, ambas formas son válidas:
             var peliculaDTO = mapper.Map<PeliculaDTO>(pelicula);
 
             peliculaDTO.Cines = peliculaDTO.Cines.DistinctBy(x => x.Id).ToList();
@@ -60,8 +61,8 @@ namespace EFCorePeliculas.Controllers
             return pelicula;
         }
 
-        [HttpGet("cargadoselectivo/{id:int}")]
-        public async Task<ActionResult> GetSelectivo(int id)
+        [HttpGet("getSelectLoading/{id:int}")]
+        public async Task<ActionResult> GetSelectLoading(int id)
         {
             var pelicula = await context.Peliculas.Select(p =>
             new
@@ -81,14 +82,16 @@ namespace EFCorePeliculas.Controllers
             return Ok(pelicula);
         }
 
-        [HttpGet("cargadoexplicito/{id:int}")]
-        public async Task<ActionResult<PeliculaDTO>> GetExplicito(int id)
+        [HttpGet("getExplicitLoading/{id:int}")]
+        public async Task<ActionResult<PeliculaDTO>> getExplicitLoading(int id)
         {
+            //Para el cargado explícito es necesario hacerlo AsTracking para encadenar queries
             var pelicula = await context.Peliculas.AsTracking().FirstOrDefaultAsync(p => p.Id == id);
-            //...
 
+            //Si queremos cargar los géneros de una película, y para seguir realizando la query:
             //await context.Entry(pelicula).Collection(p => p.Generos).LoadAsync();
 
+            //Si lo que nos interesa es conocer la cantidad de géneros que tiene una película mediante Query():
             var cantidadGeneros = await context.Entry(pelicula).Collection(p => p.Generos).Query().CountAsync();
 
             if (pelicula is null)
@@ -147,8 +150,8 @@ namespace EFCorePeliculas.Controllers
             return Ok(peliculasAgrupadas);
         }
 
-        [HttpGet("filtrar")]
-        public async Task<ActionResult<List<PeliculaDTO>>> Filtrar(
+        [HttpGet("getFiltrarDinamicoEjecucionDiferida")]
+        public async Task<ActionResult<List<PeliculaDTO>>> GetFiltrarDinamicoEjecucionDiferida(
                 [FromQuery] PeliculasFiltroDTO peliculasFiltroDTO)
         {
             var peliculasQueryable = context.Peliculas.AsQueryable();

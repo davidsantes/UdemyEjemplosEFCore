@@ -28,8 +28,8 @@ namespace EFCorePeliculas.Controllers
             return await context.Cines.ProjectTo<CineDTO>(mapper.ConfigurationProvider).ToListAsync();
         }
 
-        [HttpGet("cercanos")]
-        public async Task<ActionResult> Get(double latitud, double longitud)
+        [HttpGet("getCinesCercanosConNetTopologySuite")]
+        public async Task<ActionResult> GetCinesCercanosConNetTopologySuite(double latitud, double longitud)
         {
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 

@@ -60,7 +60,8 @@ El esquema de base de datos podría ser parecido al siguiente:
 1. [Introducción a Entity Framework](#Tema_01_Intro)
    1. [Configurando una aplicación de consola con EF Core y Code first](#Tema_01_Demo_Consola)       
    2. [Configurando una aplicación ASP MVC con EF Core y Code first](#Tema_01_Demo_MVC)         
-3. [Modelado de base de datos](#Tema_02_Modelado_BDD)
+2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
+3. [Consultando la base de datos](#Tema_03_Consultanto)
 
 ---
 
@@ -142,9 +143,9 @@ Toma de contacto con EF y una aplicación ASP MVC.
 
 ### 2.0 Migraciones ⚙️ <a name="Tema_02_Modelado_Migraciones"></a>
 * ```Add-Migration Inicial```: Código necesario para la migración de todas las entidades.
-* ```Update-Database```: ejecución de la migración y creación de la BDD **[EFCorePeliculasDB_01Introduccion]**.
+* ```Update-Database```: ejecución de la migración y creación de la BDD **[EFCorePeliculasDB_02_Modelado_BDD]**.
 
-#### 2.0.1 ¿Cómo queda la base de datos? 🔩
+#### 2.0.1 ¿Cómo queda la base de datos? <a name="Tema_02_Modelado_Esquema"></a> 🔩
 ![My Image](02_Modelado_BDD.PNG)
 
 ### 2.1 Creando el proyecto <a name="Tema_02_Modelado_Creacion"></a>
@@ -237,3 +238,130 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ### 2.10 Organizando OnModelCreating para organizar el código <a name="Tema_02_Modelado_OrganizandoOnModelCreating"></a> 
 * Se pueden crear clases más pequeñas para organizar el Fluent API. Revisar ```OnModelCreating```.
 * Se podrán registrar las clases 1 a 1 o todo el ensamblado a la vez.
+
+---
+
+## MÓDULO 03. Consultando datos <a name="Tema_03_Consultanto"></a>
+**Objetivo:** creación de métodos de consulta
+**Principales características:**
+* Inserción de datos con Data Seeding.
+* Queries más rápidas con ```AsNoTracking```.
+* Obtener el primer registro con ```First``` y ```FirstOrDefault```.
+* Filtros con ```Where```.
+* Ordenación con ```OrderBy``` y ```OrderByDescending```.
+* Paginando con ```Skip``` y ```Take```.
+* Seleccionar columnas con ```Select``` o con Automapper.
+* Consulta de datos Espaciales (longitud, latitud).
+* Automapper: ```ProjectTo```.
+* Agrupar con ```GroupBy```. 
+* Eager Loading - ```Include``` y ```ThenInclude```: cargando datos relacionados.
+* Select Loading - Cargado selectivo.
+* Explicit loading - Carga Explícita.
+* Lazy Loading - Carga perezosa.
+* Ejecución diferida (AsQueryAble): Filtros dinámicos.
+---
+
+### 3.0 Migraciones ⚙️ <a name="Tema_03_Consultanto_Migraciones"></a>
+* ```Add-Migration Inicial```: Código necesario para la migración de todas las entidades.
+* ```Update-Database```
+* ```Add-Migration DatosDePrueba```: inserción en las tablas de datos.
+* ```Update-Database```
+ 
+#### 3.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema  [Consultando la base de datos](#Tema_02_Modelado_Esquema)
+
+### 3.1 Creando el proyecto <a name="Tema_03_Consultanto_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **03_Consultando_Datos**
+* BDD utilizada: **[EFCorePeliculasDB_03_Consulta_BDD]**
+
+### 3.2 Inserción de datos con Data Seeding <a name="Tema_03_Consultanto_DataSeeding"></a> 
+* Se puede realizar una carga de datos inicial a través del Data Seeding.
+* Revisar el método ```OnModelCreating``` de la clase ```ApplicationDbContext```.
+* Se llama a la clase ```SeedingModuloConsulta```, donde se insertan los datos de la base de datos.
+* Al añadir la migración ```DatosDePrueba``` añade todos esos datos.
+
+### 3.3 Queries más rápidas con ```AsNoTracking``` <a name="Tema_03_Consultanto_AsNoTracking"></a> 
+* Si no se tiene interés en manejar el estado de una entidad (updated, etc), se puede utilizar ```AsNoTracking```.
+* Se utiliza para cuando el fin es lectura pero no actualización de los datos.
+* **Ventaja:** son más rápidos que los queries normales.
+* Se puede hacer la configuración de AsNoTracking:
+  * De manera individual: revisar ```GenerosController```, código comentado en método ```Get()```.
+  * De manera global: 
+    * Revisar ```program```, código ```UseQueryTrackingBehavior``` a la hora de configurar el DbContext.
+    * Si se quiere activar el seguimiento de un método, se puede utilizar ```.AsTracking()```. revisar ```GenerosController```, código comentado en método ```Get()```.
+
+### 3.4 Obtener el primer registro con ```First``` y ```FirstOrDefault``` <a name="Tema_03_Consultanto_First"></a> 
+* Revisar ```GenerosController```, código en método ```GetPrimerGeneroConNombreEmpiezaConLetraC()```.
+
+### 3.5 Obtener elementos filtrados con ```Where```<a name="Tema_03_Consultanto_Where"></a> 
+* Revisar ```GenerosController```, código en método ```GetFiltroPorNombre()```.
+* Se puede filtrar por más de un elemento, por ejemplo, que empiece por una letra y otra. Revisar ```GenerosController```, código comentado en método ```GetFiltroPorNombre()```.
+
+### 3.6 Ordenación con ```OrderBy``` y ```OrderByDescending```<a name="Tema_03_Consultanto_Order"></a> 
+* Revisar ```GenerosController```, código en método ```Get()```.
+
+### 3.7 Paginando con ```Skip``` y ```Take```<a name="Tema_03_Consultanto_Paginacion"></a> 
+* Para no traer todos los registros de la base de datos.
+* Para ello, se utiliza Take y Skip.
+* Revisar ```GenerosController```, código en método ```GetPaginacion()```.
+
+### 3.8 Seleccionar columnas con ```Select```<a name="Tema_03_Consultanto_Select"></a> 
+* Para no traer todos los campos de una entidad.
+* Revisar ```AutoresController```, código en método ```GetConSelectAnonimo()``` y ```GetConSelectADto```.
+* Esto genera una SQL (se puede ver en la consola.exe de VS) que retorna solo los datos solicitados.
+
+### 3.9 Seleccionar columnas con ```Select``` o con Automapper<a name="Tema_03_Consultanto_Select"></a> 
+* Para no traer todos los campos de una entidad.
+* Revisar ```AutoresController```, código en método ```GetConSelectAnonimo()``` y ```GetConSelectADto```.
+* Esto genera una SQL (se puede ver en la consola.exe de VS) que retorna solo los datos solicitados.
+* También se puede ahorrar el Select utilizando Automapper. 
+  * Revisar ```AutoresController```, código en método ```GetAutomapper()```. Revi
+  * Revisar la clase ```AutoMapperProfiles```.
+
+### 3.10 Consulta de datos Espaciales - Point (longitud, latitud)<a name="Tema_03_Consultanto_Point"></a> 
+* Para datos complejos como latitud / longitud, se puede utilizar **NetTopologySuite**. Se puede filtrar, o indicar los cines o puntos más cercanos.
+* Revisar:
+  * ```CinesController```, código en método ```GetCinesCercanosConNetTopologySuite()```.
+  * Revisar la clase ```AutoMapperProfiles```, donde se hacen transformaciones de longitud y latitud.
+
+### 3.11 Agrupar con ```GroupBy```<a name="Tema_03_Consultanto_GroupBy"></a> 
+* Revisar ```PeliculasController```, código en método ```GetAgrupadasPorCantidadDeGeneros()```.
+
+### 3.12 Eager Loading - ```Include``` y ```ThenInclude```: cargando datos relacionados <a name="Tema_03_Consultanto_Eager"></a> 
+* **Eager loading:** en la query se indica explícitamente los datos a cargar. Hay que utilizar include para los hijos a retornar.
+* Revisar en **PeliculasController**, método ```GetEagerLoading```:
+  * **Include**: permite cargar el hijo.
+  * **ThenInclude**: permite entrar en el hijo del hijo del hijo. Por ejemplo, en una película, que cargue la tabla intermedia peliculas actores, y a su vez los actores. 
+  * **IgnoreCycles**: para evitar redundancia cíclica (una clase película tiene actores, pero los actores tienen películas), se utiliza IgnoreCycles en program.cs  
+  * También se ordenan los hijos y se filtran por valores específicos (por ejemplo, que la fecha de nacimiento de los actores sea >= 1980)
+
+### 3.13 Select Loading - Cargado selectivo <a name="Tema_03_Consultanto_Select"></a> 
+* **Select loading:** para devolver clases anónimas con solo los datos que me interesan.
+  * Por ejemplo, nombre película y número de cines que la emiten. 
+  * Es una opción a tener en cuenta para queries complicadas.
+* En anteriores ejemplos se ha hecho un select simple, pero se pueden cargar entidades relacionadas.
+* Revisar en **PeliculasController**, método ```GetSelectLoading```:
+  * Además de devolver una clase anónima, devuelve datos interesantes como el número de coincidencias total.
+
+### 3.14 Explicit loading - Carga explícita <a name="Tema_03_Consultanto_Explicit"></a> 
+* **Explicit loading:** útil para hacer filtros en los hijos del padre, u operaciones secundarias con los hijos.
+  * Se carga en diferentes líneas de código.
+  * Es necesario utilizar AsTracking().
+  * No es tan eficiente como hacer 1 query, ya que obliga a volver a cargar la entidad principal. 
+  * Es más recomendado hacer eager o select loading.
+* Revisar en **PeliculasController**, método ```GetExplicitLoading```.
+
+### 3.15 Lazy loading - Carga perezosa <a name="Tema_03_Consultanto_Lazy"></a> 
+* **Lazy loading:** (no recomendado y no existe método de ejemplo en el código):
+  * Si alguien intenta acceder a datos de hijos, los intentará cargar. Si los datos hijos no han sido cargados, los carga de las bdd. Si ya está cargado en memoria, utiliza esa. Un ejemplo algo oculto es Automapper, que intentará analizar todas las propiedades.
+  * Ineficiente. Hay que hacer varias queries separadas. También nos exponemos a peligros como el problema N+1, una query por cada entidad (por ejemplo, si hay foreach).
+  * Se recomienda utilizar antes, eager loading, select loading, y en último caso caso, explicit loading.
+  * Hay que instalar **Microsoft.EntityFrameworkCore.Proxies**.
+  * Hay que configurar el dbContext para usar ```UseLazyLoadingProxies```, normalmente en el ```program.cs```.
+  * Todas las entidades del modelo hijas, deben ser virtual (virtual HashSet, virtual CineOferta, virtual List, etc)
+  * Las consultas utilizan ```AsTracking()```
+
+### 3.16 Ejecución diferida (AsQueryAble): Filtros dinámicos <a name="Tema_03_Consultanto_Diferida"></a> 
+* Se utiliza para componer la query en función de si se pasan los parámetros o no.
+* Se debe utilizar ```AsQueryAble()```, el cual nos permite ir construyendo la query.
+* Revisar en **PeliculasController**, método ```GetFiltrarDinamicoEjecucionDiferida```. 
