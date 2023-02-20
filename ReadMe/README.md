@@ -39,7 +39,7 @@ Las tablas intermedias, son las siguientes:
 * Tabla **[GeneroPelicula]**: géneros en los que clasificar las películas. Relación N a N entre **[Generos]** y **[Peliculas]**.
 * Tabla **[PeliculasActores]**: películas en los que participan los actores. Relación N a N entre **[Actores]** y **[Peliculas]**.
 
-El esquema de base de datos podría ser parecido al siguiente:
+## Esquema de base de datos <a name="Esquema_BDD"></a>⚙️
 ![My Image](00_Esquema_BDD.PNG)
 
 # Construido con 🛠️
@@ -72,7 +72,6 @@ El esquema de base de datos podría ser parecido al siguiente:
 * Code First: a partir de C#, se crea la BDD.
 * Database First: ya existe la BDD.
 
-
 ### 1.1 Configurando una aplicación de consola con EF Core y Code first <a name="Tema_01_Demo_Consola"></a>
 
 #### Objetivo 🚀
@@ -97,7 +96,6 @@ El esquema de base de datos podría ser parecido al siguiente:
 #### ¿Cómo queda la base de datos? 🔩
 ![My Image](01_Intro_Consola_Esquema_BDD.PNG)
 ---
-
 
 ### 1.2 Configurando una aplicación ASP MVC con EF Core y Code first <a name="Tema_01_Demo_MVC"></a>
 Toma de contacto con EF y una aplicación ASP MVC.
@@ -143,11 +141,13 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 ### 2.0 Migraciones ⚙️ <a name="Tema_02_Modelado_Migraciones"></a>
-* ```Add-Migration Inicial```: Código necesario para la migración de todas las entidades.
-* ```Update-Database```: ejecución de la migración y creación de la BDD **[EFCorePeliculasDB_02_Modelado_BDD]**.
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_02_Modelado_BDD]**.
 
 #### 2.0.1 ¿Cómo queda la base de datos? <a name="Tema_02_Modelado_Esquema"></a> 🔩
-![My Image](02_Modelado_BDD.PNG)
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
 
 ### 2.1 Creando el proyecto <a name="Tema_02_Modelado_Creacion"></a>
 * Proyecto utilizado: ver carpeta virtual de la solución **02_Modelado_Bdd**
@@ -263,14 +263,16 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 ### 3.0 Migraciones ⚙️ <a name="Tema_03_Consultanto_Migraciones"></a>
-* ```Add-Migration Inicial```: Código necesario para la migración de todas las entidades.
-* ```Update-Database```
-* ```Add-Migration DatosDePrueba```: inserción en las tablas de datos.
-* ```Update-Database```
- 
-#### 3.0.1 ¿Cómo queda la base de datos? 🔩
-* Similar al esquema  [Consultando la base de datos](#Tema_02_Modelado_Esquema)
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_03_Consulta_BDD]**.
+  * Creación del esquema.
+  * Inserción de datos de prueba.
 
+#### 3.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
 ### 3.1 Creando el proyecto <a name="Tema_03_Consultanto_Creacion"></a>
 * Proyecto utilizado: ver carpeta virtual de la solución **03_Consultando_Datos**
 * BDD utilizada: **[EFCorePeliculasDB_03_Consulta_BDD]**
@@ -387,12 +389,16 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 ### 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
-* Ejecutar:
-* ```Update-Database```
- 
-#### 4.0.1 ¿Cómo queda la base de datos? 🔩
-* Similar al esquema  [Consultando la base de datos](#Tema_02_Modelado_Esquema)
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_04_CRUD_BDD]**.
+  * Creación del esquema.
+  * Inserción de datos de prueba.
 
+#### 4.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
 ### 4.1 Creando el proyecto <a name="Tema_04_Crud_Creacion"></a>
 * Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
 * BDD utilizada: **[EFCorePeliculasDB_04_CRUD_BDD]**
