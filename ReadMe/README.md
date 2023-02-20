@@ -9,6 +9,13 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
 2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
 3. [Consultando la base de datos](#Tema_03_Consultanto)
 4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
+5. [Configurando propiedades](#Tema_05_Configurando_Propiedades)
+6. [Configurando relaciones](#Tema_06_Configurando_Relaciones)
+7. [Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)
+8. [El DbContext](#Tema_08_DbContext)
+9. [Entity Framework avanzado](#Tema_09_EF_Avanzado)
+10. [Entity Framework y pruebas automáticas](#Tema_10_Pruebas_Automaticas)
+11. [Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)
 
 # Toma de contacto  🚀 <a name="Toma_Contacto"></a>
 
@@ -404,3 +411,47 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ## 4.1 Creando el proyecto <a name="Tema_04_Crud_Creacion"></a>
 * Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
 * BDD utilizada: **[EFCorePeliculasDB_04_CRUD_BDD]**
+
+
+
+# MÓDULO 05. Configurando propiedades <a name="Tema_05_Configurando_Propiedades"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 09. Entity Framework avanzado <a name="Tema_09_EF_Avanzado"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
+
+# MÓDULO 11. Entity Framework y ASP Net Core <a name="Tema_11_EF_Y_ASP"></a>
+**Objetivo:** lorem ipsum.
+**Principales características:**
+* Lorem ipsum
+* Lorem ipsum
