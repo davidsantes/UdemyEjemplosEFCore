@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03_Consultando_Datos", "03_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsultaDatos", "Projects\03_ConsultandoDatos\ConsultaDatos.csproj", "{7572DDFE-51B0-4FF2-BDD1-9C8AC8F5538F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04_Crear_Actualizar_Borrar", "04_Crear_Actualizar_Borrar", "{5FDC364C-1ED6-4F4F-8A8D-D87F6D5F9949}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUD", "Projects\04_CrearActualizarBorrar\EFCorePeliculas\CRUD.csproj", "{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,10 @@ Global
 		{7572DDFE-51B0-4FF2-BDD1-9C8AC8F5538F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7572DDFE-51B0-4FF2-BDD1-9C8AC8F5538F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7572DDFE-51B0-4FF2-BDD1-9C8AC8F5538F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +65,7 @@ Global
 		{E73D7EDA-D7F3-46C3-B6E3-6367F815ED03} = {36923E13-461C-446B-B0BA-F09DA8E8337B}
 		{823FFA9F-BCFD-4EDA-AEA6-3A36E8646373} = {97B97545-14B5-4A3A-ABC8-8EA2FF335BB3}
 		{7572DDFE-51B0-4FF2-BDD1-9C8AC8F5538F} = {0841FF24-8679-465A-883C-3F4398BD5E91}
+		{BCEDA437-AD44-40EB-9668-BA5A04F0F1BD} = {5FDC364C-1ED6-4F4F-8A8D-D87F6D5F9949}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9133A34-854D-4750-9C4E-D756166DFA2B}

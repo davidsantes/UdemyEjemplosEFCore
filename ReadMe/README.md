@@ -62,6 +62,7 @@ El esquema de base de datos podría ser parecido al siguiente:
    2. [Configurando una aplicación ASP MVC con EF Core y Code first](#Tema_01_Demo_MVC)         
 2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
 3. [Consultando la base de datos](#Tema_03_Consultanto)
+4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
 
 ---
 
@@ -365,3 +366,33 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Se utiliza para componer la query en función de si se pasan los parámetros o no.
 * Se debe utilizar ```AsQueryAble()```, el cual nos permite ir construyendo la query.
 * Revisar en **PeliculasController**, método ```GetFiltrarDinamicoEjecucionDiferida```. 
+
+---
+
+## MÓDULO 04. Crear, modificar y borrar datos <a name="Tema_04_CRUD"></a>
+**Objetivo:** manejo de datos, creación, modificación y eliminación de los datos.
+**Principales características:**
+* Modelo Conectado y Modelo Desconectado - Estatus
+* Insertando Registros
+* Insertando Varios Registros
+* Insertar Registros con Data Relacionada Nueva
+* DTO para Insertar Cine (opcional)
+* Insertar Registros con Data Relacionada Existente
+* Mapeo Flexible
+* Actualizando Registros - Modelo Conectado
+* Actualizando Registros - Modelo Desconectado
+* Borrado Normal
+* Borrado Suave o Lógico
+* Filtros al Nivel del Modelo 
+---
+
+### 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
+* Ejecutar:
+* ```Update-Database```
+ 
+#### 4.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema  [Consultando la base de datos](#Tema_02_Modelado_Esquema)
+
+### 4.1 Creando el proyecto <a name="Tema_04_Crud_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
+* BDD utilizada: **[EFCorePeliculasDB_04_CRUD_BDD]**
