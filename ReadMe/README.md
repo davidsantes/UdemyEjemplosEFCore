@@ -122,7 +122,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * ```Update-Database```: ejecución de la migración y creación de la BDD **[EFCorePeliculasDB_01Introduccion]**.
 
 ### ¿Cómo queda la base de datos? 🔩
-![My Image](01_Intro_MVC_Esquema_BDD.png)
+![My Image](01_Intro_Consola_Esquema_BDD.PNG)
 ---
 
 # MÓDULO 02. Modelado de base de datos <a name="Tema_02_Modelado_BDD"></a>
