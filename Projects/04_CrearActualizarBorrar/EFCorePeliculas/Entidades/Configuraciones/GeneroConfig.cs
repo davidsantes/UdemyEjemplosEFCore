@@ -12,6 +12,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                 .HasMaxLength(150)
                 .IsRequired();
 
+            //El modelo siempre aplicará este filtro para todas las entidades
             builder.HasQueryFilter(g => !g.EstaBorrado);
         }
     }

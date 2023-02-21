@@ -11,6 +11,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                .HasMaxLength(150)
                .IsRequired();
 
+            //Mapeo flexible
             builder.Property(x => x.Nombre).HasField("_nombre");
         }
     }

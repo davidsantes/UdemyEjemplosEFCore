@@ -9,7 +9,7 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
 2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
 3. [Consultando la base de datos](#Tema_03_Consultanto)
 4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
-5. [Configurando propiedades](#Tema_05_Configurando_Propiedades)
+5. [Configurando propiedades (avanzado)](#Tema_05_Configurando_Propiedades)
 6. [Configurando relaciones](#Tema_06_Configurando_Relaciones)
 7. [Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)
 8. [El DbContext](#Tema_08_DbContext)
@@ -389,12 +389,12 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Insertar registros con datos relacionados inexistentes
 * Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado)
 * Insertar registros con datos relacionados existentes
-* Mapeo flexible
+* Mapeo flexible de campos en vez de propiedades (HasField)
 * Actualizando registros - modelo conectado
 * Actualizando registros - modelo desconectado
-* Borrado normal
+* Borrado normal o físico
 * Borrado suave o lógico
-* Filtros al nivel del modelo 
+* Filtros al nivel del modelo (añadir e ignorar)
 ---
 
 ## 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
@@ -509,9 +509,65 @@ Toma de contacto con EF y una aplicación ASP MVC.
   ]
 }
 ```
+
+## 4.8 Mapeo flexible de campos en vez de propiedades (HasField) <a name="Tema_04_Crud_Mapeo_Flexible"></a> 
+* Permite realizar transformaciones de datos antes de introducirlos a la BDD.
+* Por ejemplo, que a la hora de insertar un actor, su primera letra del nombre y del apellido estén en mayúscula.
+* Revisar: 
+  * **Actor.cs**, propiedad ```Nombre```.
+  * **ActoresController**, método ```InsertarConMapeoFlexibleDeCampo```.
+  * **ActorConfig.cs**, se indica que la propiedad ```Nombre``` tiene un campo privado asociado, a través de ```.HasField("_nombre")```.
+* Para probar con Swagger:
+```
+{
+  "nombre": "jUaN valdEZ",
+  "biografia": "Biografía...",
+  "fechaNacimiento": "2023-02-21T17:31:09.905Z"
+}
+```
+
+## 4.9 Actualizando registros - modelo conectado <a name="Tema_04_Crud_Modelo_Conectado"></a> 
+* La entidad a actualizar va a ser cargada por el mismo DbContext. Ambas operaciones serán realizadas por la misma instancia del DbContext.
+* La forma de realizarlo debe ser ```AsTracking()```, ya que es conectado.
+* Revisar:  
+  * **ActorController**, método ```ModificarConectado```. Modificar un actor existente.
+  * **GenerosController**, método ```ModificarConectadoAgregar2```. Agregar un 2 al final de un nombre de un género. Es un ejemplo muy simple.
+
+## 4.10 Actualizando registros - modelo desconectado <a name="Tema_04_Crud_Modelo_Desconectado"></a> 
+* La entidad a actualizar va a ser cargada en diferentes DbContext, uno para buscar la entidad a modificar, y otro para modificarla).
+* **Modelo conectado vs desconectado:** en el caso del modelo desconectado, actualiza todas las propiedades de la entidad, mientras que el conectado actualiza solo las modificadas, por lo que el primero es menos eficiente.
+* La forma de realizarlo es mediante ```context.Update()```.
+* Revisar:  
+  * **ActorController**, método ```ModificarDesconectado```. Modificar un actor existente.
+
+## 4.11 Borrado normal o físico <a name="Tema_04_Crud_Borrado_Normal"></a> 
+* Se utiliza para eliminar el registro de la tabla.
+* Se debe cambiar el estatus de la entidad a ```deleted``` antes de hacer un ```SaveChanges()```.
+* La forma de realizarlo es mediante ```context.Remove()```.
+* Revisar:  
+  * **GenerosController**, método ```BorradoNormalFisico```.
+
+## 4.12 Borrado suave o lógico <a name="Tema_04_Crud_Borrado_Suave"></a> 
+* Se utiliza si no se quiere remover el registro de la tabla. Realmente es una actualización de un registro con un campo flag ```EstaBorrado```.
+* La manera más sencilla es realizar una actualización con el modelo conectado y ```AsTracking()```.
+* Revisar:  
+  * **GenerosController**, método ```BorradoSuaveLogico```.
+
+## 4.13 Filtros al nivel del modelo (añadir e ignorar) <a name="Tema_04_Crud_Filtro"></a> 
+* En ocasiones va a haber filtros que queramos aplicar en todas las consultas que se hagan a la base de datos.
+* Por ejemplo, si queremos retornar solo los géneros que estén activos.
+* Si se genera un filtro, siempre se aplicará sobre la entidad.
+* Revisar:  
+  * **GeneroConfig**, método ```HasQueryFilter```.
+  * Si se ejecuta en Swagger cualquier Get de géneros, o se revisa la sentencia SQL que lanza, se puede comprobar que no devolverá los géneros que tengan un borrado lógico.
+* En el caso de que necesitemos acceder a los borrados lógicos, es posible saltarse el filtro mediante ```IgnoreQueryFilters```:
+  * Por ejemplo:
+    * Si queremos restaurar un género previamente borrado, y lo tenemos que retornar.
+    * Si queremos mostrar a un administrador todos los géneros, incluidos los borrados.
+  * Revisar **GenerosController**, método ```RestaurarGeneroBorrado```.
 ---
 
-# MÓDULO 05. Configurando propiedades <a name="Tema_05_Configurando_Propiedades"></a>
+# MÓDULO 05. Configurando propiedades (avanzado) <a name="Tema_05_Configurando_Propiedades"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum

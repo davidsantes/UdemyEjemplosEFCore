@@ -57,8 +57,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpPost("agregar2")]
-        public async Task<ActionResult> Agregar2(int id)
+        [HttpPut("modificarConectadoAgregar2")]
+        public async Task<ActionResult> ModificarConectadoAgregar2(int id)
         {
             var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == id);
 
@@ -72,8 +72,11 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        /// <summary>
+        /// Elimina realmente el registro
+        /// </summary>
+        [HttpDelete("borradoNormalFisico{id:int}")]
+        public async Task<ActionResult> BorradoNormalFisico(int id)
         {
             var genero = await context.Generos.FirstOrDefaultAsync(g => g.Identificador == id);
 
@@ -87,8 +90,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpDelete("borradoSuave/{id:int}")]
-        public async Task<ActionResult> DeleteSuave(int id)
+        [HttpDelete("borradoSuaveLogico/{id:int}")]
+        public async Task<ActionResult> BorradoSuaveLogico(int id)
         {
             var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == id);
 
@@ -102,8 +105,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpPost("Restaurar/{id:int}")]
-        public async Task<ActionResult> Restaurar(int id)
+        [HttpPost("restaurarGeneroBorrado/{id:int}")]
+        public async Task<ActionResult> RestaurarGeneroBorrado(int id)
         {
             var genero = await context.Generos.AsTracking()
                 .IgnoreQueryFilters()

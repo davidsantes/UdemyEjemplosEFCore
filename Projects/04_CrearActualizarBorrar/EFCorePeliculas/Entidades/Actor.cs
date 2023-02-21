@@ -6,6 +6,7 @@ namespace EFCorePeliculas.Entidades
     {
         public int Id { get; set; }
         private string _nombre;
+        //La primera letra de cada palabra (nombre, ape1), estarán siempre en mayúscula.
         public string Nombre {
             get
             {
@@ -16,8 +17,7 @@ namespace EFCorePeliculas.Entidades
                 _nombre = string.Join(' ',
                         value.Split(' ')
                         .Select(x => x[0].ToString().ToUpper() + x.Substring(1).ToLower()).ToArray());
-            }
-        
+            }        
         }
         public string Biografia { get; set; }
         //[Column(TypeName = "Date")]
