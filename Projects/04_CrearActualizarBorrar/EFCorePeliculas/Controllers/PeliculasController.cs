@@ -77,10 +77,15 @@ namespace EFCorePeliculas.Controllers
             return mapper.Map<List<PeliculaDTO>>(peliculas);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(PeliculaCreacionDTO peliculaCreacionDTO)
+        /// <summary>
+        /// Inserta registros con datos relacionados existentes (Generos, SalasDeCine), que no deben modificarse.
+        /// </summary>
+        [HttpPost("insertarDatosRelacionados")]
+        public async Task<ActionResult> InsertarDatosRelacionados(PeliculaCreacionDTO peliculaCreacionDTO)
         {
             var pelicula = mapper.Map<Pelicula>(peliculaCreacionDTO);
+            //Los géneros y salas de cine se tratarán como consulta (sin modificar), y que sólo sirve para relacionarlos
+            //con la entidad pelicula
             pelicula.Generos.ForEach(g => context.Entry(g).State = EntityState.Unchanged);
             pelicula.SalasDeCine.ForEach(s => context.Entry(s).State = EntityState.Unchanged);
 

@@ -384,17 +384,17 @@ Toma de contacto con EF y una aplicación ASP MVC.
 **Objetivo:** manejo de datos, creación, modificación y eliminación de los datos.
 **Principales características:**
 * Modelo Conectado y Modelo Desconectado - Estatus
-* Insertando Registros
-* Insertando Varios Registros
-* Insertar Registros con Data Relacionada Nueva
-* DTO para Insertar Cine (opcional)
-* Insertar Registros con Data Relacionada Existente
-* Mapeo Flexible
-* Actualizando Registros - Modelo Conectado
-* Actualizando Registros - Modelo Desconectado
-* Borrado Normal
-* Borrado Suave o Lógico
-* Filtros al Nivel del Modelo 
+* Insertar registros de manera individual
+* Insertar registros de manera múltiple
+* Insertar registros con datos relacionados inexistentes
+* Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado)
+* Insertar registros con datos relacionados existentes
+* Mapeo flexible
+* Actualizando registros - modelo conectado
+* Actualizando registros - modelo desconectado
+* Borrado normal
+* Borrado suave o lógico
+* Filtros al nivel del modelo 
 ---
 
 ## 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
@@ -412,43 +412,146 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
 * BDD utilizada: **[EFCorePeliculasDB_04_CRUD_BDD]**
 
+## 4.2 Modelo Conectado y Modelo Desconectado - Estatus <a name="Tema_04_Crud_Modelo"></a> 
+* **Modo desconectado**:
+	* Utilizado en el típico escenario web, donde el usuario rellena un formulario y esos datos se utilizan para crear un dato. 
+	* El modelo no es el responsable de pasar una nueva entidad. 
+	* El DbContext puede ser diferente para una consulta, que para una inserción.
+* **Modo conectado**:
+	* AsTracking, misma instancia del DbContext tanto para consultar los datos como para editarlos. 
+	* Manera más simple para trabajar.
+	* Sin embargo, esta manera de trabajar no siempre es realista, ya que puede ser el cliente quien nos pase el dato para insertar, modificar, etc.
+* **Status de la entidad**: para poder hacer el seguimiento en el equ se encuentra una entidad:
+	* **Added** (agregado): una entidad debe ser creada en la BDD.
+	* **Modified** (modificado): la entidad representa un registro existente en la BDD que debe actualizarse.
+	* **Unchanged** (sin modificar): la entidad representa un registro existente en la BDD que no tiene cambios.
+	* **Deleted** (borrado): la entidad representa un registro existente en la BDD que debe borrarse.
+	* **Detached** (sin seguimiento): cuando una entidad no está recibiendo ningún seguimiento por EF.
+* **context.Entry(entidad).State** para conocer el estado de una entidad.
+* **SaveChanges** del DbContext es el método que guarda los cambios.
 
+## 4.3 Insertar registros de manera individual <a name="Tema_04_Crud_Insertar_Individual"></a> 
+* Revisar en **GenerosController**, método ```InsertarIndividual```.
+* Para probar con Swagger:
+```
+    {
+	    "nombre":"Biografia"
+    }
+```
+
+## 4.4 Insertar registros de manera múltiple <a name="Tema_04_Crud_Insertar_Multiple"></a> 
+* Revisar en **GenerosController**, método ```InsertarMultiple```.
+* Se realiza con ```context.AddRange(entidad);```
+* Para probar con Swagger:
+```
+[
+  {
+    "nombre": "Biografia varios 1"
+  },
+  {
+    "nombre": "Biografia varios 2"
+  }
+]
+```
+
+## 4.5 Insertar registros con datos relacionados inexistentes <a name="Tema_04_Crud_Insertar_Relacionado"></a> 
+* Revisar en **CinesController**, método ```InsertarDatosRelacionados```.
+
+## 4.6 Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado) <a name="Tema_04_Crud_Insertar_Relacionado_Dto"></a> 
+* Revisar en **CinesController**, método ```InsertarDatosRelacionadosConDTO```.
+* Recomendable ya que indico qué datos debo pasar, además de que se pueden poner comprobaciones de valores (Required, etc) en el DTO para que sean datos correctos.
+* Para probar con Swagger:
+```
+{
+  "nombre": "Mi cine",
+  "latitud": 18.476275,
+  "longitud": -69.896979,
+  "cineOferta": {
+    "porcentajeDescuento": 7,
+    "fechaInicio": "2023-02-21T16:47:16.336Z",
+    "fechaFin": "2028-02-21T16:47:16.336Z"
+  },
+  "salasDeCine": [
+    {
+      "precio": 8,
+      "tipoSalaDeCine": 1
+    },
+    {
+      "precio": 12,
+      "tipoSalaDeCine": 3
+    }
+  ]
+}
+```
+
+## 4.7 Insertar registros con datos relacionados existentes <a name="Tema_04_Crud_Insertar_Relacionado_Inexistente"></a> 
+* Si queremos insertar una película con sus géneros, sin embargo, los géneros ya existen en la tabla de géneros.
+* Se necesita reutilizar géneros ya existentes.
+* Revisar en **PeliculasController**, método ```InsertarDatosRelacionados```.
+* Se trabaja con el State, indicando que los géneros y salas de cine de la película, se tratarán como consulta (sin modificar), y que sólo sirve para relacionarlos con la entidad pelicula. Esto se realiza con el estado ```EntityState.Unchanged```.
+* Para probar con Swagger:
+```
+{
+  "titulo": "mi película",
+  "enCartelera": true,
+  "fechaEstreno": "2023-02-21T17:04:11.948Z",
+  "generos": [
+    1, 2
+  ],
+  "salasDeCine": [
+    1, 2, 3
+  ],
+  "peliculasActores": [
+    {
+      "actorId": 1,
+      "personaje": "Peter Parker"
+    }
+  ]
+}
+```
+---
 
 # MÓDULO 05. Configurando propiedades <a name="Tema_05_Configurando_Propiedades"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 09. Entity Framework avanzado <a name="Tema_09_EF_Avanzado"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>
 **Objetivo:** lorem ipsum.
 **Principales características:**
 * Lorem ipsum
 * Lorem ipsum
+---
 
 # MÓDULO 11. Entity Framework y ASP Net Core <a name="Tema_11_EF_Y_ASP"></a>
 **Objetivo:** lorem ipsum.

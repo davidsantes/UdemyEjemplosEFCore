@@ -49,7 +49,8 @@ namespace EFCorePeliculas.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post()
+        [HttpPost("insertarDatosRelacionados")]
+        public async Task<ActionResult> InsertarDatosRelacionados()
         {
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             var ubicacionCine = geometryFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
@@ -84,8 +85,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
     
-        [HttpPost("conDTO")]
-        public async Task<ActionResult> Post(CineCreacionDTO cineCreacionDTO)
+        [HttpPost("insertarDatosRelacionadosConDTO")]
+        public async Task<ActionResult> InsertarDatosRelacionadosConDTO(CineCreacionDTO cineCreacionDTO)
         {
             var cine = mapper.Map<Cine>(cineCreacionDTO);
             context.Add(cine);

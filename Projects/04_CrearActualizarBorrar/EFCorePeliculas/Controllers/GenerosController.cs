@@ -34,8 +34,8 @@ namespace EFCorePeliculas.Controllers
             return genero;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Genero genero)
+        [HttpPost("insertarIndividual")]
+        public async Task<ActionResult> InsertarIndividual(Genero genero)
         {
             var estatus1 = context.Entry(genero).State;
             context.Add(genero);
@@ -45,10 +45,14 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
         
-        [HttpPost("varios")]
-        public async Task<ActionResult> Post(Genero[] generos)
+        [HttpPost("insertarMultiple")]
+        public async Task<ActionResult> InsertarMultiple(Genero[] generos)
         {
             context.AddRange(generos);
+
+            //Se podrían insertar elementos de manera individual también antes de salvar cambios
+            //context.Add(new Actor());
+
             await context.SaveChangesAsync();
             return Ok();
         }
