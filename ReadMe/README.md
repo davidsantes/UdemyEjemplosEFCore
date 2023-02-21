@@ -568,10 +568,45 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 # MÓDULO 05. Configurando propiedades (avanzado) <a name="Tema_05_Configurando_Propiedades"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** ahondar más en el manejo de las propiedades.
 **Principales características:**
-* Lorem ipsum
-* Lorem ipsum
+* Modos de Configuración
+* Llaves Primarias
+* Ignorando Propiedades y Clases
+* Índices
+* Índices con Filtros
+* HasConversion - Introducción
+* HasConversion - Personalizado
+* Entidades Sin Llave
+* Ejecutando una Vista
+* Propiedades Sombra (Shadow properties)
+* Automatizando Configuraciones con Fluent API
+
+## 5.0 Migraciones ⚙️ <a name="Tema_05_Configurando_Propiedades_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_05_Propiedades]**.
+  * Creación del esquema.
+  * Inserción de datos de prueba.
+
+### 5.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
+## 5.1 Creando el proyecto <a name="Tema_05_Configurando_Propiedades_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
+* BDD utilizada: **[EFCorePeliculasDB_05_Propiedades]**
+
+
+
+
+
+
+
+
+
+
+
 ---
 
 # MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>
