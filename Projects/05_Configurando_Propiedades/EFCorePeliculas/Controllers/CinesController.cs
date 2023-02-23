@@ -26,7 +26,10 @@ namespace EFCorePeliculas.Controllers
         [HttpGet("SinUbicacion")]
         public async Task<IEnumerable<CineSinUbicacion>> GetCinesSinUbicacion()
         {
+            //Esta manera es menos legible;
             //return await context.Set<CineSinUbicacion>().ToListAsync();
+
+            //Esta es una manera más legible:
             return await context.CinesSinUbicacion.ToListAsync();
         }
 
@@ -82,8 +85,14 @@ namespace EFCorePeliculas.Controllers
                     },
                     new SalaDeCine()
                     {
-                        Precio = 350,
+                        Precio = 9,
                         Moneda = Moneda.DolarEstadounidense,
+                        TipoSalaDeCine = TipoSalaDeCine.TresDimensiones
+                    },
+                    new SalaDeCine()
+                    {
+                        Precio = 10,
+                        Moneda = Moneda.Euro,
                         TipoSalaDeCine = TipoSalaDeCine.TresDimensiones
                     }
                 }

@@ -16,9 +16,14 @@ namespace EFCorePeliculas.Entidades.Configuraciones
             builder.HasQueryFilter(g => !g.EstaBorrado);
 
             //Índice parcial:
-            builder.HasIndex(g => g.Nombre).IsUnique().HasFilter("EstaBorrado = 'false'");
+            builder.HasIndex(g => g.Nombre)
+                .IsUnique()
+                .HasFilter("EstaBorrado = 'false'");
 
-            builder.Property<DateTime>("FechaCreacion").HasDefaultValueSql("GetDate()").HasColumnType("datetime2");
+            //Propiedades sombra:
+            builder.Property<DateTime>("FechaCreacion")
+                .HasDefaultValueSql("GetDate()")
+                .HasColumnType("datetime2");
         }
     }
 }

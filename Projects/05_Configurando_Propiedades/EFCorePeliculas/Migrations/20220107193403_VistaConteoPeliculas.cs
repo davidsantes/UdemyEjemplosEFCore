@@ -6,6 +6,9 @@ namespace EFCorePeliculas.Migrations
 {
     public partial class VistaConteoPeliculas : Migration
     {
+        /// <summary>
+        /// Para cuando se genera la migración
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
@@ -28,6 +31,9 @@ FROM Peliculas
 ");
         }
 
+        /// <summary>
+        /// Para cuando se elimina la migración
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("DROP VIEW [dbo].[PeliculasConConteos]");

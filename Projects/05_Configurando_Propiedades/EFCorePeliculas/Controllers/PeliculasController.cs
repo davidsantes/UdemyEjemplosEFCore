@@ -24,7 +24,11 @@ namespace EFCorePeliculas.Controllers
         [HttpGet("PeliculasConConteos")]
         public async Task<ActionResult<IEnumerable<PeliculaConConteos>>> GetPeliculasConConteos()
         {
-            return await context.Set<PeliculaConConteos>().ToListAsync();
+            //Esta manera es menos legible;
+            //return await context.Set<PeliculaConConteos>().ToListAsync();
+
+            //Esta es una manera más legible:
+            return await context.PeliculasConConteos.ToListAsync();
         }
 
         [HttpGet("{id:int}")]

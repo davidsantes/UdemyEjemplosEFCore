@@ -2,6 +2,9 @@
 
 namespace EFCorePeliculas.Entidades.SinLlaves
 {
+    /// <summary>
+    /// Esta clase corresponde a una sentencia SQL personalizada
+    /// </summary>
     //[Keyless]
     public class CineSinUbicacion
     {

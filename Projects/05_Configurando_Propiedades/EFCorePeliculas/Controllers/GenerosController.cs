@@ -22,7 +22,11 @@ namespace EFCorePeliculas.Controllers
                 Id = Guid.NewGuid(),
                 Mensaje = "Ejecutando el método GenerosController.Get" });
             await context.SaveChangesAsync();
-            return await context.Generos.OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion")).ToListAsync();
+
+            //Shadow properties, propiedades Sombra. Ordenación por un valor que no está en la entidad.            
+            return await context
+                .Generos
+                .OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion")).ToListAsync();
         }
          
         [HttpGet("{id:int}")]
@@ -35,7 +39,11 @@ namespace EFCorePeliculas.Controllers
                 return NotFound();
             }
 
-            var fechaCreacion = context.Entry(genero).Property<DateTime>("FechaCreacion").CurrentValue;
+            //Shadow properties, propiedades Sombra. Obtención de un valor que no está en la entidad.
+            //Es necesario que el DBContext se configure como AsTracking para mantener el mismo context.
+            var fechaCreacion = context.Entry(genero)
+                .Property<DateTime>("FechaCreacion")
+                .CurrentValue;
 
             return Ok(new
             {

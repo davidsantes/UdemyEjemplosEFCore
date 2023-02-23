@@ -9,7 +9,7 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
 2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
 3. [Consultando la base de datos](#Tema_03_Consultanto)
 4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
-5. [Configurando propiedades (avanzado)](#Tema_05_Propiedades)
+5. [Configurando propiedades de entidades y BDD (avanzado)](#Tema_05_Propiedades)
 6. [Configurando relaciones](#Tema_06_Configurando_Relaciones)
 7. [Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)
 8. [El DbContext](#Tema_08_DbContext)
@@ -252,8 +252,8 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ---
 
 # MÓDULO 03. Consultando datos <a name="Tema_03_Consultanto"></a>
-**Objetivo:** creación de métodos de consulta
-**Principales características:**
+**Objetivo:** creación de métodos de consulta.
+**Principales características:**.
 * Inserción de datos con Data Seeding.
 * Queries más rápidas con ```AsNoTracking```.
 * Obtener el primer registro con ```First``` y ```FirstOrDefault```.
@@ -383,18 +383,18 @@ Toma de contacto con EF y una aplicación ASP MVC.
 # MÓDULO 04. Crear, modificar y borrar datos <a name="Tema_04_CRUD"></a>
 **Objetivo:** manejo de datos, creación, modificación y eliminación de los datos.
 **Principales características:**
-* Modelo Conectado y Modelo Desconectado - Estatus
-* Insertar registros de manera individual
-* Insertar registros de manera múltiple
-* Insertar registros con datos relacionados inexistentes
-* Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado)
-* Insertar registros con datos relacionados existentes
-* Mapeo flexible de campos en vez de propiedades (HasField)
-* Actualizando registros - modelo conectado
-* Actualizando registros - modelo desconectado
-* Borrado normal o físico
-* Borrado suave o lógico
-* Filtros al nivel del modelo (añadir e ignorar)
+* Modelo conectado y modelo desconectado - estatus.
+* Insertar registros de manera individual.
+* Insertar registros de manera múltiple.
+* Insertar registros con datos relacionados inexistentes.
+* Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado).
+* Insertar registros con datos relacionados existentes.
+* Mapeo flexible de campos en vez de propiedades (HasField).
+* Actualizando registros - modelo conectado.
+* Actualizando registros - modelo desconectado.
+* Borrado normal o físico.
+* Borrado suave o lógico.
+* Filtros al nivel del modelo (añadir e ignorar).
 ---
 
 ## 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
@@ -567,26 +567,26 @@ Toma de contacto con EF y una aplicación ASP MVC.
   * Revisar **GenerosController**, método ```RestaurarGeneroBorrado```.
 ---
 
-# MÓDULO 05. Configurando propiedades (avanzado) <a name="Tema_05_Propiedades"></a>
+# MÓDULO 05. Configurando propiedades de entidades y BDD (avanzado) <a name="Tema_05_Propiedades"></a>
 **Objetivo:** ahondar más en el manejo de las propiedades.
 **Principales características:**
-* Modos de Configuración
-* Llaves Primarias
-* Ignorando Propiedades y Clases para no trasladarlas a BDD
-* Índices e índices con filtros (índice parcial)
-* HasConversion - Introducción
-* HasConversion - Personalizado
-* Entidades Sin Llave
-* Ejecutando una Vista
-* Propiedades Sombra (Shadow properties)
-* Automatizando Configuraciones con Fluent API
+* Modos de configuración.
+* Llaves primarias.
+* Ignorando propiedades y clases para no trasladarlas a BDD.
+* Índices e índices con filtros (índice parcial).
+* HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción.
+* HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado.
+* Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**).
+* Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**).
+* Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades.
+* Configuración masiva de propiedades mediante automaticación de Fluent API.
 
 ## 5.0 Migraciones ⚙️ <a name="Tema_05_Propiedades_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
   * ```Update-Database```
 * Realizará las siguientes migraciones:  
   * Creación de la BDD **[EFCorePeliculasDB_05_Propiedades]**.
-  * Creación del esquema.
+  * Creación del esquema con todos los ejemplos del tema.
   * Inserción de datos de prueba.
 
 ### 5.0.1 ¿Cómo queda la base de datos? 🔩
@@ -596,7 +596,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
 * BDD utilizada: **[EFCorePeliculasDB_05_Propiedades]**
 
-## 5.2 Modos de Configuración <a name="Tema_05_Propiedades_Modos"></a>
+## 5.2 Modos de configuración <a name="Tema_05_Propiedades_Modos"></a>
 * Existen 3 maneras de realizar configuraciones en EF Core para los campos:
   * **Por convención**: funciona en base a los estilos de código y nombres utilizados en las entidades. 
     * Por ejemplo, una propiedad ```Id``` será considerada una llave primaria.
@@ -616,7 +616,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
     * Modo 2: a través del fluent API ```modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever()```. Revisar ```ApplicationDbContext.cs```.* 
     * En este caso, se deberá generar de manera manual, aunque no es recomendable.
 
-## 5.4 Ignorando Propiedades y Clases para no trasladarlas a BDD <a name="Tema_05_Ignorando Propiedades y Clases"></a>
+## 5.4 Ignorando propiedades y clases para no trasladarlas a BDD <a name="Tema_05_Ignorando Propiedades y Clases"></a>
 * Por defecto en EF, cualquier clase o propiedad se mapea en alguna columna de la tabla correspondiente.
 * En alguna circunstancia, puede que este comportamiento no interese.
 * Se pueden ignorar campos o clases enteras:
@@ -635,7 +635,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
       * Modo 1: a través del atributo ```[NotMapped]```. Revisar ```Direccion.cs```.
       * Modo 2: a través del fluent API ```modelBuilder.Ignore<Direccion>()```. Revisar ```ApplicationDbContext.cs```.* 
 
-## 5.5 Índices e índices con Filtros <a name="Tema_05_Propiedades Indices"></a>
+## 5.5 Índices e índices con filtros (índice parcial) <a name="Tema_05_Propiedades Indices"></a>
 * **Índices únicos**:
     * Podemos configurar **índices únicos** en nuestras tablas para aumentar la velocidad de ciertas consultas.
     * Recomendable cuando no es viable hacer un full scan o búsquedas completas cada vez que se haga una query.*
@@ -668,14 +668,89 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNOR
 GO
 ```
 
-## 5.5 HasConversion - Introducción <a name="Tema_05_Propiedades HasConversion"></a>
+## 5.6 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción <a name="Tema_05_Propiedades HasConversion"></a>
 * Se pueden realizar transformaciones de datos en ambos sentidos:
   * De BDD a EF.
   * De EF a BDD.
-* Un ejemplo típico es la conversión de un ```enum``` de c# a un ```nvarchar``` de BDD.
+* Un ejemplo típico es la conversión de un ```enum``` de c# a un ```nvarchar``` de BDD. Por ejemplo, de ```DosDimensiones``` al enum ```TipoSalaDeCine.DosDimensiones = 1```.
 * Se puede realizar a través del fluent API ```.HasConversion<string>();```. Revisar ```SalaDeCineConfig```.* 
+* Además, se puede poner un valor por defecto.
 * Se puede comprobar con **Swagger** que cuando se está leyendo el valor de BDD, lo transforma a un enum:
   * Lanzar el método /api/cines/{id}
+
+## 5.7 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado <a name="Tema_05_Propiedades HasConversion_Personalizado"></a>
+* Se pueden realizar conversiones personalizadas, y no solamente a string.
+* Un ejemplo puede ser el campo moneda, que en EF. Por ejemplo, de ```€``` al enum ```Moneda.Euro = 3```.
+* Clase ```MonedaASimboloConverter```:
+  * Se deberá crear una clase que herede de ```ValueConverter```. 
+  * En esta clase se configuran los dos mapeos, de EF a BDD y de BDD a EF.
+* Registro de la clase:
+  * La clase ```MonedaASimboloConverter``` deberá ser configurada en **Fluent API**
+  * Se puede realizar a través del fluent API ```.HasConversion<MonedaASimboloConverter>();```. Revisar ```SalaDeCineConfig```.*   
+* Se puede comprobar con **Swagger** que:
+  * Cuando se está leyendo el valor de BDD, lo transforma a un enum: lanzar el método /api/cines/Post
+  * En BDD guarda en la tabla **[SalasDeCine]** los valores correspondientes a "RD$", "$" y "€".
+
+## 5.8 Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**) <a name="Tema_05_Propiedades Keyless_SQL"></a>
+* Hasta este momento todas las entidades tenían una llave primaria, ya sea unitaria o compuesta. EF exige normalmente una llave primaria para trabajar.
+* Se pueden configurar entidades para que trabajen sin llaves. En el pasado se llamaban **Modelos de query**.
+* Algunas ventajas que tiene son:
+  * Poder expresar el resultado de queries arbitrarias en términos de una clase, con un lenguaje fuertemente tipado.
+  * Centralizar las queries que realizamos.
+  * No tenemos que preocuparnos por temas de eficiencia del seguidos de cambios, aunque es algo que ya lo tenemos resuelto con ```AsNoTracking()```.
+* Por ejemplo, supongamos que queremos realizar una sentencia SQL para traer los cines sin incluir la ubicación:
+  * Aunque se puede realizar con un Select de EF lo vamos a hacer a través de una SQL.
+  * Generar una entidad sin llave llamada ```CineSinUbicacion```:
+    * Modo 1: a través del atributo ```[Keyless]```. Mirar la propiedad clase.
+    * Modo 2: a través del fluent API ```.HasNoKey()```. Revisar ```ApplicationDbContext```. 
+  * Configurar la entidad en ApplicationDbContext:
+    * Con la sentencia SQL a ejecutar en ```ToSqlQuery()```: revisar ```ApplicationDbContext```.
+    * ToView(null) se utiliza para que no se agregue una tabla en la BDD con un esquema de **CineSinUbicacion**.
+    * Generar un DBSet de ```DbSet<CineSinUbicacion>```.
+* Se puede comprobar con **Swagger** a través del método /api/cines/SinUbicacion de ```CinesController```
+
+## 5.9 Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**) <a name="Tema_05_Propiedades Keyless"></a>
+* Además de sentencias SQL, se pueden ejecutar directamente vistas de SQL.
+* La vista, se puede o bien crear en BDD o bien hacerlo a través de una migración si se realiza con Code First. 
+* En el ejemplo se ha creado la migración ```VistaConteoPeliculas```, la cual genera la vista SQL ```[PeliculasConConteos]```.
+* Esta vista retorna las películas, y por cada uno la cantidda de géneros, cines y actores que contiene.
+ * Generar una entidad sin llave llamada ```PeliculaConConteos```:
+    * Modo 1: a través del atributo ```[Keyless]```. Mirar la propiedad clase.
+    * Modo 2: a través del fluent API ```.HasNoKey()```. Revisar ```ApplicationDbContext```. 
+  * Configurar la entidad en el ApplicationDbContext:
+    * Con la sentencia SQL a ejecutar en ```ToView()```: revisar ```ApplicationDbContext```.
+    * Generar un DBSet de ```DbSet<PeliculaConConteos>```.
+* Se puede comprobar con **Swagger** a través del método /api/peliculas/PeliculasConConteos de ```PeliculasController```
+
+## 5.10 Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades. <a name="Tema_05_Propiedades Shadow"></a>
+* Permiten acceder a columnas que no se encuentran presentes en las entidades de c#, pero sí en BDD. Esto es útil cuando no queremos ver expuestos datos en las entidades, y que no añada complejidad extra al modelo.
+* Ejemplo: fecha de creación en género:
+  * Se realiza a través del Fluent API.
+  * Revisar ```GeneroConfig```. Aquí se realizará con ```HasDefaultValueSql()``` y ```HasColumnType()```.
+  * Para acceder al valor de la columna desde c#:
+    * Revisar ```GenerosController```, ```método Get(int id)```: ```context.Entry(genero).Property<DateTime>("FechaCreacion").CurrentValue```
+  * Para ordenar por un campo sombra desde c#:
+    * Revisar ```GenerosController```, ```método Get()```: ```.OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion"))```
+* Se puede comprobar con **Swagger**:
+  * Inserción: generar un género a través del método /api/generos/Post de ```GenerosController```, se puede lanzar y verificar posteriormente en BDD:
+```
+{
+  "nombre": "Tragicomedia"
+}
+```   
+  * Lectura: lanzar método /api/generos/Get{id:int} de ```GenerosController```.
+
+## 5.11 Configuración masiva de propiedades mediante automaticación de Fluent API <a name="Tema_05_Propiedades Configuracion"></a>
+* Permiten realizar convenciones masivas en base al nombre de una propiedad.
+* Por ejemplo, si queremos configurar:
+  * Cualquier propiedad del tipo string y cuyo nombre contiente "URL".
+  * Para que no sea Unicode (que permita caracteres especiales) y de un tamaño máximo de 500 caracteres.
+* Ejemplo: 
+  * Se realiza a través del Fluent API.
+  * Revisar ```ApplicationDbContext```, método ```OnModelCreating```.
+  * Se crea un campo en la entidad ```Actor``` llamado ```FotoURL```.
+  * Se puede verificar que en BDD, en la tabla ```[Actores]``` genera una columna ```FotoURL``` de tipo ```varchar(500)```.
+
 ---
 
 # MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>
