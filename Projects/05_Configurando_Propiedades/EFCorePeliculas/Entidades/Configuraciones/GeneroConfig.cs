@@ -12,8 +12,10 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                 .HasMaxLength(150)
                 .IsRequired();
 
+            //Filtros al nivel del modelo:
             builder.HasQueryFilter(g => !g.EstaBorrado);
 
+            //Índice parcial:
             builder.HasIndex(g => g.Nombre).IsUnique().HasFilter("EstaBorrado = 'false'");
 
             builder.Property<DateTime>("FechaCreacion").HasDefaultValueSql("GetDate()").HasColumnType("datetime2");

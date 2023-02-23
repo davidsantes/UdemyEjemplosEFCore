@@ -24,7 +24,12 @@ namespace EFCorePeliculas
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             SeedingModuloConsulta.Seed(modelBuilder);
+            
+            //Para evitar que genere un valor en la propiedad de manera automática, aunque no es recomendable
+            //y es mejor dejarlo a EF:
             //modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever();
+
+            //Para ignorar en cualquier ámbito esta clase:
             //modelBuilder.Ignore<Direccion>();
 
             modelBuilder.Entity<CineSinUbicacion>()

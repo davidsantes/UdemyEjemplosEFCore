@@ -44,7 +44,23 @@ namespace EFCorePeliculas.Controllers
             var estatus3 = context.Entry(genero).State;
             return Ok();
         }
-        
+
+        [HttpPost("insertarIndividualConVerificacionSiExiste")]
+        public async Task<ActionResult> InsertarIndividualConVerificacionSiExiste(Genero genero)
+        {
+            var existeGeneroConNombre = await context.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if (existeGeneroConNombre)
+            {
+                return BadRequest("Ya existe un género con ese nombre: " + genero.Nombre);
+            }
+
+            context.Add(genero);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPost("insertarMultiple")]
         public async Task<ActionResult> InsertarMultiple(Genero[] generos)
         {

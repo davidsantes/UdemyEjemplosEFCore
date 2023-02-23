@@ -2,6 +2,7 @@
 
 namespace EFCorePeliculas.Entidades
 {
+    //Para ignorar en cualquier ámbito esta clase:
     [NotMapped]
     public class Direccion
     {

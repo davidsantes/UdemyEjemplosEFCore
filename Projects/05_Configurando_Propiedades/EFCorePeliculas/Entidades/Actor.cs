@@ -47,6 +47,8 @@ namespace EFCorePeliculas.Entidades
 
             }
         }
+        //Para ignorar una propiedad que es una clase:
+        //[NotMapped]
         public Direccion Direccion { get; set; }
     }
 }

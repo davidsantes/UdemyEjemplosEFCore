@@ -9,7 +9,7 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
 2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
 3. [Consultando la base de datos](#Tema_03_Consultanto)
 4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
-5. [Configurando propiedades (avanzado)](#Tema_05_Configurando_Propiedades)
+5. [Configurando propiedades (avanzado)](#Tema_05_Propiedades)
 6. [Configurando relaciones](#Tema_06_Configurando_Relaciones)
 7. [Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)
 8. [El DbContext](#Tema_08_DbContext)
@@ -567,14 +567,13 @@ Toma de contacto con EF y una aplicación ASP MVC.
   * Revisar **GenerosController**, método ```RestaurarGeneroBorrado```.
 ---
 
-# MÓDULO 05. Configurando propiedades (avanzado) <a name="Tema_05_Configurando_Propiedades"></a>
+# MÓDULO 05. Configurando propiedades (avanzado) <a name="Tema_05_Propiedades"></a>
 **Objetivo:** ahondar más en el manejo de las propiedades.
 **Principales características:**
 * Modos de Configuración
 * Llaves Primarias
-* Ignorando Propiedades y Clases
-* Índices
-* Índices con Filtros
+* Ignorando Propiedades y Clases para no trasladarlas a BDD
+* Índices e índices con filtros (índice parcial)
 * HasConversion - Introducción
 * HasConversion - Personalizado
 * Entidades Sin Llave
@@ -582,7 +581,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Propiedades Sombra (Shadow properties)
 * Automatizando Configuraciones con Fluent API
 
-## 5.0 Migraciones ⚙️ <a name="Tema_05_Configurando_Propiedades_Migraciones"></a>
+## 5.0 Migraciones ⚙️ <a name="Tema_05_Propiedades_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
   * ```Update-Database```
 * Realizará las siguientes migraciones:  
@@ -593,20 +592,90 @@ Toma de contacto con EF y una aplicación ASP MVC.
 ### 5.0.1 ¿Cómo queda la base de datos? 🔩
 * Similar al esquema [Esquema de base de datos](#Esquema_BDD)
  
-## 5.1 Creando el proyecto <a name="Tema_05_Configurando_Propiedades_Creacion"></a>
+## 5.1 Creando el proyecto <a name="Tema_05_Propiedades_Creacion"></a>
 * Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
 * BDD utilizada: **[EFCorePeliculasDB_05_Propiedades]**
 
+## 5.2 Modos de Configuración <a name="Tema_05_Propiedades_Modos"></a>
+* Existen 3 maneras de realizar configuraciones en EF Core para los campos:
+  * **Por convención**: funciona en base a los estilos de código y nombres utilizados en las entidades. 
+    * Por ejemplo, una propiedad ```Id``` será considerada una llave primaria.
+  * **Por anotaciones de datos**:
+    * Atributos colocados sobre las propiedades de las entidades:
+    * Por ejemplo, ```Key``` será considerada una llave primaria.
+  * **Por Fluent API**:
+    * Configurado en el método ```OnModelCreating``` de la clase ```DBContext```. Es la manera más potente de realizar configuraciones.
+    * Por ejemplo, ```HasMaxLength``` o ```IsRequired```.
 
+## 5.3 Llaves primarias <a name="Tema_05_PropiedadesLlaves_primarias"></a>
+* Se pueden definir llaves primarias con **Integer**.
+* Se pueden definir llaves primarias con un **GUID (Global Unique Identifier)**
+  * Revisar **LogsController**, método ```Get```.
+  * Se puede indicar que en el campo no introduzca ningún valor de forma automática mediante:
+    * Modo 1: a través del atributo ```[DatabaseGenerated(DatabaseGeneratedOption.None)]```. Revisar ```Logs.cs```.
+    * Modo 2: a través del fluent API ```modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever()```. Revisar ```ApplicationDbContext.cs```.* 
+    * En este caso, se deberá generar de manera manual, aunque no es recomendable.
 
+## 5.4 Ignorando Propiedades y Clases para no trasladarlas a BDD <a name="Tema_05_Ignorando Propiedades y Clases"></a>
+* Por defecto en EF, cualquier clase o propiedad se mapea en alguna columna de la tabla correspondiente.
+* En alguna circunstancia, puede que este comportamiento no interese.
+* Se pueden ignorar campos o clases enteras:
+  * **Campos**:
+    * Por ejemplo: un campo **[Edad]** para un Actor. Esta campo será claulado a partir de la fecha de nacimiento.
+    * Se puede realizar mediante:
+      * Modo 1: a través del atributo ```[NotMapped]```. Revisar ```Actor.cs```.
+      * Modo 2: a través del fluent API ```.Ignore```. Revisar ```ActorConfig.cs```.* 
+      * En este caso, se deberá generar de manera manual, aunque no es recomendable.
+  * **Clases**:
+    * Por ejemplo: **[Direccion]**. Se puede hacer:
+    * Cuando la clase está nivel de nivel de propiedad, dentro de otra clase (**Actor** tiene **Direccion**)
+      * Modo 1: a través del atributo ```[NotMapped]```. Revisar ```Actor.cs```.
+      * Modo 2: a través del fluent API ```.Ignore```. Revisar ```ActorConfig.cs```.* 
+    * Que ignore la clase siempre:
+      * Modo 1: a través del atributo ```[NotMapped]```. Revisar ```Direccion.cs```.
+      * Modo 2: a través del fluent API ```modelBuilder.Ignore<Direccion>()```. Revisar ```ApplicationDbContext.cs```.* 
 
+## 5.5 Índices e índices con Filtros <a name="Tema_05_Propiedades Indices"></a>
+* **Índices únicos**:
+    * Podemos configurar **índices únicos** en nuestras tablas para aumentar la velocidad de ciertas consultas.
+    * Recomendable cuando no es viable hacer un full scan o búsquedas completas cada vez que se haga una query.*
+    * Los índices pueden configurarse como únicos, garantizando que otra fila no vaya a tener el mismo valor (por ejemplo, un campo email).*
+    * Las llaves primarias son automáticamente configuradas como índices únicos.
+      * Por ejemplo, si se quiere poner un índice único para la propiedad ```Nombre``` de la entidad ```Genero```:
+          * Modo 1: a través del atributo ```[Index(nameof(Nombre), IsUnique = true)]```. Revisar ```Genero.cs```.
+          * Modo 2: a través del fluent API ```HasIndex().... .IsUnique()```. Revisar ```GeneroConfig```. 
+    * Revisar ```GenerosController```, método ```Post``` para ver cómo realizar comprobaciones.
+    * Para probar con Swagger:
+```
+{
+    "nombre": "Anime"
+}
+```
+* **Índices con filtros (índice parcial)**:
+  * Quizás interesen índices que se apliquen de manera parcial.
+  * Un ejemplo puede ser un género que tiene un borrado lógico, solo queremos que aplique cuando el campo ```[EstaBorrado]=0```, es decir, que no se repitan elementos únicamente si están activos.
+  * Se realizará con Fluent API:
+    * Revisar en ```GeneroConfig``` el código ```.IsUnique().HasFilter("EstaBorrado = 'false'");```.
+    * En BDD se generará un índice con la ssiguientes características:
+```
+/****** Object:  Index [IX_Generos_Nombre]    Script Date: 23/02/2023 13:34:03 ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Generos_Nombre] ON [dbo].[Generos]
+(
+	[Nombre] ASC
+)
+WHERE ([EstaBorrado]='false')
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+```
 
-
-
-
-
-
-
+## 5.5 HasConversion - Introducción <a name="Tema_05_Propiedades HasConversion"></a>
+* Se pueden realizar transformaciones de datos en ambos sentidos:
+  * De BDD a EF.
+  * De EF a BDD.
+* Un ejemplo típico es la conversión de un ```enum``` de c# a un ```nvarchar``` de BDD.
+* Se puede realizar a través del fluent API ```.HasConversion<string>();```. Revisar ```SalaDeCineConfig```.* 
+* Se puede comprobar con **Swagger** que cuando se está leyendo el valor de BDD, lo transforma a un enum:
+  * Lanzar el método /api/cines/{id}
 ---
 
 # MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>

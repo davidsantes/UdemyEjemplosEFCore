@@ -11,6 +11,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
             builder.Property(prop => prop.Precio)
                 .HasPrecision(precision: 9, scale: 2);
 
+            //Para realizar conversión de un enum a un string, y que guarde en BDD un string
             builder.Property(prop => prop.TipoSalaDeCine)
                 .HasDefaultValue(TipoSalaDeCine.DosDimensiones)
                 .HasConversion<string>();

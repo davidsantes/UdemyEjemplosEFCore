@@ -13,7 +13,9 @@ namespace EFCorePeliculas.Entidades.Configuraciones
 
             builder.Property(x => x.Nombre).HasField("_nombre");
 
+            //Para ignorar una propiedad:
             //builder.Ignore(a => a.Edad);
+            //Para ignorar una propiedad que es una clase:
             //builder.Ignore(a => a.Direccion);
         }
     }
