@@ -787,8 +787,38 @@ GO
 * BDD utilizada: **[EFCorePeliculasDB_06_Relaciones]**
 
 ## 6.2 Conceptos básicos <a name="Tema_06_Relaciones_Basico"></a>
-* Lorem ipsum
-* Lorem ipsum
+* **Tipos básicos de relaciones** (ya comentado en el apartado [2.8 Creando relaciones](#Tema_02_Modelado_CreandoRelaciones):
+  * **Relación 1 a 1**:
+    * Oferta de un cine:
+      * 1 Cine tiene 1 oferta.    
+  * **Relación 1 a N**:
+    * Cine con sus salas de cine (2D, 3D, etc):      
+  * **Relación N a N**:
+    * 1 película puede tener N géneros, y 1 género puede tener N películas.
+    * 1 película puede emitirse en N salas de cine, y 1 sala de cine puede emitir N películas.
+    * 1 actor puede participar en N películas, y 1 película pueden participar N actores.
+* **Llave principal o primaria**:
+  * Puede ser simple o compuesta.
+* **Entidad principal**:
+  * Es aquella entidad que contiene la llave principal.
+  * Por ejemplo: en el caso de 1 ```Cine``` con N ```Salas de Cine```, la entidad principal es ```Cine```.
+* **Entidad dependiente**:
+  * Es aquella entidad que no contiene la llave principal como una columna propia.
+  * Por ejemplo: en el caso de ```Salas de Cine```, esta no contiene un valor propio, sino que lo usa simplemente para enlazarse con 1 ```Cine``` mediante una llave foránea.
+* **Llave foránea**:
+  * Valor de la llave principal en la entidad dependiente.
+* **Propiedad de navegación**:
+  * Se refiere a una propiedad de una entidad que permite enlazar con otras entidades relacionadas, ya sea en formato 1 a 1 o 1 a N.
+  * Por ejemplo: en la clase ```Cine```, las siguientes propiedades:
+    * Formato 1 a N: propiedad ```HashSet<SalaDeCine> SalasDeCine {get; set;}```.
+    * Formato 1 a 1: propiedad ```CineOferta CineOferta {get; set;}```.
+* **Relación requerida**:
+  * Es una relación en la cual la llave foránea NO es nula, por lo que la relación siempre debe existir.
+  * Por ejemplo: 1 ```Salas de Cine``` siempre debe estar enlazada con 1 ```Cine```. No puede existir 1 ```Sala de Cine``` sin su ```Cine```.
+* **Relación requerida**:
+  * Es una relación en la cual la llave foránea PUEDE ser nula, por lo que la relación no siempre debe existir.
+  * Por ejemplo: un foro de mensajes, donde queremos conservar los mensajes incluso si el usuario elimina su cuenta.
+
 
 ---
 
