@@ -593,7 +593,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 * Similar al esquema [Esquema de base de datos](#Esquema_BDD)
  
 ## 5.1 Creando el proyecto <a name="Tema_05_Propiedades_Creacion"></a>
-* Proyecto utilizado: ver carpeta virtual de la solución **04_Crear_Actualizar_Borrar**
+* Proyecto utilizado: ver carpeta virtual de la solución **05_Configurando_Propiedades**
 * BDD utilizada: **[EFCorePeliculasDB_05_Propiedades]**
 
 ## 5.2 Modos de configuración <a name="Tema_05_Propiedades_Modos"></a>
@@ -753,11 +753,43 @@ GO
 
 ---
 
-# MÓDULO 06. Configurando relaciones <a name="Tema_06_Configurando_Relaciones"></a>
-**Objetivo:** lorem ipsum.
+# MÓDULO 06. Configurando relaciones <a name="Tema_06_Relaciones"></a>
+**Objetivo:** ahondar más en el manejo de las propiedades.
 **Principales características:**
+* Conceptos básicos.
+* Relaciones por convenciones.
+* Relaciones requeridas y opcionales.
+* Atributo [ForeignKey].
+* Dos propiedades de navegación a la mista entidad - InverseProperty.
+* Relación 1 a 1 con Fluent API.
+* Relación 1 a N con Fluent API.
+* Relación 1 a 1 con Fluent API - Con clase intermedia.
+* Relación 1 a 1 con Fluent API - Sin clase intermedia.
+* OnDelete: ¿Qué Ocurre al borrar?
+* División de tablas.
+* Entidades de propiedad.
+* Herencia - tabla por jerarquía.
+* Herencia - tabla por tipo.
+
+## 6.0 Migraciones ⚙️ <a name="Tema_06_Relaciones_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_06_Relaciones]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 6.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
+## 6.1 Creando el proyecto <a name="Tema_06_Relaciones_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
+* BDD utilizada: **[EFCorePeliculasDB_06_Relaciones]**
+
+## 6.2 Conceptos básicos <a name="Tema_06_Relaciones_Basico"></a>
 * Lorem ipsum
 * Lorem ipsum
+
 ---
 
 # MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
