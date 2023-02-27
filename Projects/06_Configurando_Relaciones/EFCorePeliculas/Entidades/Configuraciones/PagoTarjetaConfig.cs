@@ -7,7 +7,11 @@ namespace EFCorePeliculas.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<PagoTarjeta> builder)
         {
-            builder.Property(p => p.Ultimos4Digitos).HasColumnType("char(4)").IsRequired();
+            builder.Property(p => p.Ultimos4Digitos)
+                .HasColumnType("char(4)")
+                .IsRequired();
+
+            //Se utiliza Data seeding para introducir datos de prueba:
 
             var pago1 = new PagoTarjeta()
             {
@@ -28,7 +32,6 @@ namespace EFCorePeliculas.Entidades.Configuraciones
             };
 
             builder.HasData(pago1, pago2);
-
         }
     }
 }

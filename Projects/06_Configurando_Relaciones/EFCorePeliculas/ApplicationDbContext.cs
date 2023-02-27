@@ -1,5 +1,4 @@
 ﻿using EFCorePeliculas.Entidades;
-using EFCorePeliculas.Entidades.Configuraciones;
 using EFCorePeliculas.Entidades.Seeding;
 using EFCorePeliculas.Entidades.SinLlaves;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +24,6 @@ namespace EFCorePeliculas
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             SeedingModuloConsulta.Seed(modelBuilder);
             SeedingPersonaMensaje.Seed(modelBuilder);
-            //modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever();
-            //modelBuilder.Ignore<Direccion>();
 
             modelBuilder.Entity<CineSinUbicacion>()
                 .HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
@@ -45,9 +42,12 @@ namespace EFCorePeliculas
                 }
             }
 
+            //Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT)
+            //Cada clase de producto debe tener su propia tabla:
             modelBuilder.Entity<Merchandising>().ToTable("Merchandising");
             modelBuilder.Entity<PeliculaAlquilable>().ToTable("PeliculasAlquilables");
 
+            //Se utiliza Data seeding para introducir datos de prueba:
             var pelicula1 = new PeliculaAlquilable()
             {
                 Id = 1,
@@ -69,7 +69,6 @@ namespace EFCorePeliculas
 
             modelBuilder.Entity<Merchandising>().HasData(merch1);
             modelBuilder.Entity<PeliculaAlquilable>().HasData(pelicula1);
-
         }
 
         public DbSet<Genero> Generos { get; set; }

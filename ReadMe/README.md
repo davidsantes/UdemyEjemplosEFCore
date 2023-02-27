@@ -213,13 +213,16 @@ Toma de contacto con EF y una aplicación ASP MVC.
     * 1 Cine tiene 1 oferta.
     * Para enlazar:
       * Clase ```Cine```: tendrá como propiedad a ```CineOferta```.
-      * Clase ```CineOferta```: tendrá como propiedad el cine ```CineId```.      
+      * Clase ```CineOferta```: tendrá como propiedad el cine ```CineId```, indicando que es una clave foránea.     
 * **Relación 1 a N**:
   * Cine con sus salas de cine (2D, 3D, etc):
     * 1 Cine tiene N salas con precios diferentes.
     * Para enlazar:
-      * Clase ```Cine```: tendrá una lista de ```SalaDeCine```. En este caso, es ```HashSet``` (no ordena aunque es más rápido). Si se quiere, podría ser ```ICollection```, ```List```, etc.
-      * Clase ```CineOferta```: tendrá como propiedad a ```Cine```.      
+      * Clase ```Cine```: 
+        * Tendrá una lista de ```SalaDeCine```. En este caso, es ```HashSet``` (no ordena aunque es más rápido). Si se quiere, podría ser ```ICollection```, ```List```, etc.
+      * Clase ```SalaDeCine```: 
+        * Tendrá como propiedad de navegación a la clase ```Cine```.
+        * Tendrá como propiedad el cine ```CineId```, indicando que es una clave foránea.     
 * **Relación N a N**:
   * 1 película puede tener N géneros, y 1 género puede tener N películas.
   * 1 película puede emitirse en N salas de cine, y 1 sala de cine puede emitir N películas.
@@ -757,19 +760,19 @@ GO
 **Objetivo:** ahondar más en el manejo de las propiedades.
 **Principales características:**
 * Conceptos básicos.
-* Relaciones por convenciones.
-* Relaciones requeridas y opcionales.
-* Atributo [ForeignKey].
-* Dos propiedades de navegación a la mista entidad - InverseProperty.
+* Relaciones por convención.
+* Relaciones requeridas y opcionales en la llave foránea.
+* Relaciones con anotaciones: llaves foráneas explícitas con [ForeignKey].
+* Relaciones con anotaciones: dos propiedades de navegación a la mista entidad con [InverseProperty].
 * Relación 1 a 1 con Fluent API.
 * Relación 1 a N con Fluent API.
 * Relación 1 a 1 con Fluent API - Con clase intermedia.
-* Relación 1 a 1 con Fluent API - Sin clase intermedia.
-* OnDelete: ¿Qué Ocurre al borrar?
-* División de tablas.
-* Entidades de propiedad.
-* Herencia - tabla por jerarquía.
-* Herencia - tabla por tipo.
+* Relación N a N con Fluent API - Sin clase intermedia (skip navigation).
+* Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?
+* División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios).
+* División de una tabla (Table Splitting) mediante entidades de propiedad (reutilización de entidades secundarias [Owned]).
+* Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH).
+* Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT).
 
 ## 6.0 Migraciones ⚙️ <a name="Tema_06_Relaciones_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -790,7 +793,7 @@ GO
 * **Tipos básicos de relaciones** (ya comentado en el apartado [2.8 Creando relaciones](#Tema_02_Modelado_CreandoRelaciones):
   * **Relación 1 a 1**:
     * Oferta de un cine:
-      * 1 Cine tiene 1 oferta.    
+      * 1 Cine tiene 1 oferta.  
   * **Relación 1 a N**:
     * Cine con sus salas de cine (2D, 3D, etc):      
   * **Relación N a N**:
@@ -815,10 +818,205 @@ GO
 * **Relación requerida**:
   * Es una relación en la cual la llave foránea NO es nula, por lo que la relación siempre debe existir.
   * Por ejemplo: 1 ```Salas de Cine``` siempre debe estar enlazada con 1 ```Cine```. No puede existir 1 ```Sala de Cine``` sin su ```Cine```.
-* **Relación requerida**:
+* **Relación opcional**:
   * Es una relación en la cual la llave foránea PUEDE ser nula, por lo que la relación no siempre debe existir.
   * Por ejemplo: un foro de mensajes, donde queremos conservar los mensajes incluso si el usuario elimina su cuenta.
+* **Administrar relaciones**: existen 3 maneras de configurar las relaciones:
+  * Por convención.
+  * Por anotación.
+  * Por Fluent API.
+ 
+## 6.3 Relaciones por convención <a name="Tema_06_Relaciones_Convencion"></a>
+* Revisar el apartado [2.8 Creando relaciones](#Tema_02_Modelado_CreandoRelaciones)
 
+## 6.4 Relaciones requeridas y opcionales en la llave foránea<a name="Tema_06_Relaciones_Requeridas_Opcionales"></a>
+* En el caso de querer configurar llaves foráneas, pueden ser requeridas u opcionales. Un caso de querer que sea opcional, es porque el padre puede haber sido eliminado con un borrado lógico (suave):
+* **Requeridas:**
+  * Cualquier entidad hija será eliminada junto con la entidad padre.
+  * Por ejemplo, una oferta de un cine, requiere siempre que exista un Cine.
+    * Declaración de la propiedad: ```public int CineId { get; set; }```
+    * A nivel de base de datos se creará como ```[CineId] [int] NOT NULL```
+* **Opcionales:**
+  * Cualquier entidad hija NO será eliminada junto con la entidad padre.
+  * Si se quisiera que fuera opcionales, se pondría:
+    * Declaración de la propiedad: ```public int? CineId { get; set; }```
+    * ```public int? CineId { get; set; }```
+    * En el caso de realizar un borrado:
+      * En la entidad principal, debería configurarse para con la palabra clave ```Include```, para que en los hijos elimine la clave foránea.
+      * Revisar ```CinesController```, método ```Delete```.
+    * A nivel de base de datos se creará como ```[CineId] [int] NULL```
+
+## 6.5 Relaciones con anotaciones de datos: llaves foráneas explícitas con [ForeignKey]<a name="Tema_06_Relaciones_Foreign"></a>
+* Se puede utilizar el atributo ```[ForeignKey]``` para indicar claves foráneas.
+* Puede servir si los nombres no corresponden a un estándar.
+* De una propiedad de navegación, por ejemplo en ```SalaDeCine``` se puede poner: ```[ForeignKey(nameof(ElCine))]```.
+
+## 6.6 Relaciones con anotaciones: dos propiedades de navegación a la mista entidad con [InverseProperty]<a name="Tema_06_Relaciones_InverseProperty"></a>
+* Cuando tenemos dos relaciones hacia la misma entidad.
+* Por ejemplo: 
+  * Si queremos implementar una funcionalidad de mensajería en nuestra aplicación donde los usuarios van a poder enviarse mensajes privados entre sí.
+  * Cada mensaje tendrá un emisor y un receptor, que es la misma entidad: ```Persona```.
+  * Revisar:
+    * Clase ```Persona```, la cual contendrá una lista de mensajes enviados y otra de mensajes recibidos.
+    * Clase ```Mensaje```, la cual tendrá propiedades de navegación hacia el emisor y el receptor.
+    * Para que sepa cómo realizar la unión, se utiliará ```[InverseProperty]``` para que:
+      * Los mensajes enviados se correspondan con aquellos en los cuales el valor de la persona sea igual al emisor.
+      * Los mensajes recibidos se correspondan con aquellos en los cuales el valor de la persona sea igual al receptor.
+* Se puede comprobar con **Swagger**:
+  * Get: retornar los mensajes a través del método /api/personas/Get de ```PersonasController```.
+
+## 6.6 Relación 1 a 1 con Fluent API<a name="Tema_06_Relaciones_1_1"></a>
+* Fluent API Es la herramienta más potente para realizar relaciones.
+* 1 Cine tiene 1 oferta:
+  * Revisar ```CineConfig```
+    * ```HasOne()```: 1 Cine tiene 1 CineOferta
+    * ```WithOne()```: 1 CineOferta tiene 1 Cine
+
+## 6.7 Relación 1 a N con Fluent API<a name="Tema_06_Relaciones_1_N"></a>
+* Normalmente con la configuración por convención suele ser necesario para este caso.
+* 1 Cine tiene N salas de cine:
+  * Revisar ```CineConfig```
+    * ```HasMany()```: 1 Cine tiene N SalaDeCine
+    * ```WithOne()```: 1 CineOferta tiene 1 Cine
+
+## 6.8 Relación N a N con Fluent API con clase intermedia<a name="Tema_06_Relaciones_N_N"></a>
+* El ejemplo se va a hacer con una clase intermedia personalizada.
+* 1 Pelicula tiene N Actores y 1 Actor está en N Películas:
+  * Revisar ```PeliculaActorConfig```
+    * ```HasOne()``` y ``WithMany()``` para ambas propiedades (Actores y Peliculas)
+
+## 6.9 Relación N a N con Fluent API sin clase intermedia (skip navigation)<a name="Tema_06_Relaciones_N_N_sin_intermedia"></a>
+* Oficialmente su nombre es ```skip navigation```, porque se salta la entidad intermedia de navegación.
+* 1 Pelicula tiene N Generos y 1 Genero tiene N Películas:
+  * Revisar ```PeliculaConfig```
+    * ```HasMany()``` y ``WithMany()```.
+
+## 6.10 Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?<a name="Tema_06_Relaciones_Borrado"></a>
+* ¿Qué ocurre entre la entidad principal ```Cine``` y ```SalaDeCine()``` cuando se elimina la primera?
+* OnDelete permite configurar la siguientes opciones:
+  * **Cascade**: 
+    * Si la entidad principal es borrada, se eliminarán las entidades dependientes.
+  * **Client Cascade**: 
+    * Para las bases de datos que puede que no soporten la característica de borrado en cascada.
+    * El borrado en cascada se realiza desde la aplicación.
+    * Requiere que al cargar la entidad principal, se carguen las entidades dependientes.
+  * **No Action**: 
+    * No hace nada.
+    * Puede provocar errores a la hora de realizar la acción. Por ejemplo, si se intenta borrar un cine que tiene sals de cine relacionadas.
+  * **Client No Action**: 
+    * No hace nada, aunque la misma documentación oficial considera inusual su uso.
+  * **Restrict**: 
+    * La acción a realizar en la entidad principal no se va a realizar en las entidades dependientes.
+    * En algunos motores de BDD como SQL y MySQL, es similar a **No Action** ya que no tienen restricciones diferidas.
+    * Esta opción puede ser relevante cuando se usa para PostgreSQL.
+  * **Set Null**: 
+    * Coloca el valor NULL en la columna de la clave foránea.
+  * **Client Set Null**: 
+    * Se coloca el valor NULL en la columna de la clave foráneas desde la aplicación.
+    * Requiere que al cargar la entidad principal, se carguen las entidades dependientes.
+  * Ejemplo: no se podrá eliminar un cine si contiene salas de cine.
+  * Revisar ```CineConfig```
+    * ```.OnDelete(DeleteBehavior.Restrict)()```.    
+    * Migración: ```NoPodemosBorrarCineConSalasDeCine```
+    * Controller:
+      * ```CineController```, métodos:
+        * ```DeleteConRestrict```: primero elimina los hijos para posteriormente eliminar el padre.
+        * ```DeleteSinRestrict```: debido a la configuración **Restrict**, actualmente provocará un fallo.
+
+## 6.11 División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios)<a name="Tema_06_Relaciones_Division_Tabla"></a>
+* A veces es una buena idea crear más de una entidad para dividir los datos esenciales con los que normalmente se trabaja de otros secundarios.
+* La tabla realmente será 1, pero se dividirá en entidades con subconjuntos de datos.
+* Por ejemplo, si la tabla **[Cines]** tiene datos secundarios como: ```Historia, Valores, Misiones, CodigoDeEtica```, los cuales normalmente no van a ser necesario.
+* Para realizar el split:
+  * Clase ```CineDetalle```:
+    * Se creará una clase para los datos secundarios ```CineDetalle```.
+    * Tendrá una propiedad de navegación ```Cine```.
+    * A partir de EF6 es necesario que para utilizar Table Splitting, al menos un campo sea ```[Required]```.
+  * Clase ```Cine```:
+    * Tendrá una propiedad de navegación ```CineDetalle```.
+  * Clase ```ApplicationDbContext```:
+    * Se añade un DBSet ```DbSet<CineDetalle>```.
+  * Clase ```CineConfig```:
+    * Se configura la relación 1 a 1.
+  * Clase ```CineDetalleConfig```:
+    * Se configura para que mapee el resultado a la tabla **[Cines]**.
+  * Migración: ```CineDetalleTableSplitting```.
+* Se puede comprobar con **Swagger**, en ```CinesController```, mediante:
+  * postCineSinDetalle
+  * postCineConDetalle
+
+## 6.12 División de una tabla mediante entidades de propiedad (reutilización de entidades secundarias [Owned])<a name="Tema_06_Relaciones_Entidad_Propiedad"></a>
+* Similar a la división de una tabla (Table Splitting), la división mediante entidades de propiedad permite reutilizar entidades secundarias.
+* La principales diferencias con el anterior puntos son:
+  * En las entidades de propiedad, la entidad dependiente puede ser utilizada en muchas otras entidades, por ejemplo ```Direccion```.
+  * Retorna de manera automática los datos de la entidad secundaria.
+* Es posible que varias entidades necesiten almacenar 1 ```Direccion```, por ejemplo ```Cine``` y ```Actor```.
+* En BDD, cada tabla tendrá los campos ```Calle```, ```Pais```, ```Provincia```.
+* Para realizar la reutilización:
+  * Clase ```Direccion```:
+    * Se marcará como ```Owned``` (adueñado o propiedad de otra entidad).
+    * A partir de EF6 es necesario que para utilizar Table Splitting, al menos un campo sea ```[Required]```.
+  * Clase ```Cine```:
+    * Tendrá una propiedad de navegación ```Direccion```.
+  * Clase ```Actor```:
+    * Tendrá una propiedad de navegación ```DireccionHogar``` y otra ```BillingAddress```.
+  * Clase ```CineConfig```:
+    * Si no se quiere que los nombre sean: ```BillingAddress_Calle```, ```BillingAddress_Pais``` y ```BillingAddress_Provincia```:
+    * Configurar la salida con el método ```OwnsOne```
+   * Clase ```ActorConfig```:
+    * Similar configuración que ```ActorConfig```.
+  * Migración: ```EjemploOwned```.
+* Se puede comprobar con **Swagger**, en ```CinesController```, mediante:
+  * Método ```/api/cines/{id}```: la query generada devuelve los campos de dirección: ```[t0].[Calle], [t0].[Pais], [t0].[Provincia]```.
+
+## 6.12 Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH) <a name="Tema_06_Relaciones_Herencia_TPH_"></a>
+* Las entidades pueden relacionarse utilizando el mecanismo de herencia.
+* Queremos manejar clases diferentes, con sus propios datos, pero que van a ir a la misma tabla.
+* Por ejemplo:
+  * Un sistema de alquiler de películas, en donde haya diferentes métodos de pago (paypal, tarjeta), con elementos comunes de pago.
+  * Se crearán dos clases para Pagos, con sus datos comunes y específicos, pero que van a ir a la misma tabla de **[Pagos]**
+  * A nivel de BDD, todos los datos se guardarán en la tabla ```[Pagos]```.
+* Para realizar la herencia de clases:
+  * Enum ```TipoPago```: para indicar si es paypal o tarjeta.
+  * Clase ```Pago```: 
+    * Clase abstracta, la cual va a tener propiedades comunes de todos los tipos de pago.
+    * Se crea abstracta porque no queremos que nadie genere un pago de este tipo sin instanciarlo y configurarlo.
+    * Contiene una propiedad ```TipoPago```, que discriminará el tipo de pago.
+  * Clase ```PagoPaypal```: clase que deriva de ```Pago```.
+  * Clase ```PagoTarjeta```: clase que deriva de ```Pago```.
+  * Clase ```AlquilerPelicula```: gestionará un alquiler, así como el método de Pago.
+  * Clase ```ApplicationDbContext```: se genera el ```DbSet<Pago> Pagos```.
+  * Clase ```PagoConfig```: se configurará mediante ```HasDiscriminator```, que permite a EF indicar en la relación entre una clase derivada utilizada, y el enum correspondiente un registro (PayPal o Tarjeta).
+  * Clase ```PagoPaypalConfig```
+  * Clase ```PagoTarjetaConfig```
+  * Migración: ```HerenciaTPH```. 
+  * Clase ```PagosController```
+    * Se puede filtrar que devuelva los de un tipo específico:
+      * Todos los pagos: ```return await context.Pagos.ToListAsync();```
+      * Pagos mediante tarjeta: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
+      * Pagos mediante paypal: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
+
+## 6.12 Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT) <a name="Tema_06_Relaciones_Herencia_TPT_"></a>
+* A diferencia de la Herencia de clases - TPH, se crea una tabla por cada una de las clases involucradas en la relación.
+* Es útil si las clases derivadas tienen demasiados datos diferentes y por tanto una sola tabla tendría demasiadas columnas.
+* Por ejemplo:
+  * Una relación con una entidad abstracta de producto.
+  * A nivel de BDD,  los datos se guardarán en varias tablas: ```[Productos]```, ```[Merchandising]``` y ```[PeliculasAlquilables]```.
+* Para realizar la herencia de clases:
+  * Clase ```Producto```: 
+    * Clase abstracta, la cual va a tener propiedades comunes al resto de elementos que hereden de esta clase.
+    * Se crea abstracta porque no queremos que nadie genere un producto de este tipo sin instanciarlo y configurarlo.
+  * Clase ```PeliculaAlquilable```: clase que deriva de ```Producto```.
+  * Clase ```Merchandising```: clase que deriva de ```Producto```.
+  * Clase ```ApplicationDbContext```: 
+    * En el método ```OnModelCreating``` se configura para que cada clase derivada vaya a una tabla específica.
+    * Se genera el ```DbSet<Producto> Productos```.
+  * Migración: ```HerenciaTPT```. 
+  * Clase ```ProductosController```
+    * Se puede filtrar que devuelva los de un tipo específico:
+      * Todos los productos: ```return await context.Productos.ToListAsync();```
+      * Productos de tipo Merchandising: ```return await context.Set<Merchandising>().ToListAsync();```
+      * Productos de tipo PeliculaAlquilable: ```return await context.Set<PeliculaAlquilable>().ToListAsync();```
 
 ---
 

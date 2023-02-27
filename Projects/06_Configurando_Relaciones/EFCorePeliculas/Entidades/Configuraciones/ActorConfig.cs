@@ -13,9 +13,8 @@ namespace EFCorePeliculas.Entidades.Configuraciones
 
             builder.Property(x => x.Nombre).HasField("_nombre");
 
-            //builder.Ignore(a => a.Edad);
-            //builder.Ignore(a => a.Direccion);
-
+            //División de una tabla (Table Splitting) mediante entidades de propiedad (reutilización de entidades secundarias Owned)
+            //Para renombrar las columnas con un nombre concreto:
             builder.OwnsOne(a => a.DireccionHogar, dir =>
             {
                 dir.Property(d => d.Calle).HasColumnName("Calle");

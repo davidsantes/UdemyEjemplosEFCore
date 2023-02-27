@@ -7,7 +7,11 @@ namespace EFCorePeliculas.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<PagoPaypal> builder)
         {
-            builder.Property(p => p.CorreoElectronico).HasMaxLength(150).IsRequired();
+            builder.Property(p => p.CorreoElectronico)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            //Se utiliza Data seeding para introducir datos de prueba:
 
             var pago1 = new PagoPaypal()
             {
@@ -28,7 +32,6 @@ namespace EFCorePeliculas.Entidades.Configuraciones
             };
 
             builder.HasData(pago1, pago2);
-
         }
     }
 }

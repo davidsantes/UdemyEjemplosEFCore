@@ -12,7 +12,7 @@ namespace EFCorePeliculas.Controllers
 {
     [ApiController]
     [Route("api/cines")]
-    public class CinesController: ControllerBase
+    public class CinesController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
@@ -56,8 +56,46 @@ namespace EFCorePeliculas.Controllers
             return Ok(cines);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post()
+        [HttpPost("postCineSinDetalle")]
+        public async Task<ActionResult> PostCineSinDetalle()
+        {
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var ubicacionCine = geometryFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
+
+            var cine = new Cine()
+            {
+                Nombre = "Mi cine con detalle",
+                Ubicacion = ubicacionCine,
+                CineOferta = new CineOferta()
+                {
+                    PorcentajeDescuento = 5,
+                    FechaInicio = DateTime.Today,
+                    FechaFin = DateTime.Today.AddDays(7)
+                },
+                SalasDeCine = new HashSet<SalaDeCine>()
+                {
+                    new SalaDeCine()
+                    {
+                        Precio = 200,
+                        Moneda = Moneda.PesoDominicano,
+                        TipoSalaDeCine = TipoSalaDeCine.DosDimensiones
+                    },
+                    new SalaDeCine()
+                    {
+                        Precio = 350,
+                        Moneda = Moneda.DolarEstadounidense,
+                        TipoSalaDeCine = TipoSalaDeCine.TresDimensiones
+                    }
+                }
+            };
+
+            context.Add(cine);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("postCineConDetalle")]
+        public async Task<ActionResult> PostCineConDetalle()
         {
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             var ubicacionCine = geometryFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
@@ -99,7 +137,7 @@ namespace EFCorePeliculas.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-    
+
         [HttpPost("conDTO")]
         public async Task<ActionResult> Post(CineCreacionDTO cineCreacionDTO)
         {
@@ -153,9 +191,35 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        /// <summary>
+        /// Actualmente este método producirá un error ya que el borrado requiere eliminar primero los hijos (Restrict)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("deleteSinRestrict{id:int}")]
+        public async Task<ActionResult> DeleteSinRestrict(int id)
         {
+            //Indica que las entidades secundarias pueden existir sin la entidad padre,
+            //pero deberá actualizar a NULL la clave foránea.
+            var cine = await context.Cines
+                .Include(c => c.CineOferta).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (cine is null)
+            {
+                return NotFound();
+            }
+
+            //Borrado de la entidad padre:
+            context.Remove(cine);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("deleteConRestrict{id:int}")]
+        public async Task<ActionResult> DeleteConRestrict(int id)
+        {
+            //Indica que las entidades secundarias pueden existir sin la entidad padre,
+            //pero deberá actualizar a NULL la clave foránea.
             var cine = await context.Cines
                 .Include(c => c.SalasDeCine)
                 .Include(c => c.CineOferta).FirstOrDefaultAsync(x => x.Id == id);
@@ -165,14 +229,14 @@ namespace EFCorePeliculas.Controllers
                 return NotFound();
             }
 
+            //Borrado de las entidades hijas, ya que la opción configurada en CineConfig es Restrict:
             context.RemoveRange(cine.SalasDeCine);
             await context.SaveChangesAsync();
 
+            //Borrado de la entidad padre:
             context.Remove(cine);
             await context.SaveChangesAsync();
             return Ok();
         }
-
-
     }
 }

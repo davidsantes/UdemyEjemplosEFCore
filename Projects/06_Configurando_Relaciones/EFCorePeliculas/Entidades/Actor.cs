@@ -47,6 +47,7 @@ namespace EFCorePeliculas.Entidades
 
             }
         }
+        //División de una tabla(Table Splitting) mediante entidades de propiedad(reutilización de entidades secundarias):
         public Direccion DireccionHogar { get; set; }
         public Direccion BillingAddress { get; set; }
     }

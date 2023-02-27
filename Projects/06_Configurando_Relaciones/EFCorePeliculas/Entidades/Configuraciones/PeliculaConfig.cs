@@ -15,6 +15,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
+            //Relación N a N con Fluent API sin clase intermedia(skip navigation):
             //builder.HasMany(p => p.Generos)
             //    .WithMany(g => g.Peliculas)
             //    .UsingEntity(j => 

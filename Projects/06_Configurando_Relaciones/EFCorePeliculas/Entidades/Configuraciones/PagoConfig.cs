@@ -7,6 +7,8 @@ namespace EFCorePeliculas.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Pago> builder)
         {
+            //Herencia de clases - tabla por jerarquía
+            //Permite a EF indicar en la relación entre una clase derivada utilizada, y el enum correspondiente un registro:
             builder.HasDiscriminator(p => p.TipoPago)
                 .HasValue<PagoPaypal>(TipoPago.Paypal)
                 .HasValue<PagoTarjeta>(TipoPago.Tarjeta);
