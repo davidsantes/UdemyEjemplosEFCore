@@ -1023,7 +1023,7 @@ GO
 ---
 
 # MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
-**Objetivo:** ahondar más en el manejo de comandos y migraciones.
+**Objetivo:** ahondar más en el manejo de comandos y migraciones, a través del **Package Manager Console**.
 **Principales características:**
 * Comando Get-Help.
 * Comando Add-Migration.
@@ -1032,17 +1032,17 @@ GO
 * Comando Get-Migration.
 * Comando Drop-Database.
 * Modificando las migraciones manualmente.
-* Migration bundles o empaquetado de migraciones.
-* Comando Script-Migration.
-* Database Migrate - Aplicando las migraciones desde C#.
-* Modelos compilados.
+* Despliegue: Migration bundles o empaquetado de migraciones en ejecutables
+* Despliegue: Comando Script-Migration para general un script SQL
+* Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C#.
+* Mejora del rendimiento: Modelos compilados con el comando Optimize.
 * Base de Datos Primero (Database first) - Scaffold-DbContext.
 
 ## 7.0 Migraciones ⚙️ <a name="Tema_07_Comandos_Y_Migraciones_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
   * ```Update-Database```
 * Realizará las siguientes migraciones:  
-  * Creación de la BDD **[EFCorePeliculasDB_06_Relaciones]**.
+  * Creación de la BDD **[EFCorePeliculasDB_07_Migraciones]**.
   * Creación del esquema con todos los ejemplos del tema.
   * Inserción de datos de prueba.
 
@@ -1050,8 +1050,116 @@ GO
 * Similar al esquema [Esquema de base de datos](#Esquema_BDD)
  
 ## 7.1 Creando el proyecto <a name="Tema_07_Comandos_Y_Migraciones_Creacion"></a>
-* Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
-* BDD utilizada: **[EFCorePeliculasDB_06_Relaciones]**
+* Proyecto utilizado: ver carpeta virtual de la solución **07_Comandos_Y_Migraciones**
+* BDD utilizada: **[EFCorePeliculasDB_07_Migraciones]**
+
+## 7.2 Comando Get-Help <a name="Tema_07_Comandos_Y_Migraciones_GetHelp"></a>
+* ```Get-Help```: sirve para obtener información sobre otros comandos.
+  * ```Get-Help Add-Migration```: información básica.
+  * ```Get-Help Add-Migration -detailed```: información detallada.
+  * ```Get-Help Add-Migration -full```: información detallada, quizás demasiado abrumadora.
+
+## 7.2 Comando Add-Migration <a name="Tema_07_Comandos_Y_Migraciones_Add-Migration"></a>
+* ```Add-Migration```: permite agregar migraciones que por defecto.
+* Por defecto, las migraciones se generan en la carpeta "Migrations", aunque se puede cambiar la carpeta:
+  * ```Add-Migration EjemploNuevaCarpeta -OutputDir Migraciones```
+* Las migraciones generadas tienen dos métodos:
+  * ```Up```: se ejecuta cuando se aplica la migración en la base de datos.
+  * ```Down```: se ejecuta si se necesita revertir la migración en la base de datos. Hace lo contrario al mñetodo ```Up```.
+
+## 7.3 Comando Update-Database <a name="Tema_07_Comandos_Y_Migraciones_Update-Database"></a>
+* ```Update-Database```: recoge las migraciones y las aplica en la base de datos.
+* El orden de ejecución es cronológico.
+* Se puede indicar que actualice hasta una migración concreta:
+  * ```Update-Database Primera```.
+* Se puede visualizar las migraciones realizadas en la tabla ```[_EFMigrationsHistory]```.
+
+## 7.4 Comando Remove-Migration <a name="Tema_07_Comandos_Y_Migraciones_Remove-Migration"></a>
+* ```Remove-Migration```: podemos remover migraciones. Si no se indica nada más, remueve la migración más reciente.
+* Existen dos casuísticas:
+  * Remover migraciones que no ha sido aplicada a la base de datos: es más sencilla.
+    * ```Remove-Migration```.
+  * Remover migraciones que sí ha sido aplicada a la base de datos.
+    * ```Remove-Migration``` provocará un error ya que ha sido aplicada en la base de datos, por lo que hay que ejecutar:
+      * Remover una migración de forma total: ```Remove-Migration -Force```: ejecutará el método ```Down``` de la migración.
+      * Remover una migración de forma parcial: añadir una nueva migración con ```Add-Migration``` que remueva el cambio.
+
+## 7.4 Comando Get-Migration <a name="Tema_07_Comandos_Y_Migraciones_Get-Migration"></a>
+* ```Get-Migration```: podemos visualizar las migraciones, las ya aplicadas y las pendientes.
+
+## 7.5 Comando Drop-Database <a name="Tema_07_Comandos_Y_Migraciones_Drop-Database"></a>
+* ```Drop-Database```: sirve para eliminar una base de datos.
+* Hay que tener mucho cuidado al utilizar este comando.
+
+## 7.6 Modificando las migraciones manualmente <a name="Tema_07_Comandos_Y_Migraciones_Modificacion_Manual"></a>
+* Las migraciones se pueden cambiar a nuestro antojo, aunque se deben realizar antes de aplicar la migración en la base de datos.
+* Por ejemplo:
+  * Para colocar una vista en una migración (revisar la migración ```VistaConteoPeliculas```).
+  * Para realizar delete con restrict (revisar la migración ```EjemploPersona```).
+
+## 7.7 Despliegue: Migration bundles o empaquetado de migraciones en ejecutables <a name="Tema_07_Comandos_Y_Migraciones_Bundles"></a>
+* ¿Qué sucede si queremos aplicar las migraciones en un servidor que no tiene .Net instalado?
+* ¿Qué sucede si tenemos un proceso de entrega continua en el cual se deben automatizar los despliegues de las aplicaciones y bases de datos?
+* Con migration bundles se crea un ejecutable el cual se puede correr contra una base de datos y ejecutará las migraciones pendientes.
+* Es una especie de ```Update-Database``` empaquetado en un ejecutable.
+* Pasos:
+  * Package Manager (actualmente falla, es un bug de EF):
+    * ```Get-Migration``` para ver las migraciones no aplicadas.
+    * ```Bundle-Migration``` debería funcionar, aunque hay un pequeño bug en el que Microsoft está trabajando.
+  * PowerShell (Acceder a la ubicación del proyecto y ejecutar en PowerShell, esta forma no falla):
+    * Crear bundle: ```dotnet ef migrations bundle --configuration Bundle```.
+      * Creará un ejecutable llamado ```efbundle.exe``` con todas las migraciones de la aplicación.
+    * Ejecutar bundle: ```.\efbundle.exe --connection "Connection_String_XXX_"```
+    * Sustituir bundle tras nueva migración: ```dotnet ef migrations bundle --configuration Bundle --force```.
+
+## 7.8 Despliegue: Comando Script-Migration para general un script SQL<a name="Tema_07_Comandos_Y_Migraciones_Script-Migration"></a>
+* Genera el script de SQL (con extensión .sql), el cual va a generar los cambios en la base de datos.
+* Se puede ejecutar contra cualquier base de datos en un proceso de entrega continua.
+* Package Manager (actualmente falla, es un bug de EF):
+  * ```Script-Migration```: genera el script SQL sin verificaciones de objetos. No se puede ejecutar 2 veces, ya que no comprueba si un elemento está creado o no.
+  * ```Script-Migration -Idempotent```: genera el script SQL sin verificaciones de objetos. Sí se puede ejecutar 2 veces, ya que no comprueba si un elemento está creado o no.
+* Problema:
+  * Si existen migraciones manuales con sql personalizado, donde se incluyen vistas u otros objetos, se producirá un error. Los migration bundles no tienen este problema.
+
+## 7.9 Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C# <a name="Tema_07_Comandos_Y_Migraciones_C"></a>
+* Con ```Migrate``` se pueden aplicar las migraciones desde la aplicación.
+* ```Migrate``` permite ejecutar una función desde nuestra aplicación, la cual se encargará de aplicar las migraciones.
+* Problemas:
+  * El comando ```Migrate``` podría fallar si es ejecutado por varias aplicaciones de manera simultánea.
+  * Si tarda mucho en ejecutarse, puede producirse un timeout de ASP.NET Core, pero no aplica para aplicaciones de consola, WPF o Windows Forms.
+  * La primera vez que se ejecute la aplicación, puede tardar un poco ya que debe ejecutar las migraciones.
+  * Si las migraciones dan error, es difícil descubrir el error.
+* Para utilizarlo:
+  * Clase ```program```: ```applicationDbContext.Database.Migrate()```
+
+## 7.10 Mejora del rendimiento: Modelos compilados con el comando Optimize <a name="Tema_07_Comandos_Y_Migraciones_Modelos_Compilados_"></a>
+* Cuando existen cientos de entidades puede que la carga inicial sea lenta.
+* Los modelos compilados permiten optimizar la inicialización del modelo de EF.
+* La documentación oficial no recomienda utilizar modelos compilados si se tienen pocas entidades.
+* Existen limitaciones con los modelos compilados:
+  * Los filtros no son compatibles. Por ejemplo, habría que omitir en la clase ```GeneroConfig``` el ```HasQueryFilter```.
+  * Lazy loading no es compatible.
+  * Cuando se hagan cambios, se debe ejecutar un comando para regenerar los modelos compilados.
+* Ejemplo:
+  * Package Manager:
+    * ```Optimize-DbContext```: comando para ejecutar los modelos compilados. 
+    * Este comando creará modelos compilados de las entidades en la carpeta **[CompiledModels]**.
+  * Clase ```program```: ```opciones.UseModel(ApplicationDbContextModel.Instance)```
+
+## 7.11 Base de Datos Primero (Database first) - Scaffold-DbContext <a name="Tema_07_Comandos_Y_Migraciones_DBFirst_"></a>
+* Permite tomar una base de datos existente y generar las entidades a partir de la base de datos.
+* Ideal para cuando la base de datos ya está creada pero se quiere utilizar EF.
+* Para este ejemplo, se utilizará un nuevo proyecto Web API ```PruebaBDPrimero```.
+* Se van a generar los modelos de base de datos a raíz de la base de datos:
+* Ejemplo:
+  * Package Manager:
+    * ```Scaffold-DbContext name=DefaultConnection -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entidades```.
+    * Generará también la clase ```EFCorePeliculasDBContext```.
+  * Se deberán hacer ajustes, como por ejemplo:
+    * Clase ```Program```: configurar el DBContext en el contenedor de inyección de dependencias.
+    * Generar los controladores.
+  * Si posteriormente se realizan cambios en la base de datos, se pueden subir al proyecto mediante:
+    * ```Scaffold-DbContext name=DefaultConnection -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entidades -Force```. 
 
 ---
 
