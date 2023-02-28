@@ -976,6 +976,7 @@ GO
   * Un sistema de alquiler de películas, en donde haya diferentes métodos de pago (paypal, tarjeta), con elementos comunes de pago.
   * Se crearán dos clases para Pagos, con sus datos comunes y específicos, pero que van a ir a la misma tabla de **[Pagos]**
   * A nivel de BDD, todos los datos se guardarán en la tabla ```[Pagos]```.
+  * ![My Image](06_Relaciones_BDD_Pagos.PNG)
 * Para realizar la herencia de clases:
   * Enum ```TipoPago```: para indicar si es paypal o tarjeta.
   * Clase ```Pago```: 
@@ -996,12 +997,13 @@ GO
       * Pagos mediante tarjeta: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
       * Pagos mediante paypal: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
 
-## 6.12 Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT) <a name="Tema_06_Relaciones_Herencia_TPT_"></a>
+## 6.13 Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT) <a name="Tema_06_Relaciones_Herencia_TPT_"></a>
 * A diferencia de la Herencia de clases - TPH, se crea una tabla por cada una de las clases involucradas en la relación.
 * Es útil si las clases derivadas tienen demasiados datos diferentes y por tanto una sola tabla tendría demasiadas columnas.
 * Por ejemplo:
   * Una relación con una entidad abstracta de producto.
-  * A nivel de BDD,  los datos se guardarán en varias tablas: ```[Productos]```, ```[Merchandising]``` y ```[PeliculasAlquilables]```.
+  * A nivel de BDD, los datos se guardarán en varias tablas: ```[Productos]```, ```[Merchandising]``` y ```[PeliculasAlquilables]```.
+  * ![My Image](06_Relaciones_BDD_Productos.PNG)
 * Para realizar la herencia de clases:
   * Clase ```Producto```: 
     * Clase abstracta, la cual va a tener propiedades comunes al resto de elementos que hereden de esta clase.
@@ -1021,10 +1023,36 @@ GO
 ---
 
 # MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** ahondar más en el manejo de comandos y migraciones.
 **Principales características:**
-* Lorem ipsum
-* Lorem ipsum
+* Comando Get-Help.
+* Comando Add-Migration.
+* Comando Update-Database.
+* Comando Remove-Migration.
+* Comando Get-Migration.
+* Comando Drop-Database.
+* Modificando las migraciones manualmente.
+* Migration bundles o empaquetado de migraciones.
+* Comando Script-Migration.
+* Database Migrate - Aplicando las migraciones desde C#.
+* Modelos compilados.
+* Base de Datos Primero (Database first) - Scaffold-DbContext.
+
+## 7.0 Migraciones ⚙️ <a name="Tema_07_Comandos_Y_Migraciones_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_06_Relaciones]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 7.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
+## 7.1 Creando el proyecto <a name="Tema_07_Comandos_Y_Migraciones_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
+* BDD utilizada: **[EFCorePeliculasDB_06_Relaciones]**
+
 ---
 
 # MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
