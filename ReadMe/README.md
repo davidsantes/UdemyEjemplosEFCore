@@ -1164,10 +1164,42 @@ GO
 ---
 
 # MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** profundizar en las capacidades del DBContext.
 **Principales características:**
-* Lorem ipsum
-* Lorem ipsum
+* Propiedades del DbContext.
+* OnConfiguring.
+* Cambiando el estatus de una entidad con Entry.
+* Actualizando algunas propiedades.
+* Sobrescribir SaveChanges.
+* Inyección de dependencias en el DbContext.
+* Eventos Tracked y StateChanged.
+* Eventos de SaveChanges.
+* Queries arbitrarios.
+* Sentencias arbitrarias.
+* ToSqlQuery - Centralizando queries Arbitrarios.
+* Procedimientos almacenados.
+* Introducción a las transacciones.
+* BeginTransaction - una transacción para varios SaveChanges.
+* Estrategia de detección de cambios personalizada - Parte 1.
+* Estrategia de detección de cambios personalizada - Parte 2.
+
+## 8.0 Migraciones ⚙️ <a name="Tema_08_DbContext_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_08_DbContext]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 8.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+ 
+## 8.1 Creando el proyecto <a name="Tema_08_DbContext_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
+* BDD utilizada: **[EFCorePeliculasDB_08_DbContext]**
+
+
+
 ---
 
 # MÓDULO 09. Entity Framework avanzado <a name="Tema_09_EF_Avanzado"></a>
