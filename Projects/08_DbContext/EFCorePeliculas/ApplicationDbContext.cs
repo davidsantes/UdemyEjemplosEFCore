@@ -60,6 +60,7 @@ namespace EFCorePeliculas
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //Verifica que no haya sido configurado previamente, por ejemplo, en program.cs
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("name=DefaultConnection", opciones =>

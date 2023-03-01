@@ -14,17 +14,17 @@ builder.Services.AddControllers().AddJsonOptions(opciones =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Si utilizo ApplicationDbContext.OnConfiguring, se omitiría este código para que se autoregistre el DbContext:
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
-{
-    opciones.UseSqlServer(connectionString, sqlServer => sqlServer.UseNetTopologySuite());
-    opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    //opciones.UseModel(ApplicationDbContextModel.Instance);
-    //opciones.UseLazyLoadingProxies();
-}
-    );
-
-//builder.Services.AddDbContext<ApplicationDbContext>();
+    {
+        opciones.UseSqlServer(connectionString, sqlServer => sqlServer.UseNetTopologySuite());
+        opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        //opciones.UseModel(ApplicationDbContextModel.Instance);
+        //opciones.UseLazyLoadingProxies();
+    }
+);
+builder.Services.AddDbContext<ApplicationDbContext>();
 
 builder.Services.AddScoped<IActualizadorObservableCollection, ActualizadorObservableCollection>();
 builder.Services.AddScoped<IServicioUsuario, ServicioUsuario>();

@@ -1166,8 +1166,8 @@ GO
 # MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
 **Objetivo:** profundizar en las capacidades del DBContext.
 **Principales características:**
-* Propiedades del DbContext.
-* OnConfiguring.
+* Principales propiedades del DbContext.
+* Configuración alternativa de DBContext: OnConfiguring.
 * Cambiando el estatus de una entidad con Entry.
 * Actualizando algunas propiedades.
 * Sobrescribir SaveChanges.
@@ -1198,7 +1198,20 @@ GO
 * Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
 * BDD utilizada: **[EFCorePeliculasDB_08_DbContext]**
 
+## 8.2 Principales propiedades del DbContext <a name="Tema_08_DbContext_Propiedades"></a>
+* **Database**: permite acceder a propiedades relacionadas con: transacciones, creación y migración de base de datos, queries arbitrarias.
+* **ChangeTracker**: permite acceder al código encargado de dar seguimiento a los cambios de las entidades, para poder realizar la acción pertinente cuando se llame al método ```SaveChanges()```.
+* **Model**: permite acceder al modelo de BDD que EF utiliza para conectarse a la BDD.
+* **ContextId**: identificador único de cada instancia del contexto. Permite saber si una sequencia de queries están siendo lanzadas por el mismo DbContext.
 
+## 8.3 Configuración alternativa de DBContext: OnConfiguring <a name="Tema_08_DbContext_OnConfiguring"></a>
+* Además de ```builder.Services.AddDbContext``` en la clase ```Program.cs```, existe otra manera de configurar el DBContext.
+* Se trata del método ```OnConfiguring``` del propio ```DbContext```.
+* Revisar clase ```ApplicationDbContext```:
+  * Se puede chequear que no haya sido configurado previamente, por ejemplo, en ```program.cs```.
+
+## 8.4 Cambiando el estatus de una entidad con Entry <a name="Tema_08_DbContext_Estatus"></a>
+* Lorem ipsum
 
 ---
 
