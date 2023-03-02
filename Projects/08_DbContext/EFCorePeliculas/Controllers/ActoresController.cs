@@ -65,8 +65,10 @@ namespace EFCorePeliculas.Controllers
             var actor = mapper.Map<Actor>(actorCreacionDTO);
             actor.Id = id;
 
+            //Actualización de manera estándar:
             //context.Update(actor);
 
+            //Actualización de una propiedad concreta:
             context.Entry(actor).Property(a => a.Nombre).IsModified = true;
 
             await context.SaveChangesAsync();

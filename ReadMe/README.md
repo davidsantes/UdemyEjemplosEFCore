@@ -1171,17 +1171,14 @@ GO
 * Cambiando el estatus de una entidad con Entry.
 * Actualizando algunas propiedades.
 * Sobrescribir SaveChanges.
-* Inyección de dependencias en el DbContext.
-* Eventos Tracked y StateChanged.
-* Eventos de SaveChanges.
-* Queries arbitrarios.
-* Sentencias arbitrarias.
-* ToSqlQuery - Centralizando queries Arbitrarios.
-* Procedimientos almacenados.
-* Introducción a las transacciones.
-* BeginTransaction - una transacción para varios SaveChanges.
-* Estrategia de detección de cambios personalizada - Parte 1.
-* Estrategia de detección de cambios personalizada - Parte 2.
+* Inyección de dependencias por constructor en DbContext.
+* Eventos que se pueden capturar en el DBContext.
+* Sentencias SQL - Select.
+* Sentencias SQL - Inserts, updates, deletes.
+* Sentencias SQL - ToSqlQuery - Centralizando queries Arbitrarios.
+* Uso de procedimientos almacenados.
+* Transacciones por defecto.
+* Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges.
 
 ## 8.0 Migraciones ⚙️ <a name="Tema_08_DbContext_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -1211,7 +1208,106 @@ GO
   * Se puede chequear que no haya sido configurado previamente, por ejemplo, en ```program.cs```.
 
 ## 8.4 Cambiando el estatus de una entidad con Entry <a name="Tema_08_DbContext_Estatus"></a>
-* Lorem ipsum
+* Si se quiere cambiar manualmente el estado a una entidad, se puede hacer manualmente.
+* Ejemplo para inserción:
+  * ```GenerosController```, método ```CambiarEstatusEntidadManualmente```.
+  * El código utilizado: ```context.Entry(genero).State = EntityState.Added;```.
+
+## 8.5 Actualizando algunas propiedades <a name="Tema_08_DbContext_Actualizar_Propiedades"></a>
+* Se puede evitar actualizar todas las columnas de una tabla. Se puede realizar marcando las propiedades una por una.
+* Ejemplo:
+  * ```ActoresController```, método ```PutDesconectado```.
+  * El código utilizado: ``` context.Entry(actor).Property(a => a.Nombre).IsModified = true;```.
+
+## 8.6 Sobrescribir SaveChanges <a name="Tema_08_DbContext_Sobrescribir_SaveChanges"></a>
+* Se puede sobrescribir SaveChanges para poder realizar una acción específica al momento de guardar cambios de una manera centralizada. 
+* Por ejemplo, para realizar auditorías con el usuario que realiza las acciones.
+* Ejemplo:
+  * Clase ```EntidadAuditable```: creación de la clase abstracta con usuario de creación y modificación.
+  * Clase ```Genero```: heredará de la clase ```EntidadAuditable```.
+  * Se genera una migración ```GeneroAuditable``` para que realice los cambios a la tabla ```[Generos]```.
+  * Clase ```ApplicationDbContext```:
+    * Se genera un método ```ProcesarSalvado``` que incluye la lógica a incorporar.
+    * Se sobreescribe ```SaveChangesAsync``` incluyendo el método ```ProcesarSalvado```.
+
+## 8.7 Inyección de dependencias por constructor en DbContext <a name="Tema_08_DbContext_Iny_Dependencias"></a>
+* Se pueden incorporar dependencias en el constructor del DbContext.
+* Ejemplo:
+  * Clase ```ApplicationDbContext```.
+
+## 8.8 Eventos que se pueden capturar en el DBContext <a name="Tema_08_DbContext_Eventos"></a>
+* Se pueden utilizar eventos en EF. Estos eventos se dispararán siempre y cuando no se esté usando ```AsNoTracking()```:
+  * Evento **ChangeTracker.Tracked** se ejecuta cuando EF le empieza a dar seguimiento a una entidad.
+  * Evento **ChangeTracker.StateChanged** se ejecuta cuando el estatus de una entidad que ya recibe seguimiento cambia. en este momento se conoce el estado anterior de la entidad y el nuevo.
+  * Cuando se realizan cambios:
+    * Evento **SavingChanges**: se dispara antes de guardar los cambios.
+    * Evento **SavedChanges**: se dispara después de guardar los cambios.
+    * Evento **SaveChangesFailed**: se dispara si el proceso de guardar cambios produce un error.
+* Ejemplo:
+  * Interfaz ```IEventosDbContext```, con los siguientes métodos: ```ManejarSaveChangesFailed();ManejarSavedChanges();ManejarSavingChanges();ManejarStateChange();ManejarTracked();```.
+  * Clase ```EventosDbContext```: que implementa ```IEventosDbContext```.
+  * Clase ```ApplicationDbContext```: en el constructor, se registran los eventos.
+* Se puede comprobar lanzando cualquier operación con **Swagger**, y verificando la salida por consola.
+
+## 8.9 Sentencias SQL - Select <a name="Tema_08_DbContext_SQL_Select"></a>
+* Se pueden ejecutar sentencias SQL de tipo Select, de manera directa mediante EF.
+* Es importante evitar SQL injection, por lo que los ejemplos añadidos lo evitan con declaración de variables.
+* Para anexar una sentencia Select de SQL, se utiliza ```FromSqlRaw``` y ```FromSqlInterpolated```. Estos se pueden combinar con otros métodos clásicos de EF como ```Include```.
+* Ejemplo:
+  * Clase ```GenerosController```, métodos:
+    * GetFromSql_Forma1_FromSqlRaw
+    * GetFromSql_Forma2_FromSqlInterpolated
+  * Clase ```CinesController```, métodos:
+    * GetFromSqlInterpolatedConIncludes: utiliza la combinación de sentencias sql e ```Include```.
+
+## 8.10 Sentencias SQL - Inserts, updates, deletes <a name="Tema_08_DbContext_SQL_CRUD"></a>
+* Se pueden ejecutar sentencias SQL de tipo Inserts, updates, deletes.
+* Para anexar una sentencia Insert, etc de SQL, se utiliza ```ExecuteSqlInterpolatedAsync```.
+* Ejemplo:
+  * Clase ```GenerosController```, métodos:
+    * PostFromSqlExecuteSqlInterpolatedAsync
+
+## 8.11 Sentencias SQL - ToSqlQuery() - Centralizando queries Arbitrarios <a name="Tema_08_DbContext_SQL_ToSqlQuery"></a>
+* Se puede mapear una vista a una clase. Del mismo modo se puede centralizar una sentencia sql y mapearlo a una entidad específica.
+* Personalmente, me parece mejor realizarlo con una vista ```ToView("PeliculasConConteos")```.
+* Ejemplo:
+  * Clase ```ApplicationDbContext```, métodos:
+    * Revisar ```modelBuilder.Entity<PeliculaConConteos>().ToSqlQuery(....query sql....)```.
+    * También se encuentra comentada la opción de llamar a una vista: ```ToView("PeliculasConConteos")```.
+
+## 8.12 Uso de procedimientos almacenados <a name="Tema_08_DbContext_SQL_SP"></a>
+* Se puede ejecutar directamente procedimientos almacenados. 
+* Ejemplo:
+  * Se genera una migración ```ProcedimientosAlmacenados``` con:
+    * Generos_ObtenerPorId
+    * Generos_Insertar
+  * Clase ```GenerosController```: 
+    * ```GetFromProcedimientoAlmacenado```: se ha hecho con ```FromSqlInterpolated```.
+    * ```PostFromProcedimientoAlmacenado```: se ha ejecutado con ```ExecuteSqlRawAsync```.
+
+## 8.13 Transacciones por defecto <a name="Tema_08_DbContext_Transacciones por defecto"></a>
+* En el contexto de base de datos, una transacción requiere que varias operaciones diferentes sean realizadas de manera atómica.
+* Esto implica que todas las operaciones dentro de una operación, deben ser exitosas, o si no no se da como correcto y se deben deshacer los cambios. 
+* Por ejemplo, esto sucede con la entidad ```Cine``` y ```SalaDeCine```. No se puede insertar una sala de cine con sus salas de cine si alguna de las dos operaciones falla. 
+* Es la forma por defecto que trabaja el DBContext con ```context.SaveChangesAsync()```, por ejemplo, se requiere la inserción de múltiples cines.
+* Ejemplo:
+  * Clase ```GenerosController```: 
+    * ```PostInsercionMultipleTransaccioPorDefecto```: si falla cualquier inserción de cines de la lista, no se completará el resto.
+
+## 8.14 Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges <a name="Tema_08_DbContext_Transacciones Manuales"></a>
+* En ocasiones no es suficiente el mecanismo de transacciones de ```context.SaveChangesAsync()```.
+* A veces necesitamos realizar una operación, luego realizar otra, y si la segunda operación da error entonces revertir la primera operación.
+* Supongamos que la aplicación trabajará con ```Factura``` y ```FacturaDetalle```.
+* Sin embargo, por algún motivo, no vamos a establecer directamente una relación 1 a N entre las entidades mediante propiedades de navegación.
+* En este caso, será necesario utilizar transacciones a la hora de insertar una factura.
+* Ejemplo:
+  * Clase ```Factura```.
+  * Clase ```FacturaDetalle```.
+  * Clase ```FacturaConfig```.  
+  * Clase ```ApplicationDbContext```, se incluye el DbSet ```DbSet<FacturaDetalle>```.
+  * Se genera la migración ```Facturas```.
+  * Clase ```FacturasController```: 
+    * ```PostConTransaccion```: si falla la inserción de una factura, realiza el rollback ya que se está controlando con ```context.Database.BeginTransactionAsync()```.
 
 ---
 

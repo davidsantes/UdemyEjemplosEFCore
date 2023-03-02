@@ -25,8 +25,8 @@ namespace EFCorePeliculas
             this.servicioUsuario = servicioUsuario;
             if (eventosDbContext is not null)
             {
-                //ChangeTracker.Tracked += eventosDbContext.ManejarTracked;
-                //ChangeTracker.StateChanged += eventosDbContext.ManejarStateChange;
+                ChangeTracker.Tracked += eventosDbContext.ManejarTracked;
+                ChangeTracker.StateChanged += eventosDbContext.ManejarStateChange;
                 SavingChanges += eventosDbContext.ManejarSavingChanges;
                 SavedChanges += eventosDbContext.ManejarSavedChanges;
                 SaveChangesFailed += eventosDbContext.ManejarSaveChangesFailed;
@@ -41,16 +41,20 @@ namespace EFCorePeliculas
 
         private void ProcesarSalvado()
         {
-            foreach (var item in ChangeTracker.Entries().Where(e => e.State == EntityState.Added
-             && e.Entity is EntidadAuditable))
+            foreach (var item in ChangeTracker
+                .Entries()
+                .Where(e => e.State == EntityState.Added
+                && e.Entity is EntidadAuditable))
             {
                 var entidad = item.Entity as EntidadAuditable;
                 entidad.UsuarioCreacion = servicioUsuario.ObtenerUsuarioId();
                 entidad.UsuarioModificacion = servicioUsuario.ObtenerUsuarioId();
             }
 
-            foreach (var item in ChangeTracker.Entries().Where(e => e.State == EntityState.Modified
-             && e.Entity is EntidadAuditable))
+            foreach (var item in ChangeTracker
+                .Entries()
+                .Where(e => e.State == EntityState.Modified
+                && e.Entity is EntidadAuditable))
             {
                 var entidad = item.Entity as EntidadAuditable;
                 entidad.UsuarioModificacion = servicioUsuario.ObtenerUsuarioId();
@@ -86,11 +90,17 @@ namespace EFCorePeliculas
             //modelBuilder.Ignore<Direccion>();
 
             modelBuilder.Entity<CineSinUbicacion>()
-                .HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
+                .HasNoKey()
+                .ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
 
-            //modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToView("PeliculasConConteos");
+            //Llamada mediante una vista centralizada:
+            //modelBuilder.Entity<PeliculaConConteos>()
+            //    .HasNoKey()
+            //    .ToView("PeliculasConConteos");
 
-            modelBuilder.Entity<PeliculaConConteos>().ToSqlQuery(@"SeLeCt Id, Titulo,
+            //Llamada mediante una sentencia SQL centralizada:
+            modelBuilder.Entity<PeliculaConConteos>()
+                .ToSqlQuery(@"SeLeCt Id, Titulo,
 (Select count(*)
 from GeneroPelicula
 WHERE PeliculasId = Peliculas.Id) as CantidadGeneros,

@@ -14,8 +14,11 @@ namespace EFCorePeliculas.Controllers
             this.context = context;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post()
+        /// <summary>
+        /// En caso de que se produzca un error, al estar dentro de una transacción, no introducirá la factura con su detalle
+        /// </summary>
+        [HttpPost("PostConTransaccion")]
+        public async Task<ActionResult> PostConTransaccion()
         {
             using var transaccion = await context.Database.BeginTransactionAsync();
             try
@@ -28,6 +31,7 @@ namespace EFCorePeliculas.Controllers
                 context.Add(factura);
                 await context.SaveChangesAsync();
 
+                //Provocando un error, omitir si se quiere que se pueda introducir.
                 throw new ApplicationException("Esto es una prueba");
 
                 var facturaDetalle = new List<FacturaDetalle>()

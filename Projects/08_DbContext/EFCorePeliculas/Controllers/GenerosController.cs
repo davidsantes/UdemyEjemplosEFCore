@@ -26,8 +26,8 @@ namespace EFCorePeliculas.Controllers
             return await context.Generos.OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion")).ToListAsync();
         }
 
-        [HttpGet("procedimiento_almacenado/{id:int}")]
-        public async Task<ActionResult<Genero>> GetSP(int id)
+        [HttpGet("GetFromProcedimientoAlmacenado/{id:int}")]
+        public async Task<ActionResult<Genero>> GetFromProcedimientoAlmacenado(int id)
         {
             var generos = context.Generos
                         .FromSqlInterpolated($"EXEC Generos_ObtenerPorId {id}")
@@ -42,8 +42,8 @@ namespace EFCorePeliculas.Controllers
             return NotFound();
         }
 
-        [HttpPost("Procedimiento_almacenado")]
-        public async Task<ActionResult> PostSP(Genero genero)
+        [HttpPost("PostFromProcedimientoAlmacenado")]
+        public async Task<ActionResult> PostFromProcedimientoAlmacenado(Genero genero)
         {
             var existeGeneroConNombre = await context.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
 
@@ -64,16 +64,34 @@ namespace EFCorePeliculas.Controllers
             var id = (int)outputId.Value;
             return Ok(id);
         }
-         
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Genero>> Get(int id)
-        {
-            //var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == id);
 
-            //var genero = await context.Generos
-            //            .FromSqlRaw("SeLecT * FROM Generos WHERE Identificador = {0}", id)
-            //            .IgnoreQueryFilters()
-            //            .FirstOrDefaultAsync();
+        [HttpGet("GetFromSql_Forma1_FromSqlRaw{id:int}")]
+        public async Task<ActionResult<Genero>> GetFromSql_Forma1_FromSqlRaw(int id)
+        {
+            var genero = await context.Generos
+                        .FromSqlRaw("SeLecT * FROM Generos WHERE Identificador = {0}", id) //Se evita SQL Injection
+                        .IgnoreQueryFilters()
+                        .FirstOrDefaultAsync();
+
+            if (genero is null)
+            {
+                return NotFound();
+            }
+
+            var fechaCreacion = context.Entry(genero).Property<DateTime>("FechaCreacion").CurrentValue;
+
+            return Ok(new
+            {
+                Id = genero.Identificador,
+                NoContent = genero.Nombre,
+                fechaCreacion
+            });
+        }
+
+
+        [HttpGet("GetFromSql_Forma2_FromSqlInterpolated{id:int}")]
+        public async Task<ActionResult<Genero>> GetFromSql_Forma2_FromSqlInterpolated(int id)
+        {
 
             var genero = await context.Generos
                         .FromSqlInterpolated($"SeLecT * FROM Generos WHERE Identificador = {id}")
@@ -93,6 +111,71 @@ namespace EFCorePeliculas.Controllers
                 NoContent = genero.Nombre,
                 fechaCreacion
             });
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Genero>> Get(int id)
+        {
+            var genero = await context.Generos
+                .AsTracking()
+                .FirstOrDefaultAsync(g => g.Identificador == id);
+
+            if (genero is null)
+            {
+                return NotFound();
+            }
+
+            var fechaCreacion = context.Entry(genero).Property<DateTime>("FechaCreacion").CurrentValue;
+
+            return Ok(new
+            {
+                Id = genero.Identificador,
+                NoContent = genero.Nombre,
+                fechaCreacion
+            });
+        }
+
+        [HttpPost("CambiarEstatusEntidadManualmente")]
+        public async Task<ActionResult> CambiarEstatusEntidadManualmente(Genero genero)
+        {
+            var existeGeneroConNombre = await context.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if (existeGeneroConNombre)
+            {
+                return BadRequest("Ya existe un género con ese nombre: " + genero.Nombre);
+            }
+
+            //Forma por defecto de cambiar el estado para una inserción:
+            //context.Add(genero);
+            
+            //Forma manual:
+            context.Entry(genero).State = EntityState.Added;
+
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("PostFromSqlExecuteSqlInterpolatedAsync")]
+        public async Task<ActionResult> PostFromSqlExecuteSqlInterpolatedAsync(Genero genero)
+        {
+            var existeGeneroConNombre = await context.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if (existeGeneroConNombre)
+            {
+                return BadRequest("Ya existe un género con ese nombre: " + genero.Nombre);
+            }
+
+            //context.Add(genero);
+            //context.Entry(genero).State = EntityState.Added;
+
+            await context.Database.ExecuteSqlInterpolatedAsync($@"
+            INSERT INTO Generos(Nombre)
+            VALUES({genero.Nombre})");
+
+            await context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPost]
@@ -117,8 +200,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
         
-        [HttpPost("varios")]
-        public async Task<ActionResult> Post(Genero[] generos)
+        [HttpPost("PostInsercionMultipleTransaccioPorDefecto")]
+        public async Task<ActionResult> PostInsercionMultipleTransaccioPorDefecto(Genero[] generos)
         {
             context.AddRange(generos);
             await context.SaveChangesAsync();
