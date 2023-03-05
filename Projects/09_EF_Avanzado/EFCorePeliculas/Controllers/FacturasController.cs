@@ -94,7 +94,6 @@ namespace EFCorePeliculas.Controllers
            
         }
 
-
         [HttpGet("Funciones_escalares")]
         public async Task<ActionResult> GetFuncionesEscalares()
         {

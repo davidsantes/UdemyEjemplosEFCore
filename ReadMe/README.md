@@ -1189,10 +1189,10 @@ GO
   * Inserción de datos de prueba.
 
 ### 8.0.1 ¿Cómo queda la base de datos? 🔩
-* Similar al esquema [Esquema de base de datos](#Esquema_BDD)
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
  
 ## 8.1 Creando el proyecto <a name="Tema_08_DbContext_Creacion"></a>
-* Proyecto utilizado: ver carpeta virtual de la solución **06_Configurando_Relaciones**
+* Proyecto utilizado: ver carpeta virtual de la solución **08_DbContext**
 * BDD utilizada: **[EFCorePeliculasDB_08_DbContext]**
 
 ## 8.2 Principales propiedades del DbContext <a name="Tema_08_DbContext_Propiedades"></a>
@@ -1312,10 +1312,76 @@ GO
 ---
 
 # MÓDULO 09. Entity Framework avanzado <a name="Tema_09_EF_Avanzado"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** profundizar en otras características avanzadas dentro de EF.
 **Principales características:**
-* Lorem ipsum
-* Lorem ipsum
+* Funciones escalares.
+* Funciones con valores de tabla.
+* Columnas calculadas.
+* Secuencias.
+* Conflictos de concurrencia por campo.
+* Conflictos de concurrencia por fila.
+* Manejando conflictos de concurrencia.
+* Conflictos de concurrencia con el modelo desconectado.
+* Tablas temporales: introducción.
+* Tablas temporales: inserción, edición, borrado.
+* Tablas temporales: consulta de tabla temporal e histórica.
+* Tablas temporales: consulta por fechas (TemporalAsOf).
+* Tablas temporales: consulta de registros activos en un rango de fechas (TemporalFromTo).
+* Tablas temporales: consulta de registros activos en un rango de fechas (TemporalContainedIn).
+* Tablas temporales: consulta de registros activos en un rango de fechas cerrado (TemporalBetween).
+* Tablas temporales: restaurando un registro borrado.
+* Tablas temporales: personalización de nombre de columnas y de tabla.
+* Trabajando con el DbContext en otro proyecto.
+
+## 9.0 Migraciones ⚙️ <a name="Tema_09_EF_Avanzado__Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_09_EF_Avanzado]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 9.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
+
+## 9.1 Creando el proyecto <a name="Tema_09_EF_Avanzado_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **09_EF_Avanzado**
+* BDD utilizada: **[EFCorePeliculasDB_09_EF_Avanzado]**
+
+## 9.2 Funciones escalares <a name="Tema_09_EF_Avanzado_Funciones_Escalares"></a>
+* Una función definida por el usuario es una función en nuestra base de datos la cual podemos usar para encapsular funcionalidad.
+* Son sólo para realizar consultas, no para modificar la base de datos.
+* El resultado de esta función puede ser un escalar o un conjunto de resultado (valores de tabla).
+* Se generarán dos funciones escalares:
+  * ```FacturaDetalleSuma```: calcula la suma de los costos de las órdenes de una factura.
+  * ```FacturaDetallePromedio```: calcula el promedio de los costos.
+* Ejemplo:
+  * Clase ```SeedingFacturas```: para insertar datos.
+  * Clase ```ApplicationDbContext```: añadir ```SeedingFacturas.Seed```.
+  * Se agregan las migraciones:
+    * ```DatosFacturaEjemplo```: con la alimentación de datos de facturas.
+    * ```FuncionesDefinidasPorElUsuario```: con las funciones ```FacturaDetalleSuma``` y ```FacturaDetallePromedio```.
+  * Clase ```ApplicationDbContext```:
+    * Para ```FacturaDetalleSuma``: añadir un método llamado ```FacturaDetalleSuma```, decorado con el atributo ```[DbFunction]```.
+    * Para ```FacturaDetallePromedio```:
+      * Una buena práctica, en el caso de que existan muchas funciones, es poner estos métodos en una clsae auxiliar.
+      * Revisar Entidades/Funciones/Escalares
+  * Clase ```FacturasController```: 
+    * ```GetFuncionesEscalares```: se llama a ambas funciones escalares.
+
+## 9.3 Funciones con valores de tabla <a name="Tema_09_EF_Avanzado_Funciones_Tabla"></a>
+* Al igual que cuando se llama a una vista, es necesario una clase Keyless (entidades sin Llave).
+* Ejemplo:
+ * Clase ```PeliculaConConteos```.
+  * Se agrega la migración ```TVF``` (Table Value Function): con la función ```PeliculaConConteos```.
+  * Clase ```ApplicationDbContext```:
+    * Añadir un método llamado ```PeliculaConConteos```.
+    * Registrarlo a través de:
+      * ```modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToTable(name: null);```
+      * ```modelBuilder.HasDbFunction(() => PeliculaConConteos(0));```
+  * Clase ```PeliculasController```: 
+    * ```GetPeliculasConConteos```: se llama a la función.
+
 ---
 
 # MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>

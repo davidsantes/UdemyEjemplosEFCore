@@ -84,6 +84,7 @@ namespace EFCorePeliculas
             SeedingPersonaMensaje.Seed(modelBuilder);
             SeedingFacturas.Seed(modelBuilder);
 
+            //Registro de funciones, forma 1 y aconsejada por limpieza de código:
             Escalares.RegistrarFunciones(modelBuilder);
 
             modelBuilder.HasSequence<int>("NumeroFactura", "factura");
@@ -94,8 +95,8 @@ namespace EFCorePeliculas
             modelBuilder.Entity<CineSinUbicacion>()
                 .HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
 
+            //Para registrar Funciones con valores de tabla
             modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToTable(name: null);
-
             modelBuilder.HasDbFunction(() => PeliculaConConteos(0));
 
             foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes())
@@ -137,12 +138,25 @@ namespace EFCorePeliculas
 
         }
 
+        /// <summary>
+        /// Registro de funciones, forma 2 y desaconsejada por limpieza de código, mejor en Entidades/Funciones/Escalares:
+        /// Definición de un método, no importa su lógica mientras compile, ya que solo es una signatura
+        /// para que EF invoque a la función definida. 
+        /// Tendrá el mismo nombre que la función [FacturaDetalleSuma]
+        /// Si el nombre del método no coincide con el nombre de la función:
+        /// [DbFunction(Name = "NombreNoCoincidente", Schema = "Esquema...")]
+        /// </summary>
         [DbFunction]
         public int FacturaDetalleSuma(int facturaId)
         {
             return 0;
         }
 
+        /// <summary>
+        /// Necesario para la TVF (Table Value Function) PeliculaConConteos
+        /// Definición de un método, no importa su lógica mientras compile, ya que solo es una signatura
+        /// para que EF invoque a la función definida.
+        /// </summary> 
         public IQueryable<PeliculaConConteos> PeliculaConConteos(int peliculadId)
         {
             return FromExpression(() => PeliculaConConteos(peliculadId));

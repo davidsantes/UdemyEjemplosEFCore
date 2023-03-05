@@ -21,7 +21,7 @@ namespace EFCorePeliculas.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("PeliculasConConteos/{id:int}")]
+        [HttpGet("GetPeliculasConConteos/{id:int}")]
         public async Task<ActionResult<PeliculaConConteos>> GetPeliculasConConteos(int id)
         {
             var resultado = await context.PeliculaConConteos(id).FirstOrDefaultAsync();
