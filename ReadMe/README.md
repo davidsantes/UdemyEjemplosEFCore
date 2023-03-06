@@ -139,6 +139,13 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
     5. [Configurando AutoMapper para pruebas - Pruebas negativas](#Tema_10_Test_AutoMapper)
     6. [Usando LocalDb para pruebas de integración](#Tema_10_Test_LocalDb)
 11. **[Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)**
+    1. [Migraciones](#Tema_11_Asp_Migraciones)
+    2. [Tiempo de Vida de los Servicios](#Tema_11_Asp_Vida)
+    3. [Instanciando el DbContext en un Singleton](#Tema_11_Asp_Singleton)
+    4. [Programación Asíncrona](#Tema_11_Asp_Programa_Asincrona)
+    5. [Reciclando el DbContext](#Tema_11_Asp_Reciclando_DbContext)
+    6. [Factoría de DbContexts](#Tema_11_Asp_Factoria_DbContext)
+    7. [Consideraciones para Blazor Server](#Tema_11_Asp_Blazor)
 
 # Toma de contacto  🚀 <a name="Toma_Contacto"></a>
 
@@ -1795,7 +1802,39 @@ builder.Property("Hasta").HasColumnType("datetime2");
 ---
 
 # MÓDULO 11. Entity Framework y ASP Net Core <a name="Tema_11_EF_Y_ASP"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** características especiales para ASP .Net Core.
 **Principales características del módulo:**
-* Lorem ipsum
-* Lorem ipsum
+1. [Migraciones](#Tema_11_Asp_Migraciones)
+2. [Tiempo de Vida de los Servicios](#Tema_11_Asp_Vida)
+3. [Instanciando el DbContext en un Singleton](#Tema_11_Asp_Singleton)
+4. [Programación Asíncrona](#Tema_11_Asp_Programa_Asincrona)
+5. [Reciclando el DbContext](#Tema_11_Asp_Reciclando_DbContext)
+6. [Factoría de DbContexts](#Tema_11_Asp_Factoria_DbContext)
+7. [Consideraciones para Blazor Server](#Tema_11_Asp_Blazor)
+
+## 11.0 Migraciones ⚙️ <a name="Tema_11_Test_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_11_EF_Asp]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 11.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
+
+## 11.1 Creando el proyecto <a name="Tema_11_Test_Creacion"></a>
+* Proyectos utilizados: ver carpeta virtual de la solución **11_EF_Y_ASP**
+* BDD utilizada: **[EFCorePeliculasDB_11_EF_Asp]**
+
+## 11.2 Tiempo de Vida de los Servicios<a name="Tema_11_Asp_Vida"></a>
+
+## 11.3 Instanciando el DbContext en un Singleton<a name="Tema_11_Asp_Singleton"></a>
+
+## 11.4 Programación Asíncrona<a name="Tema_11_Asp_Programa_Asincrona"></a>
+
+## 11.5 Reciclando el DbContext<a name="Tema_11_Asp_Reciclando_DbContext"></a>
+
+## 11.6 Factoría de DbContexts<a name="Tema_11_Asp_Factoria_DbContext"></a>
+
+## 11.7 Consideraciones para Blazor Server<a name="Tema_11_Asp_Blazor"></a>
