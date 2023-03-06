@@ -1,21 +1,138 @@
 # Ejemplos de Entity Framework
 Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framework Core 6 - De Verdad**, y complementado con apuntes propios.
 
-# Índice de contenidos 📋
-1. [Toma de contacto](#Toma_Contacto)
-2. [Introducción a Entity Framework](#Tema_01_Intro)
+# Índice completo de contenidos 📋
+1. **[Toma de contacto](#Toma_Contacto)**
+2. **[Introducción a Entity Framework](#Tema_01_Intro)**
    1. [Configurando una aplicación de consola con EF Core y Code first](#Tema_01_Demo_Consola)       
    2. [Configurando una aplicación ASP MVC con EF Core y Code first](#Tema_01_Demo_MVC)         
-2. [Modelado de base de datos](#Tema_02_Modelado_BDD)
-3. [Consultando la base de datos](#Tema_03_Consultanto)
-4. [Crear, modificar y borrar datos](#Tema_04_CRUD)
-5. [Configurando propiedades de entidades y BDD (avanzado)](#Tema_05_Propiedades)
-6. [Configurando relaciones](#Tema_06_Configurando_Relaciones)
-7. [Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)
-8. [El DbContext](#Tema_08_DbContext)
-9. [Entity Framework avanzado](#Tema_09_EF_Avanzado)
-10. [Entity Framework y pruebas automáticas](#Tema_10_Pruebas_Automaticas)
-11. [Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)
+2. **[Modelado de base de datos](#Tema_02_Modelado_BDD)**
+   1. [Migraciones](#Tema_02_Modelado_Migraciones)
+   2. [Creando el proyecto](#Tema_02_Modelado_Creacion)
+   3. [Llaves primarias](#Tema_02_Modelado_Llaves_Primarias)
+   4. [Longitud máxima de campos](#Tema_02_Modelado_Longitud_Campos)
+   5. [Cambiando nombres y esquema de tablas y columnas](#Tema_02_Modelado_Nombres_Esquema)
+   6. [Creando la entidad Actor: Mapeo de DateTime a Date](#Tema_02_Modelado_MapeoDateTimeDate)
+   7. [Otras propiedades interesantes](#Tema_02_Modelado_OtrasPropiedades)
+   8. [Creando entidades](#Tema_02_Modelado_CreandoEntidades)
+   9. [Creando relaciones](#Tema_02_Modelado_CreandoRelaciones)
+   10. [Configurando convenciones reutilizables](#Tema_02_Modelado_ConfigurandoConvenciones)
+   11. [Organizando OnModelCreating para organizar el código](#Tema_02_Modelado_OrganizandoOnModelCreating)
+3. **[Consultando la base de datos](#Tema_03_Consultanto)**
+   1. [Migraciones](#Tema_03_Consultanto_Migraciones)
+   2. [Creando el proyecto](#Tema_03_Consultanto_Creacion)
+   3. [Inserción de datos con Data Seeding](#Tema_03_Consultanto_DataSeeding) 
+   4. [Queries más rápidas con ```AsNoTracking```](#Tema_03_Consultanto_AsNoTracking) 
+   5. [Obtener el primer registro con ```First``` y ```FirstOrDefault```](#Tema_03_Consultanto_First) 
+   6. [Obtener elementos filtrados con ```Where```](#Tema_03_Consultanto_Where) 
+   7. [Ordenación con ```OrderBy``` y ```OrderByDescending```](#Tema_03_Consultanto_Order) 
+   8. [Paginando con ```Skip``` y ```Take```](#Tema_03_Consultanto_Paginacion) 
+   9. [Seleccionar columnas con ```Select```](#Tema_03_Consultanto_Select) 
+   10. [Seleccionar columnas con ```Select``` o con Automapper](#Tema_03_Consultanto_Select) 
+   11. [Consulta de datos Espaciales - Point (longitud, latitud)](#Tema_03_Consultanto_Point) 
+   12. [Agrupar con ```GroupBy```](#Tema_03_Consultanto_GroupBy) 
+   13. [Eager Loading - ```Include``` y ```ThenInclude```: cargando datos relacionados](#Tema_03_Consultanto_Eager) 
+   14. [Select Loading - Cargado selectivo](#Tema_03_Consultanto_Select) 
+   15. [Explicit loading - Carga explícita](#Tema_03_Consultanto_Explicit) 
+   16. [Lazy loading - Carga perezosa](#Tema_03_Consultanto_Lazy) 
+   17. [Ejecución diferida (AsQueryAble): Filtros dinámicos](#Tema_03_Consultanto_Diferida)
+4. **[Crear, modificar y borrar datos](#Tema_04_CRUD)**
+   1. [Migraciones](#Tema_04_Crud_Migraciones)
+   2. [Creando el proyecto](#Tema_04_Crud_Creacion)
+   3. [Modelo Conectado y Modelo Desconectado - Estatus](#Tema_04_Crud_Modelo) 
+   4. [Insertar registros de manera individual](#Tema_04_Crud_Insertar_Individual) 
+   5. [Insertar registros de manera múltiple](#Tema_04_Crud_Insertar_Multiple) 
+   6. [Insertar registros con datos relacionados inexistentes](#Tema_04_Crud_Insertar_Relacionado) 
+   7. [Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado)](#Tema_04_Crud_Insertar_Relacionado_Dto) 
+   8. [Insertar registros con datos relacionados existentes](#Tema_04_Crud_Insertar_Relacionado_Inexistente) 
+   9. [Mapeo flexible de campos en vez de propiedades (HasField)](#Tema_04_Crud_Mapeo_Flexible) 
+   10. [Actualizando registros - modelo conectado](#Tema_04_Crud_Modelo_Conectado) 
+   11. [Actualizando registros - modelo desconectado](#Tema_04_Crud_Modelo_Desconectado) 
+   12. [Borrado normal o físico](#Tema_04_Crud_Borrado_Normal) 
+   13. [Borrado suave o lógico](#Tema_04_Crud_Borrado_Suave) 
+   14. [Filtros al nivel del modelo (añadir e ignorar)](#Tema_04_Crud_Filtro) 
+5. **[Configurando propiedades de entidades y BDD (avanzado)](#Tema_05_Propiedades)**
+   1. [Migraciones](#Tema_05_Propiedades_Migraciones)
+   2. [Creando el proyecto](#Tema_05_Propiedades_Creacion)
+   3. [Modos de configuración](#Tema_05_Propiedades_Modos)
+   4. [Llaves primarias](#Tema_05_PropiedadesLlaves_primarias)   
+   5. [Ignorando propiedades y clases para no trasladarlas a BDD](#Tema_05_Ignorando_Propiedades_Clases)
+   6. [Índices e índices con filtros (índice parcial)](#Tema_05_Propiedades_Indices)
+   7. [HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción](#Tema_05_Propiedades_HasConversion)
+   8. [HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado](#Tema_05_Propiedades_HasConversion_Personalizado)
+   9. [Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**)](#Tema_05_Propiedades_Keyless_SQL)
+   10. [Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**)](#Tema_05_Propiedades_Keyless)
+   11. [Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades](#Tema_05_Propiedades_Shadow)
+   12. [Configuración masiva de propiedades mediante automaticación de Fluent API](#Tema_05_Propiedades_Configuracion)
+6. **[Configurando relaciones](#Tema_06_Configurando_Relaciones)**
+   1. [Migraciones](#Tema_06_Relaciones_Migraciones)
+   2. [Creando el proyecto](#Tema_06_Relaciones_Creacion)
+   3. [Conceptos básicos ](#Tema_06_Relaciones_Basico)
+   4. [Relaciones por convención](#Tema_06_Relaciones_Convencion)
+   5. [Relaciones requeridas y opcionales en la llave foránea](#Tema_06_Relaciones_Requeridas_Opcionales)
+   6. [Relaciones con anotaciones de datos: llaves foráneas explícitas con [ForeignKey]](#Tema_06_Relaciones_Foreign)
+   7. [Relaciones con anotaciones: dos propiedades de navegación a la mista entidad con [InverseProperty]](#Tema_06_Relaciones_InverseProperty)
+   8. [Relación 1 a 1 con Fluent API](#Tema_06_Relaciones_1_1)
+   9. [Relación 1 a N con Fluent API](#Tema_06_Relaciones_1_N)
+   10. [Relación N a N con Fluent API con clase intermedia](#Tema_06_Relaciones_N_N)
+   11. [Relación N a N con Fluent API sin clase intermedia (skip navigation)](#Tema_06_Relaciones_N_N_sin_intermedia)
+   12. [Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?](#Tema_06_Relaciones_Borrado)
+   13. [División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios)](#Tema_06_Relaciones_Division_Tabla)
+   14. [División de una tabla mediante entidades de propiedad (reutilización de entidades secundarias [Owned])](#Tema_06_Relaciones_Entidad_Propiedad)
+   15. [Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH)](#Tema_06_Relaciones_Herencia_TPH_)
+   16. [Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT)](#Tema_06_Relaciones_Herencia_TPT_)
+7. **[Comandos y migraciones](#Tema_07_Comandos_Y_Migraciones)**
+   1. [Migraciones](#Tema_07_Comandos_Y_Migraciones_Migraciones)
+   2. [Creando el proyecto](#Tema_07_Comandos_Y_Migraciones_Creacion)
+   3. [Comando Get-Help](#Tema_07_Comandos_Y_Migraciones_GetHelp)
+   4. [Comando Add-Migration](#Tema_07_Comandos_Y_Migraciones_Add-Migration)
+   5. [Comando Update-Database](#Tema_07_Comandos_Y_Migraciones_Update-Database)
+   6. [Comando Remove-Migration](#Tema_07_Comandos_Y_Migraciones_Remove-Migration)
+   7. [Comando Get-Migration](#Tema_07_Comandos_Y_Migraciones_Get-Migration)
+   8. [Comando Drop-Database](#Tema_07_Comandos_Y_Migraciones_Drop-Database)
+   9. [Modificando las migraciones manualmente](#Tema_07_Comandos_Y_Migraciones_Modificacion_Manual)
+   10. [Despliegue: Migration bundles o empaquetado de migraciones en ejecutables ](#Tema_07_Comandos_Y_Migraciones_Bundles)
+   11. [Despliegue: Comando Script-Migration para general un script SQL](#Tema_07_Comandos_Y_Migraciones_Script-Migration)
+   12. [Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C#](#Tema_07_Comandos_Y_Migraciones_C)
+   13. [Mejora del rendimiento: Modelos compilados con el comando Optimize](#Tema_07_Comandos_Y_Migraciones_Modelos_Compilados_)
+   14. [Base de Datos Primero (Database first) - Scaffold-DbContext](#Tema_07_Comandos_Y_Migraciones_DBFirst_)
+8. **[El DbContext](#Tema_08_DbContext)**
+   1. [Migraciones](#Tema_08_DbContext_Migraciones)
+   2. [Creando el proyecto](#Tema_08_DbContext_Creacion)
+   3. [Principales propiedades del DbContext](#Tema_08_DbContext_Propiedades)
+   4. [Configuración alternativa de DBContext: OnConfiguring](#Tema_08_DbContext_OnConfiguring)
+   5. [Cambiando el estatus de una entidad con Entry](#Tema_08_DbContext_Estatus)
+   6. [Actualizando algunas propiedades](#Tema_08_DbContext_Actualizar_Propiedades)
+   7. [Sobrescribir SaveChanges](#Tema_08_DbContext_Sobrescribir_SaveChanges)
+   8. [Inyección de dependencias por constructor en DbContext](#Tema_08_DbContext_Iny_Dependencias)
+   9. [Eventos que se pueden capturar en el DBContext](#Tema_08_DbContext_Eventos)
+   10. [Sentencias SQL - Select](#Tema_08_DbContext_SQL_Select)
+   11. [Sentencias SQL - Inserts, updates, deletes](#Tema_08_DbContext_SQL_CRUD)
+   12. [Sentencias SQL - ToSqlQuery() - Centralizando queries Arbitrarios](#Tema_08_DbContext_SQL_ToSqlQuery)
+   13. [Uso de procedimientos almacenados](#Tema_08_DbContext_SQL_SP)
+   14. [Transacciones por defecto](#Tema_08_DbContext_Transacciones_por_defecto)
+   15. [Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges](#Tema_08_DbContext_Transacciones_Manuales)
+9. **[Entity Framework avanzado](#Tema_09_EF_Avanzado)**
+   1. [Migraciones](#Tema_09_EF_Avanzado__Migraciones)
+   2. [Creando el proyecto](#Tema_09_EF_Avanzado_Creacion)
+   3. [Funciones escalares](#Tema_09_EF_Avanzado_Funciones_Escalares)
+   4. [Funciones con valores de tabla](#Tema_09_EF_Avanzado_Funciones_Tabla)
+   5. [Columnas calculadas (HasComputedColumnSql)](#Tema_09_EF_Avanzado_Columnas_Calculadas)
+   6. [Campo de secuencia para ordenaciones (HasSequence)](#Tema_09_EF_Avanzado_Campo_Secuencia)
+   7. [Conflictos de concurrencia por campo ([ConcurrencyCheck])](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Campo)
+   8. [Conflictos de concurrencia por fila ([Timestamp])](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Fila)
+   9. [Conflictos de concurrencia, mensajes de respuesta amigables capturando DbUpdateConcurrencyException](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Mensajes_Amigables)
+   10. [Conflictos de concurrencia con el modelo desconectado](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Desconectado)
+   11. [Tablas temporales (vigentes + histórico): introducción](#Tema_09_EF_Avanzado_Tablas_Intro)
+   12. [Tablas temporales: inserción, edición, borrado](#Tema_09_EF_Avanzado_Tablas_CRUD)
+   13. [Tablas temporales: consulta de tabla temporal e histórica (TemporalAll)](#Tema_09_EF_Avanzado_Tablas_TemporalAsOf)
+   14. [Tablas temporales: consulta por fecha concreta (TemporalAsOf())](#Tema_09_EF_Avanzado_Tablas_TemporalAsOf)
+   15. [Tablas temporales: consulta por rangos de fechas (TemporalFromTo(), TemporalContainedIn(), TemporalBetween()](#Tema_09_EF_Avanzado_Tablas_Temporal__Rangos)
+   16. [Tablas temporales: restaurando un registro borrado](#Tema_09_EF_Avanzado_Tablas_Temporal_Borrado)
+   17. [Tablas temporales: personalización de nombre de columnas y de tabla](#Tema_09_EF_Avanzado_Tablas_Temporal_Personalizacion)
+   18. [Trabajando con el DbContext en otro proyecto](#Tema_09_EF_Avanzado_Tablas_Temporal_DbContext)
+10. **[Entity Framework y pruebas automáticas](#Tema_10_Pruebas_Automaticas)**
+11. **[Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)**
 
 # Toma de contacto  🚀 <a name="Toma_Contacto"></a>
 
@@ -77,7 +194,7 @@ Las tablas intermedias, son las siguientes:
 
 # MÓDULO 01. Introducción a Entity Framework <a name="Tema_01_Intro"></a>
 **Objetivo:** creación y configuración de una base de datos.
-**Principales características:**
+**Principales características del módulo:**
 * Code First: a partir de C#, se crea la BDD.
 * Database First: ya existe la BDD.
 
@@ -134,7 +251,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
 
 # MÓDULO 02. Modelado de base de datos <a name="Tema_02_Modelado_BDD"></a>
 **Objetivo:** creación y configuración de una base de datos a través de Code First y migraciones. Exceptuando las migraciones, el resto vale para Database first).
-**Principales características:**
+**Principales características del módulo:**
 * Creación de la BDD de la que se basará el resto de ejemplos a través de entidades cine, película, actor, etc, de c# (code first).
 * Creación de llaves primarias, tanto por convención como por configuración.
 * Campos de texto: longitud máxima de los campos, que no sean nulos y tipo de dato de la columna.
@@ -147,6 +264,19 @@ Toma de contacto con EF y una aplicación ASP MVC.
   * Por Fluent API del ```DBContext``` (método ```OnModelCreating```).
   * Configurando convenciones reutilizables: por ejemplo, si queremos que un ```DateTime``` de c# se mapee siempre a ```date``` de SQL.
 * Utilización de **IEntityTypeConfiguration** para separar en clases las configuraciones de Fluent API.
+
+## Índice:
+1. [Migraciones](#Tema_02_Modelado_Migraciones)
+2. [Creando el proyecto](#Tema_02_Modelado_Creacion)
+3. [Llaves primarias](#Tema_02_Modelado_Llaves_Primarias)
+4. [Longitud máxima de campos](#Tema_02_Modelado_Longitud_Campos)
+5. [Cambiando nombres y esquema de tablas y columnas](#Tema_02_Modelado_Nombres_Esquema)
+6. [Creando la entidad Actor: Mapeo de DateTime a Date](#Tema_02_Modelado_MapeoDateTimeDate)
+7. [Otras propiedades interesantes](#Tema_02_Modelado_OtrasPropiedades)
+8. [Creando entidades](#Tema_02_Modelado_CreandoEntidades)
+9. [Creando relaciones](#Tema_02_Modelado_CreandoRelaciones)
+10. [Configurando convenciones reutilizables](#Tema_02_Modelado_ConfigurandoConvenciones)
+11. [Organizando OnModelCreating para organizar el código](#Tema_02_Modelado_OrganizandoOnModelCreating)
 ---
 
 ## 2.0 Migraciones ⚙️ <a name="Tema_02_Modelado_Migraciones"></a>
@@ -256,22 +386,24 @@ Toma de contacto con EF y una aplicación ASP MVC.
 
 # MÓDULO 03. Consultando datos <a name="Tema_03_Consultanto"></a>
 **Objetivo:** creación de métodos de consulta.
-**Principales características:**.
-* Inserción de datos con Data Seeding.
-* Queries más rápidas con ```AsNoTracking```.
-* Obtener el primer registro con ```First``` y ```FirstOrDefault```.
-* Filtros con ```Where```.
-* Ordenación con ```OrderBy``` y ```OrderByDescending```.
-* Paginando con ```Skip``` y ```Take```.
-* Seleccionar columnas con ```Select``` o con Automapper.
-* Consulta de datos Espaciales (longitud, latitud).
-* Automapper: ```ProjectTo```.
-* Agrupar con ```GroupBy```. 
-* Eager Loading - ```Include``` y ```ThenInclude```: cargando datos relacionados.
-* Select Loading - Cargado selectivo.
-* Explicit loading - Carga Explícita.
-* Lazy Loading - Carga perezosa.
-* Ejecución diferida (AsQueryAble): Filtros dinámicos.
+**Principales características del módulo:**.
+1. [Migraciones](#Tema_03_Consultanto_Migraciones)
+2. [Creando el proyecto](#Tema_03_Consultanto_Creacion)
+3. [Inserción de datos con Data Seeding](#Tema_03_Consultanto_DataSeeding) 
+4. [Queries más rápidas con ```AsNoTracking```](#Tema_03_Consultanto_AsNoTracking) 
+5. [Obtener el primer registro con ```First``` y ```FirstOrDefault```](#Tema_03_Consultanto_First) 
+6. [Obtener elementos filtrados con ```Where```](#Tema_03_Consultanto_Where) 
+7. [Ordenación con ```OrderBy``` y ```OrderByDescending```](#Tema_03_Consultanto_Order) 
+8. [Paginando con ```Skip``` y ```Take```](#Tema_03_Consultanto_Paginacion) 
+9. [Seleccionar columnas con ```Select```](#Tema_03_Consultanto_Select) 
+10. [Seleccionar columnas con ```Select``` o con Automapper](#Tema_03_Consultanto_Select) 
+11. [Consulta de datos Espaciales - Point (longitud, latitud)](#Tema_03_Consultanto_Point) 
+12. [Agrupar con ```GroupBy```](#Tema_03_Consultanto_GroupBy) 
+13. [Eager Loading - ```Include``` y ```ThenInclude```: cargando datos relacionados](#Tema_03_Consultanto_Eager) 
+14. [Select Loading - Cargado selectivo](#Tema_03_Consultanto_Select) 
+15. [Explicit loading - Carga explícita](#Tema_03_Consultanto_Explicit) 
+16. [Lazy loading - Carga perezosa](#Tema_03_Consultanto_Lazy) 
+17. [Ejecución diferida (AsQueryAble): Filtros dinámicos](#Tema_03_Consultanto_Diferida)
 ---
 
 ## 3.0 Migraciones ⚙️ <a name="Tema_03_Consultanto_Migraciones"></a>
@@ -385,19 +517,21 @@ Toma de contacto con EF y una aplicación ASP MVC.
 
 # MÓDULO 04. Crear, modificar y borrar datos <a name="Tema_04_CRUD"></a>
 **Objetivo:** manejo de datos, creación, modificación y eliminación de los datos.
-**Principales características:**
-* Modelo conectado y modelo desconectado - estatus.
-* Insertar registros de manera individual.
-* Insertar registros de manera múltiple.
-* Insertar registros con datos relacionados inexistentes.
-* Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado).
-* Insertar registros con datos relacionados existentes.
-* Mapeo flexible de campos en vez de propiedades (HasField).
-* Actualizando registros - modelo conectado.
-* Actualizando registros - modelo desconectado.
-* Borrado normal o físico.
-* Borrado suave o lógico.
-* Filtros al nivel del modelo (añadir e ignorar).
+**Principales características del módulo:**
+1. [Migraciones](#Tema_04_Crud_Migraciones)
+2. [Creando el proyecto](#Tema_04_Crud_Creacion)
+3. [Modelo Conectado y Modelo Desconectado - Estatus](#Tema_04_Crud_Modelo) 
+4. [Insertar registros de manera individual](#Tema_04_Crud_Insertar_Individual) 
+5. [Insertar registros de manera múltiple](#Tema_04_Crud_Insertar_Multiple) 
+6. [Insertar registros con datos relacionados inexistentes](#Tema_04_Crud_Insertar_Relacionado) 
+7. [Insertar registros con datos relacionados inexistentes a través de un DTO (recomendado)](#Tema_04_Crud_Insertar_Relacionado_Dto) 
+8. [Insertar registros con datos relacionados existentes](#Tema_04_Crud_Insertar_Relacionado_Inexistente) 
+9. [Mapeo flexible de campos en vez de propiedades (HasField)](#Tema_04_Crud_Mapeo_Flexible) 
+10. [Actualizando registros - modelo conectado](#Tema_04_Crud_Modelo_Conectado) 
+11. [Actualizando registros - modelo desconectado](#Tema_04_Crud_Modelo_Desconectado) 
+12. [Borrado normal o físico](#Tema_04_Crud_Borrado_Normal) 
+13. [Borrado suave o lógico](#Tema_04_Crud_Borrado_Suave) 
+14. [Filtros al nivel del modelo (añadir e ignorar)](#Tema_04_Crud_Filtro) 
 ---
 
 ## 4.0 Migraciones ⚙️ <a name="Tema_04_Crud_Migraciones"></a>
@@ -572,17 +706,19 @@ Toma de contacto con EF y una aplicación ASP MVC.
 
 # MÓDULO 05. Configurando propiedades de entidades y BDD (avanzado) <a name="Tema_05_Propiedades"></a>
 **Objetivo:** ahondar más en el manejo de las propiedades.
-**Principales características:**
-* Modos de configuración.
-* Llaves primarias.
-* Ignorando propiedades y clases para no trasladarlas a BDD.
-* Índices e índices con filtros (índice parcial).
-* HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción.
-* HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado.
-* Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**).
-* Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**).
-* Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades.
-* Configuración masiva de propiedades mediante automaticación de Fluent API.
+**Principales características del módulo:**
+1. [Migraciones](#Tema_05_Propiedades_Migraciones)
+2. [Creando el proyecto](#Tema_05_Propiedades_Creacion)
+3. [Modos de configuración](#Tema_05_Propiedades_Modos)
+4. [Llaves primarias](#Tema_05_PropiedadesLlaves_primarias)   
+5. [Ignorando propiedades y clases para no trasladarlas a BDD](#Tema_05_Ignorando_Propiedades_Clases)
+6. [Índices e índices con filtros (índice parcial)](#Tema_05_Propiedades_Indices)
+7. [HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción](#Tema_05_Propiedades_HasConversion)
+8. [HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado](#Tema_05_Propiedades_HasConversion_Personalizado)
+9. [Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**)](#Tema_05_Propiedades_Keyless_SQL)
+10. [Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**)](#Tema_05_Propiedades_Keyless)
+11. [Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades](#Tema_05_Propiedades_Shadow)
+12. [Configuración masiva de propiedades mediante automaticación de Fluent API](#Tema_05_Propiedades_Configuracion)
 
 ## 5.0 Migraciones ⚙️ <a name="Tema_05_Propiedades_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -619,7 +755,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
     * Modo 2: a través del fluent API ```modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever()```. Revisar ```ApplicationDbContext.cs```.* 
     * En este caso, se deberá generar de manera manual, aunque no es recomendable.
 
-## 5.4 Ignorando propiedades y clases para no trasladarlas a BDD <a name="Tema_05_Ignorando Propiedades y Clases"></a>
+## 5.4 Ignorando propiedades y clases para no trasladarlas a BDD <a name="Tema_05_Ignorando_Propiedades_Clases"></a>
 * Por defecto en EF, cualquier clase o propiedad se mapea en alguna columna de la tabla correspondiente.
 * En alguna circunstancia, puede que este comportamiento no interese.
 * Se pueden ignorar campos o clases enteras:
@@ -638,7 +774,7 @@ Toma de contacto con EF y una aplicación ASP MVC.
       * Modo 1: a través del atributo ```[NotMapped]```. Revisar ```Direccion.cs```.
       * Modo 2: a través del fluent API ```modelBuilder.Ignore<Direccion>()```. Revisar ```ApplicationDbContext.cs```.* 
 
-## 5.5 Índices e índices con filtros (índice parcial) <a name="Tema_05_Propiedades Indices"></a>
+## 5.5 Índices e índices con filtros (índice parcial) <a name="Tema_05_Propiedades_Indices"></a>
 * **Índices únicos**:
     * Podemos configurar **índices únicos** en nuestras tablas para aumentar la velocidad de ciertas consultas.
     * Recomendable cuando no es viable hacer un full scan o búsquedas completas cada vez que se haga una query.*
@@ -671,7 +807,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNOR
 GO
 ```
 
-## 5.6 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción <a name="Tema_05_Propiedades HasConversion"></a>
+## 5.6 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Introducción <a name="Tema_05_Propiedades_HasConversion"></a>
 * Se pueden realizar transformaciones de datos en ambos sentidos:
   * De BDD a EF.
   * De EF a BDD.
@@ -681,7 +817,7 @@ GO
 * Se puede comprobar con **Swagger** que cuando se está leyendo el valor de BDD, lo transforma a un enum:
   * Lanzar el método /api/cines/{id}
 
-## 5.7 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado <a name="Tema_05_Propiedades HasConversion_Personalizado"></a>
+## 5.7 HasConversion, conversiones de datos especiales (EF - BDD - EF) - Personalizado <a name="Tema_05_Propiedades_HasConversion_Personalizado"></a>
 * Se pueden realizar conversiones personalizadas, y no solamente a string.
 * Un ejemplo puede ser el campo moneda, que en EF. Por ejemplo, de ```€``` al enum ```Moneda.Euro = 3```.
 * Clase ```MonedaASimboloConverter```:
@@ -694,7 +830,7 @@ GO
   * Cuando se está leyendo el valor de BDD, lo transforma a un enum: lanzar el método /api/cines/Post
   * En BDD guarda en la tabla **[SalasDeCine]** los valores correspondientes a "RD$", "$" y "€".
 
-## 5.8 Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**) <a name="Tema_05_Propiedades Keyless_SQL"></a>
+## 5.8 Keyless (entidades sin Llave), ejecución de sentencias SQL (**ToSqlQuery**) <a name="Tema_05_Propiedades_Keyless_SQL"></a>
 * Hasta este momento todas las entidades tenían una llave primaria, ya sea unitaria o compuesta. EF exige normalmente una llave primaria para trabajar.
 * Se pueden configurar entidades para que trabajen sin llaves. En el pasado se llamaban **Modelos de query**.
 * Algunas ventajas que tiene son:
@@ -712,7 +848,7 @@ GO
     * Generar un DBSet de ```DbSet<CineSinUbicacion>```.
 * Se puede comprobar con **Swagger** a través del método /api/cines/SinUbicacion de ```CinesController```
 
-## 5.9 Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**) <a name="Tema_05_Propiedades Keyless"></a>
+## 5.9 Keyless (entidades sin Llave), ejecución de vistas de SQL (**ToView**) <a name="Tema_05_Propiedades_Keyless"></a>
 * Además de sentencias SQL, se pueden ejecutar directamente vistas de SQL.
 * La vista, se puede o bien crear en BDD o bien hacerlo a través de una migración si se realiza con Code First. 
 * En el ejemplo se ha creado la migración ```VistaConteoPeliculas```, la cual genera la vista SQL ```[PeliculasConConteos]```.
@@ -725,7 +861,7 @@ GO
     * Generar un DBSet de ```DbSet<PeliculaConConteos>```.
 * Se puede comprobar con **Swagger** a través del método /api/peliculas/PeliculasConConteos de ```PeliculasController```
 
-## 5.10 Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades. <a name="Tema_05_Propiedades Shadow"></a>
+## 5.10 Shadow properties, propiedades Sombra, cómo manejar datos que no están en entidades. <a name="Tema_05_Propiedades_Shadow"></a>
 * Permiten acceder a columnas que no se encuentran presentes en las entidades de c#, pero sí en BDD. Esto es útil cuando no queremos ver expuestos datos en las entidades, y que no añada complejidad extra al modelo.
 * Ejemplo: fecha de creación en género:
   * Se realiza a través del Fluent API.
@@ -743,7 +879,7 @@ GO
 ```   
   * Lectura: lanzar método /api/generos/Get{id:int} de ```GenerosController```.
 
-## 5.11 Configuración masiva de propiedades mediante automaticación de Fluent API <a name="Tema_05_Propiedades Configuracion"></a>
+## 5.11 Configuración masiva de propiedades mediante automaticación de Fluent API <a name="Tema_05_Propiedades_Configuracion"></a>
 * Permiten realizar convenciones masivas en base al nombre de una propiedad.
 * Por ejemplo, si queremos configurar:
   * Cualquier propiedad del tipo string y cuyo nombre contiente "URL".
@@ -758,21 +894,23 @@ GO
 
 # MÓDULO 06. Configurando relaciones <a name="Tema_06_Relaciones"></a>
 **Objetivo:** ahondar más en el manejo de las propiedades.
-**Principales características:**
-* Conceptos básicos.
-* Relaciones por convención.
-* Relaciones requeridas y opcionales en la llave foránea.
-* Relaciones con anotaciones: llaves foráneas explícitas con [ForeignKey].
-* Relaciones con anotaciones: dos propiedades de navegación a la mista entidad con [InverseProperty].
-* Relación 1 a 1 con Fluent API.
-* Relación 1 a N con Fluent API.
-* Relación 1 a 1 con Fluent API - Con clase intermedia.
-* Relación N a N con Fluent API - Sin clase intermedia (skip navigation).
-* Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?
-* División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios).
-* División de una tabla (Table Splitting) mediante entidades de propiedad (reutilización de entidades secundarias [Owned]).
-* Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH).
-* Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT).
+**Principales características del módulo:**
+1. [Migraciones](#Tema_06_Relaciones_Migraciones)
+2. [Creando el proyecto](#Tema_06_Relaciones_Creacion)
+3. [Conceptos básicos ](#Tema_06_Relaciones_Basico)
+4. [Relaciones por convención](#Tema_06_Relaciones_Convencion)
+5. [Relaciones requeridas y opcionales en la llave foránea](#Tema_06_Relaciones_Requeridas_Opcionales)
+6. [Relaciones con anotaciones de datos: llaves foráneas explícitas con [ForeignKey]](#Tema_06_Relaciones_Foreign)
+7. [Relaciones con anotaciones: dos propiedades de navegación a la mista entidad con [InverseProperty]](#Tema_06_Relaciones_InverseProperty)
+8. [Relación 1 a 1 con Fluent API](#Tema_06_Relaciones_1_1)
+9. [Relación 1 a N con Fluent API](#Tema_06_Relaciones_1_N)
+10. [Relación N a N con Fluent API con clase intermedia](#Tema_06_Relaciones_N_N)
+11. [Relación N a N con Fluent API sin clase intermedia (skip navigation)](#Tema_06_Relaciones_N_N_sin_intermedia)
+12. [Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?](#Tema_06_Relaciones_Borrado)
+13. [División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios)](#Tema_06_Relaciones_Division_Tabla)
+14. [División de una tabla mediante entidades de propiedad (reutilización de entidades secundarias [Owned])](#Tema_06_Relaciones_Entidad_Propiedad)
+15. [Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH)](#Tema_06_Relaciones_Herencia_TPH_)
+16. [Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT)](#Tema_06_Relaciones_Herencia_TPT_)
 
 ## 6.0 Migraciones ⚙️ <a name="Tema_06_Relaciones_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -865,33 +1003,33 @@ GO
 * Se puede comprobar con **Swagger**:
   * Get: retornar los mensajes a través del método /api/personas/Get de ```PersonasController```.
 
-## 6.6 Relación 1 a 1 con Fluent API<a name="Tema_06_Relaciones_1_1"></a>
+## 6.7 Relación 1 a 1 con Fluent API<a name="Tema_06_Relaciones_1_1"></a>
 * Fluent API Es la herramienta más potente para realizar relaciones.
 * 1 Cine tiene 1 oferta:
   * Revisar ```CineConfig```
     * ```HasOne()```: 1 Cine tiene 1 CineOferta
     * ```WithOne()```: 1 CineOferta tiene 1 Cine
 
-## 6.7 Relación 1 a N con Fluent API<a name="Tema_06_Relaciones_1_N"></a>
+## 6.8 Relación 1 a N con Fluent API<a name="Tema_06_Relaciones_1_N"></a>
 * Normalmente con la configuración por convención suele ser necesario para este caso.
 * 1 Cine tiene N salas de cine:
   * Revisar ```CineConfig```
     * ```HasMany()```: 1 Cine tiene N SalaDeCine
     * ```WithOne()```: 1 CineOferta tiene 1 Cine
 
-## 6.8 Relación N a N con Fluent API con clase intermedia<a name="Tema_06_Relaciones_N_N"></a>
+## 6.9 Relación N a N con Fluent API con clase intermedia<a name="Tema_06_Relaciones_N_N"></a>
 * El ejemplo se va a hacer con una clase intermedia personalizada.
 * 1 Pelicula tiene N Actores y 1 Actor está en N Películas:
   * Revisar ```PeliculaActorConfig```
     * ```HasOne()``` y ``WithMany()``` para ambas propiedades (Actores y Peliculas)
 
-## 6.9 Relación N a N con Fluent API sin clase intermedia (skip navigation)<a name="Tema_06_Relaciones_N_N_sin_intermedia"></a>
+## 6.10 Relación N a N con Fluent API sin clase intermedia (skip navigation)<a name="Tema_06_Relaciones_N_N_sin_intermedia"></a>
 * Oficialmente su nombre es ```skip navigation```, porque se salta la entidad intermedia de navegación.
 * 1 Pelicula tiene N Generos y 1 Genero tiene N Películas:
   * Revisar ```PeliculaConfig```
     * ```HasMany()``` y ``WithMany()```.
 
-## 6.10 Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?<a name="Tema_06_Relaciones_Borrado"></a>
+## 6.11 Relaciones y borrado, Fluent API y OnDelete: ¿Qué Ocurre al borrar?<a name="Tema_06_Relaciones_Borrado"></a>
 * ¿Qué ocurre entre la entidad principal ```Cine``` y ```SalaDeCine()``` cuando se elimina la primera?
 * OnDelete permite configurar la siguientes opciones:
   * **Cascade**: 
@@ -923,7 +1061,7 @@ GO
         * ```DeleteConRestrict```: primero elimina los hijos para posteriormente eliminar el padre.
         * ```DeleteSinRestrict```: debido a la configuración **Restrict**, actualmente provocará un fallo.
 
-## 6.11 División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios)<a name="Tema_06_Relaciones_Division_Tabla"></a>
+## 6.12 División de una tabla (Table Splitting) en más de una entidad (datos principales y secundarios)<a name="Tema_06_Relaciones_Division_Tabla"></a>
 * A veces es una buena idea crear más de una entidad para dividir los datos esenciales con los que normalmente se trabaja de otros secundarios.
 * La tabla realmente será 1, pero se dividirá en entidades con subconjuntos de datos.
 * Por ejemplo, si la tabla **[Cines]** tiene datos secundarios como: ```Historia, Valores, Misiones, CodigoDeEtica```, los cuales normalmente no van a ser necesario.
@@ -945,7 +1083,7 @@ GO
   * postCineSinDetalle
   * postCineConDetalle
 
-## 6.12 División de una tabla mediante entidades de propiedad (reutilización de entidades secundarias [Owned])<a name="Tema_06_Relaciones_Entidad_Propiedad"></a>
+## 6.13 División de una tabla mediante entidades de propiedad (reutilización de entidades secundarias [Owned])<a name="Tema_06_Relaciones_Entidad_Propiedad"></a>
 * Similar a la división de una tabla (Table Splitting), la división mediante entidades de propiedad permite reutilizar entidades secundarias.
 * La principales diferencias con el anterior puntos son:
   * En las entidades de propiedad, la entidad dependiente puede ser utilizada en muchas otras entidades, por ejemplo ```Direccion```.
@@ -969,7 +1107,7 @@ GO
 * Se puede comprobar con **Swagger**, en ```CinesController```, mediante:
   * Método ```/api/cines/{id}```: la query generada devuelve los campos de dirección: ```[t0].[Calle], [t0].[Pais], [t0].[Provincia]```.
 
-## 6.12 Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH) <a name="Tema_06_Relaciones_Herencia_TPH_"></a>
+## 6.14 Herencia de clases - una sola tabla por jerarquía (Table per Hierarchy - TPH) <a name="Tema_06_Relaciones_Herencia_TPH_"></a>
 * Las entidades pueden relacionarse utilizando el mecanismo de herencia.
 * Queremos manejar clases diferentes, con sus propios datos, pero que van a ir a la misma tabla.
 * Por ejemplo:
@@ -997,7 +1135,7 @@ GO
       * Pagos mediante tarjeta: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
       * Pagos mediante paypal: ```return await context.Pagos.OfType<PagoTarjeta>().ToListAsync();```
 
-## 6.13 Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT) <a name="Tema_06_Relaciones_Herencia_TPT_"></a>
+## 6.15 Herencia de clases - una sola tabla por cada tipo (Table per Type - TPT) <a name="Tema_06_Relaciones_Herencia_TPT_"></a>
 * A diferencia de la Herencia de clases - TPH, se crea una tabla por cada una de las clases involucradas en la relación.
 * Es útil si las clases derivadas tienen demasiados datos diferentes y por tanto una sola tabla tendría demasiadas columnas.
 * Por ejemplo:
@@ -1024,19 +1162,21 @@ GO
 
 # MÓDULO 07. Comandos y migraciones <a name="Tema_07_Comandos_Y_Migraciones"></a>
 **Objetivo:** ahondar más en el manejo de comandos y migraciones, a través del **Package Manager Console**.
-**Principales características:**
-* Comando Get-Help.
-* Comando Add-Migration.
-* Comando Update-Database.
-* Comando Remove-Migration.
-* Comando Get-Migration.
-* Comando Drop-Database.
-* Modificando las migraciones manualmente.
-* Despliegue: Migration bundles o empaquetado de migraciones en ejecutables
-* Despliegue: Comando Script-Migration para general un script SQL
-* Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C#.
-* Mejora del rendimiento: Modelos compilados con el comando Optimize.
-* Base de Datos Primero (Database first) - Scaffold-DbContext.
+**Principales características del módulo:**
+1. [Migraciones](#Tema_07_Comandos_Y_Migraciones_Migraciones)
+2. [Creando el proyecto](#Tema_07_Comandos_Y_Migraciones_Creacion)
+3. [Comando Get-Help](#Tema_07_Comandos_Y_Migraciones_GetHelp)
+4. [Comando Add-Migration](#Tema_07_Comandos_Y_Migraciones_Add-Migration)
+5. [Comando Update-Database](#Tema_07_Comandos_Y_Migraciones_Update-Database)
+6. [Comando Remove-Migration](#Tema_07_Comandos_Y_Migraciones_Remove-Migration)
+7. [Comando Get-Migration](#Tema_07_Comandos_Y_Migraciones_Get-Migration)
+8. [Comando Drop-Database](#Tema_07_Comandos_Y_Migraciones_Drop-Database)
+9. [Modificando las migraciones manualmente](#Tema_07_Comandos_Y_Migraciones_Modificacion_Manual)
+10. [Despliegue: Migration bundles o empaquetado de migraciones en ejecutables ](#Tema_07_Comandos_Y_Migraciones_Bundles)
+11. [Despliegue: Comando Script-Migration para general un script SQL](#Tema_07_Comandos_Y_Migraciones_Script-Migration)
+12. [Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C#](#Tema_07_Comandos_Y_Migraciones_C)
+13. [Mejora del rendimiento: Modelos compilados con el comando Optimize](#Tema_07_Comandos_Y_Migraciones_Modelos_Compilados_)
+14. [Base de Datos Primero (Database first) - Scaffold-DbContext](#Tema_07_Comandos_Y_Migraciones_DBFirst_)
 
 ## 7.0 Migraciones ⚙️ <a name="Tema_07_Comandos_Y_Migraciones_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -1059,7 +1199,7 @@ GO
   * ```Get-Help Add-Migration -detailed```: información detallada.
   * ```Get-Help Add-Migration -full```: información detallada, quizás demasiado abrumadora.
 
-## 7.2 Comando Add-Migration <a name="Tema_07_Comandos_Y_Migraciones_Add-Migration"></a>
+## 7.3 Comando Add-Migration <a name="Tema_07_Comandos_Y_Migraciones_Add-Migration"></a>
 * ```Add-Migration```: permite agregar migraciones que por defecto.
 * Por defecto, las migraciones se generan en la carpeta "Migrations", aunque se puede cambiar la carpeta:
   * ```Add-Migration EjemploNuevaCarpeta -OutputDir Migraciones```
@@ -1067,14 +1207,14 @@ GO
   * ```Up```: se ejecuta cuando se aplica la migración en la base de datos.
   * ```Down```: se ejecuta si se necesita revertir la migración en la base de datos. Hace lo contrario al mñetodo ```Up```.
 
-## 7.3 Comando Update-Database <a name="Tema_07_Comandos_Y_Migraciones_Update-Database"></a>
+## 7.4 Comando Update-Database <a name="Tema_07_Comandos_Y_Migraciones_Update-Database"></a>
 * ```Update-Database```: recoge las migraciones y las aplica en la base de datos.
 * El orden de ejecución es cronológico.
 * Se puede indicar que actualice hasta una migración concreta:
   * ```Update-Database Primera```.
 * Se puede visualizar las migraciones realizadas en la tabla ```[_EFMigrationsHistory]```.
 
-## 7.4 Comando Remove-Migration <a name="Tema_07_Comandos_Y_Migraciones_Remove-Migration"></a>
+## 7.5 Comando Remove-Migration <a name="Tema_07_Comandos_Y_Migraciones_Remove-Migration"></a>
 * ```Remove-Migration```: podemos remover migraciones. Si no se indica nada más, remueve la migración más reciente.
 * Existen dos casuísticas:
   * Remover migraciones que no ha sido aplicada a la base de datos: es más sencilla.
@@ -1084,20 +1224,20 @@ GO
       * Remover una migración de forma total: ```Remove-Migration -Force```: ejecutará el método ```Down``` de la migración.
       * Remover una migración de forma parcial: añadir una nueva migración con ```Add-Migration``` que remueva el cambio.
 
-## 7.4 Comando Get-Migration <a name="Tema_07_Comandos_Y_Migraciones_Get-Migration"></a>
+## 7.6 Comando Get-Migration <a name="Tema_07_Comandos_Y_Migraciones_Get-Migration"></a>
 * ```Get-Migration```: podemos visualizar las migraciones, las ya aplicadas y las pendientes.
 
-## 7.5 Comando Drop-Database <a name="Tema_07_Comandos_Y_Migraciones_Drop-Database"></a>
+## 7.7 Comando Drop-Database <a name="Tema_07_Comandos_Y_Migraciones_Drop-Database"></a>
 * ```Drop-Database```: sirve para eliminar una base de datos.
 * Hay que tener mucho cuidado al utilizar este comando.
 
-## 7.6 Modificando las migraciones manualmente <a name="Tema_07_Comandos_Y_Migraciones_Modificacion_Manual"></a>
+## 7.8 Modificando las migraciones manualmente <a name="Tema_07_Comandos_Y_Migraciones_Modificacion_Manual"></a>
 * Las migraciones se pueden cambiar a nuestro antojo, aunque se deben realizar antes de aplicar la migración en la base de datos.
 * Por ejemplo:
   * Para colocar una vista en una migración (revisar la migración ```VistaConteoPeliculas```).
   * Para realizar delete con restrict (revisar la migración ```EjemploPersona```).
 
-## 7.7 Despliegue: Migration bundles o empaquetado de migraciones en ejecutables <a name="Tema_07_Comandos_Y_Migraciones_Bundles"></a>
+## 7.9 Despliegue: Migration bundles o empaquetado de migraciones en ejecutables <a name="Tema_07_Comandos_Y_Migraciones_Bundles"></a>
 * ¿Qué sucede si queremos aplicar las migraciones en un servidor que no tiene .Net instalado?
 * ¿Qué sucede si tenemos un proceso de entrega continua en el cual se deben automatizar los despliegues de las aplicaciones y bases de datos?
 * Con migration bundles se crea un ejecutable el cual se puede correr contra una base de datos y ejecutará las migraciones pendientes.
@@ -1112,7 +1252,7 @@ GO
     * Ejecutar bundle: ```.\efbundle.exe --connection "Connection_String_XXX_"```
     * Sustituir bundle tras nueva migración: ```dotnet ef migrations bundle --configuration Bundle --force```.
 
-## 7.8 Despliegue: Comando Script-Migration para general un script SQL<a name="Tema_07_Comandos_Y_Migraciones_Script-Migration"></a>
+## 7.10 Despliegue: Comando Script-Migration para general un script SQL<a name="Tema_07_Comandos_Y_Migraciones_Script-Migration"></a>
 * Genera el script de SQL (con extensión .sql), el cual va a generar los cambios en la base de datos.
 * Se puede ejecutar contra cualquier base de datos en un proceso de entrega continua.
 * Package Manager (actualmente falla, es un bug de EF):
@@ -1121,7 +1261,7 @@ GO
 * Problema:
   * Si existen migraciones manuales con sql personalizado, donde se incluyen vistas u otros objetos, se producirá un error. Los migration bundles no tienen este problema.
 
-## 7.9 Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C# <a name="Tema_07_Comandos_Y_Migraciones_C"></a>
+## 7.11 Despliegue: Método Database.Migrate() de c# - Aplicando las migraciones desde C# <a name="Tema_07_Comandos_Y_Migraciones_C"></a>
 * Con ```Migrate``` se pueden aplicar las migraciones desde la aplicación.
 * ```Migrate``` permite ejecutar una función desde nuestra aplicación, la cual se encargará de aplicar las migraciones.
 * Problemas:
@@ -1132,7 +1272,7 @@ GO
 * Para utilizarlo:
   * Clase ```program```: ```applicationDbContext.Database.Migrate()```
 
-## 7.10 Mejora del rendimiento: Modelos compilados con el comando Optimize <a name="Tema_07_Comandos_Y_Migraciones_Modelos_Compilados_"></a>
+## 7.12 Mejora del rendimiento: Modelos compilados con el comando Optimize <a name="Tema_07_Comandos_Y_Migraciones_Modelos_Compilados_"></a>
 * Cuando existen cientos de entidades puede que la carga inicial sea lenta.
 * Los modelos compilados permiten optimizar la inicialización del modelo de EF.
 * La documentación oficial no recomienda utilizar modelos compilados si se tienen pocas entidades.
@@ -1146,7 +1286,7 @@ GO
     * Este comando creará modelos compilados de las entidades en la carpeta **[CompiledModels]**.
   * Clase ```program```: ```opciones.UseModel(ApplicationDbContextModel.Instance)```
 
-## 7.11 Base de Datos Primero (Database first) - Scaffold-DbContext <a name="Tema_07_Comandos_Y_Migraciones_DBFirst_"></a>
+## 7.13 Base de Datos Primero (Database first) - Scaffold-DbContext <a name="Tema_07_Comandos_Y_Migraciones_DBFirst_"></a>
 * Permite tomar una base de datos existente y generar las entidades a partir de la base de datos.
 * Ideal para cuando la base de datos ya está creada pero se quiere utilizar EF.
 * Para este ejemplo, se utilizará un nuevo proyecto Web API ```PruebaBDPrimero```.
@@ -1165,21 +1305,23 @@ GO
 
 # MÓDULO 08. El DbContext <a name="Tema_08_DbContext"></a>
 **Objetivo:** profundizar en las capacidades del DBContext.
-**Principales características:**
-* Principales propiedades del DbContext.
-* Configuración alternativa de DBContext: OnConfiguring.
-* Cambiando el estatus de una entidad con Entry.
-* Actualizando algunas propiedades.
-* Sobrescribir SaveChanges.
-* Inyección de dependencias por constructor en DbContext.
-* Eventos que se pueden capturar en el DBContext.
-* Sentencias SQL - Select.
-* Sentencias SQL - Inserts, updates, deletes.
-* Sentencias SQL - ToSqlQuery - Centralizando queries Arbitrarios.
-* Uso de procedimientos almacenados.
-* Transacciones por defecto.
-* Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges.
-
+**Principales características del módulo:**
+1. [Migraciones](#Tema_08_DbContext_Migraciones)
+2. [Creando el proyecto](#Tema_08_DbContext_Creacion)
+3. [Principales propiedades del DbContext](#Tema_08_DbContext_Propiedades)
+4. [Configuración alternativa de DBContext: OnConfiguring](#Tema_08_DbContext_OnConfiguring)
+5. [Cambiando el estatus de una entidad con Entry](#Tema_08_DbContext_Estatus)
+6. [Actualizando algunas propiedades](#Tema_08_DbContext_Actualizar_Propiedades)
+7. [Sobrescribir SaveChanges](#Tema_08_DbContext_Sobrescribir_SaveChanges)
+8. [Inyección de dependencias por constructor en DbContext](#Tema_08_DbContext_Iny_Dependencias)
+9. [Eventos que se pueden capturar en el DBContext](#Tema_08_DbContext_Eventos)
+10. [Sentencias SQL - Select](#Tema_08_DbContext_SQL_Select)
+11. [Sentencias SQL - Inserts, updates, deletes](#Tema_08_DbContext_SQL_CRUD)
+12. [Sentencias SQL - ToSqlQuery() - Centralizando queries Arbitrarios](#Tema_08_DbContext_SQL_ToSqlQuery)
+13. [Uso de procedimientos almacenados](#Tema_08_DbContext_SQL_SP)
+14. [Transacciones por defecto](#Tema_08_DbContext_Transacciones_por_defecto)
+15. [Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges](#Tema_08_DbContext_Transacciones_Manuales)
+    
 ## 8.0 Migraciones ⚙️ <a name="Tema_08_DbContext_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
   * ```Update-Database```
@@ -1285,7 +1427,7 @@ GO
     * ```GetFromProcedimientoAlmacenado```: se ha hecho con ```FromSqlInterpolated```.
     * ```PostFromProcedimientoAlmacenado```: se ha ejecutado con ```ExecuteSqlRawAsync```.
 
-## 8.13 Transacciones por defecto <a name="Tema_08_DbContext_Transacciones por defecto"></a>
+## 8.13 Transacciones por defecto <a name="Tema_08_DbContext_Transacciones_por_defecto"></a>
 * En el contexto de base de datos, una transacción requiere que varias operaciones diferentes sean realizadas de manera atómica.
 * Esto implica que todas las operaciones dentro de una operación, deben ser exitosas, o si no no se da como correcto y se deben deshacer los cambios. 
 * Por ejemplo, esto sucede con la entidad ```Cine``` y ```SalaDeCine```. No se puede insertar una sala de cine con sus salas de cine si alguna de las dos operaciones falla. 
@@ -1294,7 +1436,7 @@ GO
   * Clase ```GenerosController```: 
     * ```PostInsercionMultipleTransaccioPorDefecto```: si falla cualquier inserción de cines de la lista, no se completará el resto.
 
-## 8.14 Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges <a name="Tema_08_DbContext_Transacciones Manuales"></a>
+## 8.14 Transacciones manuales - el mecanismo BeginTransaction() - una transacción para varios SaveChanges <a name="Tema_08_DbContext_Transacciones_Manuales"></a>
 * En ocasiones no es suficiente el mecanismo de transacciones de ```context.SaveChangesAsync()```.
 * A veces necesitamos realizar una operación, luego realizar otra, y si la segunda operación da error entonces revertir la primera operación.
 * Supongamos que la aplicación trabajará con ```Factura``` y ```FacturaDetalle```.
@@ -1313,23 +1455,25 @@ GO
 
 # MÓDULO 09. Entity Framework avanzado <a name="Tema_09_EF_Avanzado"></a>
 **Objetivo:** profundizar en otras características avanzadas dentro de EF.
-**Principales características:**
-* Funciones escalares.
-* Funciones con valores de tabla.
-* Columnas calculadas (HasComputedColumnSql).
-* Campo de secuencia para ordenaciones (HasSequence).
-* Conflictos de concurrencia por campo ([ConcurrencyCheck]).
-* Conflictos de concurrencia por fila ([Timestamp]).
-* Conflictos de concurrencia, mensajes de respuesta amigables capturando DbUpdateConcurrencyException.
-* Conflictos de concurrencia con el modelo desconectado.
-* Tablas temporales (vigentes + histórico): introducción.
-* Tablas temporales: inserción, edición, borrado.
-* Tablas temporales: consulta de tabla temporal e histórica (TemporalAll).
-* Tablas temporales: consulta por fecha concreta (TemporalAsOf).
-* Tablas temporales: consulta por rangos de fechas (TemporalFromTo, TemporalContainedIn, TemporalBetween).
-* Tablas temporales: restaurando un registro borrado.
-* Tablas temporales: personalización de nombre de columnas y de tabla.
-* Trabajando con el DbContext en otro proyecto.
+**Principales características del módulo:**
+1. [Migraciones](#Tema_09_EF_Avanzado__Migraciones)
+2. [Creando el proyecto](#Tema_09_EF_Avanzado_Creacion)
+3. [Funciones escalares](#Tema_09_EF_Avanzado_Funciones_Escalares)
+4. [Funciones con valores de tabla](#Tema_09_EF_Avanzado_Funciones_Tabla)
+5. [Columnas calculadas (HasComputedColumnSql)](#Tema_09_EF_Avanzado_Columnas_Calculadas)
+6. [Campo de secuencia para ordenaciones (HasSequence)](#Tema_09_EF_Avanzado_Campo_Secuencia)
+7. [Conflictos de concurrencia por campo ([ConcurrencyCheck])](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Campo)
+8. [Conflictos de concurrencia por fila ([Timestamp])](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Fila)
+9. [Conflictos de concurrencia, mensajes de respuesta amigables capturando DbUpdateConcurrencyException](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Mensajes_Amigables)
+10. [Conflictos de concurrencia con el modelo desconectado](#Tema_09_EF_Avanzado_Conflicto_Concurrencia_Desconectado)
+11. [Tablas temporales (vigentes + histórico): introducción](#Tema_09_EF_Avanzado_Tablas_Intro)
+12. [Tablas temporales: inserción, edición, borrado](#Tema_09_EF_Avanzado_Tablas_CRUD)
+13. [Tablas temporales: consulta de tabla temporal e histórica (TemporalAll)](#Tema_09_EF_Avanzado_Tablas_TemporalAsOf)
+14. [Tablas temporales: consulta por fecha concreta (TemporalAsOf())](#Tema_09_EF_Avanzado_Tablas_TemporalAsOf)
+15. [Tablas temporales: consulta por rangos de fechas (TemporalFromTo(), TemporalContainedIn(), TemporalBetween()](#Tema_09_EF_Avanzado_Tablas_Temporal__Rangos)
+16. [Tablas temporales: restaurando un registro borrado](#Tema_09_EF_Avanzado_Tablas_Temporal_Borrado)
+17. [Tablas temporales: personalización de nombre de columnas y de tabla](#Tema_09_EF_Avanzado_Tablas_Temporal_Personalizacion)
+18. [Trabajando con el DbContext en otro proyecto](#Tema_09_EF_Avanzado_Tablas_Temporal_DbContext)
 
 ## 9.0 Migraciones ⚙️ <a name="Tema_09_EF_Avanzado__Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
@@ -1564,7 +1708,7 @@ builder.Property("Hasta").HasColumnType("datetime2");
 
 # MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>
 **Objetivo:** configurar de manera automática el correcto funcionamiento de nuestras aplicaciones.
-**Principales características:**
+**Principales características del módulo:**
 * Concepto de prueba
 * Pruebas automáticas
 * Pruebas unitarias - Primera prueba
@@ -1586,13 +1730,13 @@ builder.Property("Hasta").HasColumnType("datetime2");
 * Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
 
 ## 10.1 Creando el proyecto <a name="Tema_10_Pruebas_Automaticas_Creacion"></a>
-* Proyecto utilizado: ver carpeta virtual de la solución **10_Pruebas_Automaticas**
+* Proyectos utilizados: ver carpeta virtual de la solución **10_Pruebas_Automaticas**
 * BDD utilizada: **[EFCorePeliculasDB_10_EF_Testing]**
 
 ---
 
 # MÓDULO 11. Entity Framework y ASP Net Core <a name="Tema_11_EF_Y_ASP"></a>
 **Objetivo:** lorem ipsum.
-**Principales características:**
+**Principales características del módulo:**
 * Lorem ipsum
 * Lorem ipsum
