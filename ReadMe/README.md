@@ -1622,6 +1622,7 @@ GO
 * Almacena los cambios que ha sufrido un registro, proporcionando un seguimiento del mismo.
 * En la documentación oficial de Microsoft, se presenta este esquema y flujo de acciones:
 ![My Image](09_Tablas_Temporales_Esquema.PNG)
+* Un enlace que lo explica muy bien es el siguiente: [Campus MVP - Manejo de tablas temporales de SQL Server con Entity Framework](https://www.campusmvp.es/recursos/post/manejo-de-tablas-temporales-de-sql-server-con-entity-framework-en-net-6-0.aspx)
 * Básicamente tendremos:
   * **Una tabla temporal (o vigente)**, que es la que contiene los datos vigentes. Por ejemplo, la tabla ```[Generos]```.
   * **Una tabla histórica**, que contiene los distintos cambios que han ocurrido en los datos de la tabla temporal (modificación o borrado, pero no inserción). Por ejemplo, la tabla ```[GenerosHistory]```.
@@ -1636,8 +1637,6 @@ GO
     * La tabla se habrá guardado como (```System-versioned```)
     * Se habrán creado los campos ```PeriodStart``` y ```PeriodEnd``` (en la imagen ```FechaDesde``` y ```FechaHasta```, ya que se realizarán acciones de nombrado personalizadas):
 ![My Image](09_Tablas_Temporales_Esquema2.PNG)
-
-* Un enlace que lo explica muy bien es el siguiente: [Campus MVP - Manejo de tablas temporales de SQL Server con Entity Framework](https://www.campusmvp.es/recursos/post/manejo-de-tablas-temporales-de-sql-server-con-entity-framework-en-net-6-0.aspx)
 
 ## 9.11 Tablas temporales: inserción, edición, borrado<a name="Tema_09_EF_Avanzado_Tablas_CRUD"></a>
 * Una vez configurada la tabla, la inserción de registros será automática.
@@ -1697,7 +1696,8 @@ builder.Property("Desde").HasColumnType("datetime2");
 builder.Property("Hasta").HasColumnType("datetime2");
 ```
   * Se agrega la migración ```FacturasTemporal```.
-  * En Base de datos, el resultado será: ![My Image](09_Tablas_Temporales_Esquema3.PNG)
+  * En Base de datos, el resultado será: 
+![My Image](09_Tablas_Temporales_Esquema3.PNG)
 
 ## 9.17 Trabajando con el DbContext en otro proyecto<a name="Tema_09_EF_Avanzado_Tablas_Temporal_DbContext"></a>
 * Por temas de organización es posible que se decida tener el DBContext en otro proyecto.
