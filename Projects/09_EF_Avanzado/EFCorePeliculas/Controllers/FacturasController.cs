@@ -25,6 +25,9 @@ namespace EFCorePeliculas.Controllers
                 .OrderByDescending(f => f.Total).ToListAsync();
         }
 
+        /// <summary>
+        /// Intenta actualizar la fila dos veces, y al estar configurado para controlar que no permita la concurrencia, fallará
+        /// </summary>
         [HttpPost("Concurrencia_Fila")]
         public async Task<ActionResult> ConcurrenciaFila()
         {

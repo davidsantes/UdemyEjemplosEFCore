@@ -87,7 +87,15 @@ namespace EFCorePeliculas
             //Registro de funciones, forma 1 y aconsejada por limpieza de código:
             Escalares.RegistrarFunciones(modelBuilder);
 
+            //El esquema "factura" es necesario, aunque no se utilice para otra cosa.
+            //De esta manera no habrá otra secuencia configurada con este esquema, y que provoque saltos.
             modelBuilder.HasSequence<int>("NumeroFactura", "factura");
+
+            //Incluso se puede configurar: En qué número debe comenzra la secuencia con ```.StartsAt(10_000)```.
+            //En cuánto debe ser el incremento entre números de secuencia con ```.IncrementsBy(5)```.
+            //modelBuilder.HasSequence<int>("NumeroFactura", "factura")
+            //    .StartsAt(10_000)
+            //    .IncrementsBy(10);
 
             //modelBuilder.Entity<Log>().Property(l => l.Id).ValueGeneratedNever();
             //modelBuilder.Ignore<Direccion>();

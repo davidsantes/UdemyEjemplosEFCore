@@ -23,9 +23,11 @@ namespace EFCorePeliculas.Controllers
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get()
         {
-            context.Logs.Add(new Log { 
+            context.Logs.Add(new Log
+            {
                 Id = Guid.NewGuid(),
-                Mensaje = "Ejecutando el método GenerosController.Get" });
+                Mensaje = "Ejecutando el método GenerosController.Get"
+            });
             await context.SaveChangesAsync();
             return await context.Generos.OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion")).ToListAsync();
         }
@@ -79,7 +81,6 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-
         [HttpPost("Procedimiento_almacenado")]
         public async Task<ActionResult> PostSP(Genero genero)
         {
@@ -102,7 +103,7 @@ namespace EFCorePeliculas.Controllers
             var id = (int)outputId.Value;
             return Ok(id);
         }
-         
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Genero>> Get(int id)
         {
@@ -211,7 +212,6 @@ namespace EFCorePeliculas.Controllers
             return Ok(generos);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> Post(Genero genero)
         {
@@ -233,7 +233,7 @@ namespace EFCorePeliculas.Controllers
 
             return Ok();
         }
-        
+
         [HttpPost("varios")]
         public async Task<ActionResult> Post(Genero[] generos)
         {
@@ -252,7 +252,6 @@ namespace EFCorePeliculas.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-
 
         [HttpPost("agregar2")]
         public async Task<ActionResult> Agregar2(int id)
@@ -347,6 +346,15 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Simula que dos usuarios (Felipe, Claudia) intentan actualizar el mismo campo casi al mismo tiempo.
+        /// Si no se controla esta situación, el valor que actualizará será:
+        /// 1.- "Claudia estuvo aquí".
+        /// 2.- "Felipe estuvo aquí".
+        /// Si se configura para que no pueda haber concurrencia de campos, debería:
+        /// 1.- Actualizar a "Claudia estuvo aquí".
+        /// 2.- Producirse un error en el intento de actualizar a "Felipe estuvo aquí".
+        /// </summary>
         [HttpPost("concurrency_token")]
         public async Task<ActionResult> ConcurrencyToken()
         {
@@ -356,15 +364,14 @@ namespace EFCorePeliculas.Controllers
             var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == generoId);
             genero.Nombre = "Felipe estuvo aquí";
 
-            // Claudia actualiza el registro en la BD.
-            await context.Database.ExecuteSqlInterpolatedAsync(@$"UPDATE Generos SET Nombre = 'Claudia estuvo aquí' 
+            // Claudia actualiza el campo [Nombre] del mismo registro en la BD.
+            await context.Database.ExecuteSqlInterpolatedAsync(@$"UPDATE Generos SET Nombre = 'Claudia estuvo aquí'
                                                         WHERE Identificador = {generoId}");
-            // Felipe intenta actualizar.
+
+            // Felipe intenta actualizar el campo [Nombre] del mismo registro en la BD
             await context.SaveChangesAsync();
 
             return Ok();
         }
-
-
     }
 }

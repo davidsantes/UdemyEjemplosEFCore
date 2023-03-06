@@ -22,9 +22,11 @@ namespace EFCorePeliculas.Entidades.Configuraciones
 
             builder.HasMany(typeof(FacturaDetalle)).WithOne();
 
+            //El esquema "factura" se configura en el modelbuilder de. DbContext: modelBuilder.HasSequence<int>("NumeroFactura", "factura");
             builder.Property(f => f.NumeroFactura)
                 .HasDefaultValueSql("NEXT VALUE FOR factura.NumeroFactura");
 
+            //Conflictos de concurrencia por fila, la alternativa es en la clase poner [Timestamp]:
             //builder.Property(f => f.Version).IsRowVersion();
         }
     }

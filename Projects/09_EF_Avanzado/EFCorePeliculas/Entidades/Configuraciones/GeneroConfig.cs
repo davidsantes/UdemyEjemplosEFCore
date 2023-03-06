@@ -7,7 +7,6 @@ namespace EFCorePeliculas.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Genero> builder)
         {
-
             builder.ToTable(name: "Generos", opciones =>
             {
                 opciones.IsTemporal();
@@ -20,6 +19,7 @@ namespace EFCorePeliculas.Entidades.Configuraciones
             builder.Property(prop => prop.Nombre)
                 .HasMaxLength(150)
                 .IsRequired();
+                //.IsConcurrencyToken(); Para evitar concurrencias en un campo.
 
             builder.HasQueryFilter(g => !g.EstaBorrado);
 

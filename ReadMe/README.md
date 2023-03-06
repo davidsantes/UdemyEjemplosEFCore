@@ -1316,11 +1316,11 @@ GO
 **Principales características:**
 * Funciones escalares.
 * Funciones con valores de tabla.
-* Columnas calculadas.
-* Secuencias.
-* Conflictos de concurrencia por campo.
-* Conflictos de concurrencia por fila.
-* Manejando conflictos de concurrencia.
+* Columnas calculadas (HasComputedColumnSql).
+* Campo de secuencia para ordenaciones (HasSequence).
+* Conflictos de concurrencia por campo ([ConcurrencyCheck]).
+* Conflictos de concurrencia por fila ([Timestamp]).
+* Conflictos de concurrencia, mensajes amigables.
 * Conflictos de concurrencia con el modelo desconectado.
 * Tablas temporales: introducción.
 * Tablas temporales: inserción, edición, borrado.
@@ -1381,6 +1381,74 @@ GO
       * ```modelBuilder.HasDbFunction(() => PeliculaConConteos(0));```
   * Clase ```PeliculasController```: 
     * ```GetPeliculasConConteos```: se llama a la función.
+
+## 9.4 Columnas calculadas (HasComputedColumnSql) <a name="Tema_09_EF_Avanzado_Columnas_Calculadas"></a>
+* Permiten automatizar el rellenado de estas columnas con el resultado de alguna operación.
+* De esta manera centralizamos el valor de estas columnas en la base de datos, a través de una columna "computed".
+* Existes dos tipos de columnas calculadas:
+  * **Las que guardan su valor final** en la columna.
+  * **Las que no guardan dicho valor** y lo calculan "on the fly
+    * Recomendado para operaciones rápidas. 
+    * En ciertas operaciones puede ser lento, pero a la vez, se ahorra espacio en la base de datos.
+* Se integrará una columna calculada ```Total``` a ```FacturaDetalle```, que será la multiplicación de Precio * Cantidad.*.
+* Ejemplo:
+  * Clase ```PeliculaConConteos```.
+    * Se agregan las propiedades ```Cantidad``` y ```Total```.
+  * Clase ```FacturaDetalleConfig```.
+    * Se añade la configuración de Total mediante ```HasComputedColumnSql()```.
+    * Si se quisiera guardar en base de datos, utilizar ```stored: true```: ```.HasComputedColumnSql("Precio * Cantidad", stored: true);```.
+  * Se agrega la migración ```TotalCalculado```.
+  * Clase ```FacturasController```: 
+    * ```GetDetalle```: retornará el campo calculado.
+
+## 9.5 Campo de secuencia para ordenaciones (HasSequence)<a name="Tema_09_EF_Avanzado_Campo_Secuencia"></a>
+* La idea de la secuencia es poder colocar número en secuencia en distintas filas, en orden.
+* Si se utiliza un Id de llave primaria, realmente no hay garantía de que haya saltos en los números.
+* Para utilizar una secuencia, se utiliza un valor por defecto en la columna donde se va a colocar el número de secuencia.
+* Ejemplo:
+  * Clase ```Factura```. Se agrega la propiedad:
+    * ```NumeroFactura```    
+  * Clase ```ApplicationDbContext```.
+    * Se añade la secuencia a través de: ```modelBuilder.HasSequence<int>("NumeroFactura", "factura");```
+    * Incluso se puede configurar:
+      * En qué número debe comenzra la secuencia con ```.StartsAt(x)```.
+      * En cuánto debe ser el incremento entre números de secuencia con ```.IncrementsBy(y)```.
+  * Clase ```FacturaConfig```:
+    * Se configura a través de ```HasDefaultValueSql()```.
+  * Se agrega la migración ```SecuenciaEjemplo```.
+  * Una vez realizado este proceso, cada vez que se inserte un valor en la tabla ```[Facturas]``` se incrementará automáticamente.
+
+## 9.6 Conflictos de concurrencia por campo ([ConcurrencyCheck])<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Campo"></a>
+* Los conflictos de concurrencia ocurren cuando dos procesos intentan realizar un cambio sobre un registro, y el cambio del segundo proceso sobrescribe sin querer el cambio del primer proceso.
+* EF permite manejar esta situación en dos niveles:
+  * Por campo.
+  * Por fila.
+* La idea del conflicto de concurrencia por campo es que pueden existir campos sensibles, los cuales se quieren tratar con seguridad.
+* Si dos procesos hacen una lectura sobre el campo sensible y ambos intentan actualizar el mismo campo, al segundo usuario le dará un error.
+* Ejemplo:
+  * En géneros, el campo concurrente será Nombre.
+  * Existen dos maneras de realizarlo:
+    * **Modo 1**: Clase ```Genero```: se agrega el atributo ```ConcurrencyCheck``` a la propiedad ```Nombre```.
+    * **Modo 2**: Mediante Fluent API: Clase ```GeneroConfig```, en la propiedad ```Nombre``` configurar ```IsConcurrencyToken()```.
+  * Clase ```GenerosController```: 
+    * ```concurrency_token```: provocará el fallo a la hora de intentar insertar dos veces el mismo campo (ver comentarios en el código que explican el ejemplo).
+
+## 9.7 Conflictos de concurrencia por fila ([Timestamp])<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Fila"></a>
+* A diferencia de la concurrencia por campo, en el caso por fila, cualquier cambio de registro implicará un fallo en el proceso.
+* Ejemplo:
+  * En facturas, controlar que no se maneje una misma factura desde dos sitios sin tener el control.
+  * Clase ```Factura```:
+    * Propiedad de array de bytes ```Version```.    
+  * Existen dos maneras de realizarlo:
+    * **Modo 1**: Clase ```Factura```: se agrega el atributo ```Timestamp``` a la propiedad ```Version```.
+    * **Modo 2**: Mediante Fluent API: Clase ```FacturaConfig```, en la propiedad ```Version``` configurar ```IsRowVersion()```.
+  * Se agrega la migración ```FacturaVersion```.
+  * Clase ```FacturasController```: 
+    * ```Concurrencia_Fila```: retornará el campo calculado.
+
+## 9.8 Conflictos de concurrencia, mensajes amigables<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Mensajes_Amigables"></a>
+* A diferencia de la concurre
+
 
 ---
 
