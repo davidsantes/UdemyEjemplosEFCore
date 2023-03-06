@@ -132,6 +132,12 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
    17. [Tablas temporales: personalización de nombre de columnas y de tabla](#Tema_09_EF_Avanzado_Tablas_Temporal_Personalizacion)
    18. [Trabajando con el DbContext en otro proyecto](#Tema_09_EF_Avanzado_Tablas_Temporal_DbContext)
 10. **[Entity Framework y pruebas automáticas](#Tema_10_Pruebas_Automaticas)**
+    1. [Migraciones](#Tema_10_Test_Migraciones)
+    2. [Creando el proyecto](#Tema_10_Test_Creacion)
+    3. [Configurando el Proveedor en memoria ```UseInMemoryDatabase```](#Tema_10_Test_Memoria)
+    4. [La primera prueba unitaria con EF Core](#Tema_10_Test_Primer_Test)
+    5. [Configurando AutoMapper para pruebas - Pruebas negativas](#Tema_10_Test_AutoMapper)
+    6. [Usando LocalDb para pruebas de integración](#Tema_10_Test_LocalDb)
 11. **[Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)**
 
 # Toma de contacto  🚀 <a name="Toma_Contacto"></a>
@@ -1709,16 +1715,14 @@ builder.Property("Hasta").HasColumnType("datetime2");
 # MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>
 **Objetivo:** configurar de manera automática el correcto funcionamiento de nuestras aplicaciones.
 **Principales características del módulo:**
-* Concepto de prueba
-* Pruebas automáticas
-* Pruebas unitarias - Primera prueba
-* Introducción a los Mocks
-* Configurando el Proveedor en memoria
-* La primera prueba unitaria con EF Core
-* Configurando AutoMapper para pruebas - Pruebas negativas
-* Usando LocalDb en pruebas automáticas
+1. [Migraciones](#Tema_10_Test_Migraciones)
+2. [Creando el proyecto](#Tema_10_Test_Creacion)
+3. [Configurando el Proveedor en memoria ```UseInMemoryDatabase```](#Tema_10_Test_Memoria)
+4. [La primera prueba unitaria con EF Core](#Tema_10_Test_Primer_Test)
+5. [Configurando AutoMapper para pruebas - Pruebas negativas](#Tema_10_Test_AutoMapper)
+6. [Usando LocalDb para pruebas de integración](#Tema_10_Test_LocalDb)
 
-## 10.0 Migraciones ⚙️ <a name="Tema_10_Pruebas_Automaticas_Migraciones"></a>
+## 10.0 Migraciones ⚙️ <a name="Tema_10_Test_Migraciones"></a>
 * Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
   * ```Update-Database```
 * Realizará las siguientes migraciones:  
@@ -1729,9 +1733,64 @@ builder.Property("Hasta").HasColumnType("datetime2");
 ### 10.0.1 ¿Cómo queda la base de datos? 🔩
 * Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
 
-## 10.1 Creando el proyecto <a name="Tema_10_Pruebas_Automaticas_Creacion"></a>
+## 10.1 Creando el proyecto <a name="Tema_10_Test_Creacion"></a>
 * Proyectos utilizados: ver carpeta virtual de la solución **10_Pruebas_Automaticas**
 * BDD utilizada: **[EFCorePeliculasDB_10_EF_Testing]**
+
+## 10.2 Configurando el Proveedor en memoria ```UseInMemoryDatabase```<a name="Tema_10_Test_Memoria"></a>
+* Un proveedor en memoria permite utilizar una base de datos limitada pero rápida para pruebas.
+* Una base de datos en memoria en muy velox, por lo que se podrán corrar pruebas una y otra vez sin temor a que sean lentas.
+* Patrones y recomendaciones:
+  * Por cada prueba se deberán instanciar 2 DBContext:
+    * 1 para cargar los datos si es necesario.
+    * 1 que es el que inyectaremos. Es necesario ya que el anterior, al tener los datos cargados en memoria, puede ocasionar falsos positivos en las pruebas.
+  * Cada prueba debe tener su propia base de datos para tener las pruebas aisladas unas de otras (la prueba "a" no afecta a la prueba "b"). No es un proceso costoso a nivel de rendimiento.
+* Ejemplo:
+  * Instalar en el proyecto **EFMain.Pruebas** y **EFMain** el paquete Nuget ```Microsoft.EntityFrameworkCore.InMemory```.
+  * El ```DBContext``` de ```InMemory```, se inyectará en la clase a probar.
+  * En el proyecto **EFMain.Pruebas** se creará la clase ```BasePruebas```.
+  * La clase ```BasePruebas```, tendrá: 
+    * El método ```ConstruirDbContext```.
+    * Este construirá un contexto en memoria cada vez que se llame, mediante ```UseInMemoryDatabase```.  
+  * En esta versión de EF el proveedor de memoria no trabaja bien con tablas temporales:
+    * Clase ```GeneroConfig``` y ```FacturaConfig```:
+      * Se debe indicar el tipo de dato ```<DateTime>``` para las tablas temporales, por ejemplo:
+        * ```builder.Property<DateTime>("PeriodStart").HasColumnType("datetime2");```
+    * Clase ```ApplicationDbContext```:
+      * Se debe evitar usar el seeding, ya que inserta datos en las tablas temporales.
+      * Si se verifica a través de ```Database.IsInMemory()``` que no está en memoria, realizará los "seedings".
+
+## 10.3 La primera prueba unitaria con EF Core<a name="Tema_10_Test_Primer_Test"></a>
+* Ejemplo: se realizará una prueba para verificar que GenerosController.Post() inserta N registros enviados.
+  * Clase ```GenerosControllerPruebas```:
+    * Hereda de ```BasePruebas```.
+    * Revisar ```Post_SiEnvioDosGeneros_AmbosSonInsertados```.
+
+## 10.4 Configurando AutoMapper para pruebas - Pruebas negativas<a name="Tema_10_Test_AutoMapper"></a>
+* ¿Qué sucede si se quiere probar un endpoint que utiliza Automapper?
+* Tenemos dos opciones:
+  * Utilizar un MOC de automapper.
+  * Configurar Automapper desde el proyecto de pruebas, la cual puede ser mejor para poder probar también Automapper.
+* Ejemplo:
+  * Clase ```BasePruebas```:
+    * Método ```ConfigurarAutoMapper```, que configurará los profiles en base a la clase ```AutoMapperProfiles```.
+  * Clase ```GenerosControllerPruebas```:
+    * Revisar la prueba negativa: ```Put_SiEnvioUnGeneroConNombreOriginalIncorrecto_UnaExcepcionEsArrojada```.
+    * Revisar la prueba positiva: ```Put_SiEnvioUnGeneroConNombreOriginalCorrecto_EntoncesSeActualizaElGenero```.
+
+## 10.5 Usando LocalDb para pruebas de integración<a name="Tema_10_Test_LocalDb"></a>
+* En la aplicación se ha utilizado ```NetTopologySuite``` para tener funcionalidad espacial.
+* Si queremos probar el correcto funcionamiento de queries espaciales, en esta versión de EF no funciona correctamente.
+* Por lo tanto, será necesario crear una base de datos real, mediante **LocalDB**, una especia de mini SQL Server.
+* Cada vez que se corra un test suite:
+  * Se creará la base de datos.
+  * Se creará una transacción a la cual haremos un rollback para que no deje datos.
+  * Se borrará la base de datos.
+* Ejemplo:
+  * Se probará ```CinesControllet.Get```, el cual prueba los cines más cercanos a través de ```NetTopologySuite```.
+  * Clase ```LocalDbInicializador```, realiza, a través de los métodos, estos eventos (borrar base de datos, crear, etcétera).
+  * Clase ```CinesControllerPruebas```:
+    * Revisar la prueba positiva: ```Get_MandoLatitudYLongitudDeSantoDomingo_Obtengo2CinesCercanos```.
 
 ---
 

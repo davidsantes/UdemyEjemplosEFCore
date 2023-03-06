@@ -18,7 +18,7 @@ namespace EFCorePeliculas.Pruebas
         {
             // Preparación
             var nombreDB = Guid.NewGuid().ToString();
-            var contexto1 = ConstruirContext(nombreDB);
+            var contexto1 = ConstruirDbContext(nombreDB);
             var generosController = new GenerosController(contexto1, mapper: null);
             var generos = new Genero[]
             {
@@ -30,7 +30,7 @@ namespace EFCorePeliculas.Pruebas
             await generosController.Post(generos);
 
             // Verificación
-            var contexto2 = ConstruirContext(nombreDB);
+            var contexto2 = ConstruirDbContext(nombreDB);
             var generosDB = await contexto2.Generos.ToListAsync();
 
             Assert.AreEqual(2, generosDB.Count);
@@ -47,13 +47,13 @@ namespace EFCorePeliculas.Pruebas
         {
             // Preparación
             var nombreDB = Guid.NewGuid().ToString();
-            var contexto1 = ConstruirContext(nombreDB);
+            var contexto1 = ConstruirDbContext(nombreDB);
             var mapper = ConfigurarAutoMapper();
             var generoPrueba = new Genero() { Nombre = "Genero 1" };
             contexto1.Add(generoPrueba);
             await contexto1.SaveChangesAsync();
 
-            var contexto2 = ConstruirContext(nombreDB);
+            var contexto2 = ConstruirDbContext(nombreDB);
             var generosController = new GenerosController(contexto2, mapper);
 
             // Prueba y Verificación
@@ -71,13 +71,13 @@ namespace EFCorePeliculas.Pruebas
         {
             // Preparación
             var nombreDB = Guid.NewGuid().ToString();
-            var contexto1 = ConstruirContext(nombreDB);
+            var contexto1 = ConstruirDbContext(nombreDB);
             var mapper = ConfigurarAutoMapper();
             var generoPrueba = new Genero() { Nombre = "Genero 1" };
             contexto1.Add(generoPrueba);
             await contexto1.SaveChangesAsync();
 
-            var contexto2 = ConstruirContext(nombreDB);
+            var contexto2 = ConstruirDbContext(nombreDB);
             var generosController = new GenerosController(contexto2, mapper);
 
             // Prueba
@@ -91,7 +91,7 @@ namespace EFCorePeliculas.Pruebas
 
             // Verificación
 
-            var contexto3 = ConstruirContext(nombreDB);
+            var contexto3 = ConstruirDbContext(nombreDB);
             var generoDB = await contexto3.Generos.SingleAsync();
             Assert.AreEqual(generoPrueba.Identificador, generoDB.Identificador);
             Assert.AreEqual("Genero 2", generoDB.Nombre);

@@ -11,7 +11,7 @@ namespace EFCorePeliculas.Pruebas
 {
     public class BasePruebas
     {
-        protected ApplicationDbContext ConstruirContext(string nombreDB)
+        protected ApplicationDbContext ConstruirDbContext(string nombreDB)
         {
             var opciones = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(nombreDB).Options;

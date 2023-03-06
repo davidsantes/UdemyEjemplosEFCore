@@ -2,14 +2,11 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EFCorePeliculas.Pruebas
 {
@@ -63,7 +60,7 @@ namespace EFCorePeliculas.Pruebas
             }
         }
 
-        static void DeleteDB()
+        private static void DeleteDB()
         {
             var fileNames = GetDbFiles(Master, $@"
             SELECT [physical_name] FROM [sys].[master_files]
@@ -82,7 +79,7 @@ namespace EFCorePeliculas.Pruebas
             }
         }
 
-        static void ExecuteCommand(string connectionString, string query)
+        private static void ExecuteCommand(string connectionString, string query)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -94,7 +91,7 @@ namespace EFCorePeliculas.Pruebas
             }
         }
 
-        static IEnumerable<string> GetDbFiles(
+        private static IEnumerable<string> GetDbFiles(
             string connectionString,
             string query)
         {
@@ -116,7 +113,7 @@ namespace EFCorePeliculas.Pruebas
             return files;
         }
 
-        static string Master =>
+        private static string Master =>
             new SqlConnectionStringBuilder
             {
                 DataSource = @"(LocalDB)\MSSQLLocalDB",
@@ -124,10 +121,9 @@ namespace EFCorePeliculas.Pruebas
                 IntegratedSecurity = true
             }.ConnectionString;
 
-        static string Filename => Path.Combine(
+        private static string Filename => Path.Combine(
             Path.GetDirectoryName(
                 typeof(LocalDbInicializador).GetTypeInfo().Assembly.Location),
             $"{_dbName}.mdf");
-
     }
 }
