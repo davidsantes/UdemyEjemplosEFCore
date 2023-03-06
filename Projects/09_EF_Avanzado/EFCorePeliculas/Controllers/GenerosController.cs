@@ -104,8 +104,8 @@ namespace EFCorePeliculas.Controllers
             return Ok(id);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Genero>> Get(int id)
+        [HttpGet("GetTablaTemporalOVigente{id:int}")]
+        public async Task<ActionResult<Genero>> GetTablaTemporalOVigente(int id)
         {
             var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(g => g.Identificador == id);
 
@@ -128,8 +128,8 @@ namespace EFCorePeliculas.Controllers
             });
         }
 
-        [HttpGet("TemporalAll/{id:int}")]
-        public async Task<ActionResult> GetTemporalAll(int id)
+        [HttpGet("GetTablaTemporalEHistorico/{id:int}")]
+        public async Task<ActionResult> GetTablaTemporalEHistorico(int id)
         {
             var generos = await context.Generos.TemporalAll().AsTracking()
                 .Where(g => g.Identificador == id)
@@ -242,8 +242,8 @@ namespace EFCorePeliculas.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put(GeneroActualizacionDTO generoActualizacionDTO)
+        [HttpPut("PutConflictoConcurrenciaCampoDBContextDesconectado")]
+        public async Task<ActionResult> PutConflictoConcurrenciaCampoDBContextDesconectado(GeneroActualizacionDTO generoActualizacionDTO)
         {
             var genero = mapper.Map<Genero>(generoActualizacionDTO);
             context.Update(genero);

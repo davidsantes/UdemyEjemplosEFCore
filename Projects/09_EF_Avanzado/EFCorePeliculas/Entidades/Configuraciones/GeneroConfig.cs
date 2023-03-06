@@ -7,11 +7,13 @@ namespace EFCorePeliculas.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Genero> builder)
         {
+            //Tabla temporal: para configurar la tabla como temporal, para poder almacenar históricos:
             builder.ToTable(name: "Generos", opciones =>
             {
                 opciones.IsTemporal();
             });
 
+            //Tabla temporal: necesita que elas propiedades puedan almacenar horas, minutos, etcétera
             builder.Property("PeriodStart").HasColumnType("datetime2");
             builder.Property("PeriodEnd").HasColumnType("datetime2");
 

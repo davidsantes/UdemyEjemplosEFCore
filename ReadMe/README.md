@@ -1320,15 +1320,13 @@ GO
 * Campo de secuencia para ordenaciones (HasSequence).
 * Conflictos de concurrencia por campo ([ConcurrencyCheck]).
 * Conflictos de concurrencia por fila ([Timestamp]).
-* Conflictos de concurrencia, mensajes amigables.
+* Conflictos de concurrencia, mensajes de respuesta amigables capturando DbUpdateConcurrencyException.
 * Conflictos de concurrencia con el modelo desconectado.
-* Tablas temporales: introducción.
+* Tablas temporales (vigentes + histórico): introducción.
 * Tablas temporales: inserción, edición, borrado.
-* Tablas temporales: consulta de tabla temporal e histórica.
-* Tablas temporales: consulta por fechas (TemporalAsOf).
-* Tablas temporales: consulta de registros activos en un rango de fechas (TemporalFromTo).
-* Tablas temporales: consulta de registros activos en un rango de fechas (TemporalContainedIn).
-* Tablas temporales: consulta de registros activos en un rango de fechas cerrado (TemporalBetween).
+* Tablas temporales: consulta de tabla temporal e histórica (TemporalAll).
+* Tablas temporales: consulta por fecha concreta (TemporalAsOf).
+* Tablas temporales: consulta por rangos de fechas (TemporalFromTo, TemporalContainedIn, TemporalBetween).
 * Tablas temporales: restaurando un registro borrado.
 * Tablas temporales: personalización de nombre de columnas y de tabla.
 * Trabajando con el DbContext en otro proyecto.
@@ -1446,9 +1444,121 @@ GO
   * Clase ```FacturasController```: 
     * ```Concurrencia_Fila```: retornará el campo calculado.
 
-## 9.8 Conflictos de concurrencia, mensajes amigables<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Mensajes_Amigables"></a>
-* A diferencia de la concurre
+## 9.8 Conflictos de concurrencia, mensajes de respuesta amigables capturando DbUpdateConcurrencyException<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Mensajes_Amigables"></a>
+* Para evitar devolver un error al usuario, se puede gestionar los mensajes que se devuelven en la excepción de tipo ```DbUpdateConcurrencyException```.
+* Cuando se provoca un error por concurrencia, se tendrá acceso a dos valores:
+  * El valor que se ha intentado insertar.
+  * El valor anterior.
+* A partir de esas informaciones, se puede tomar una decisión de qué hacer. Por ejemplo, mostrar ambos valores al usuario para que indique cuál debe prevalecer.
+  * Clase ```FacturasController```: 
+    * ```ConcurrenciaFilaManejandoError```: 
+      * Revisar cómo está capturando la excepción ```ConcurrenciaFilaManejandoError```.
+      * A través de las propiedades ```CurrentValue``` y ```OriginalValue``` se puede acceder a sus valores.
 
+## 9.9 Conflictos de concurrencia con el modelo desconectado<a name="Tema_09_EF_Avanzado_Conflicto_Concurrencia_Desconectado"></a>
+* Los ejemplos anteriores son de ejemplos de concurrencia con el modelo conectado.
+* Sin embargo, en ambientes web es problable que se trabaje con un modelo desconectado.
+* En el caso de **concurrencia por fila**:
+  * Se debe enviar el campo que actúa de versión o timestamp (por ejemplo en ```Factura``` el campo ```Version```).
+  * Clase ```FacturasController```: 
+    * ```ObtenerFactura```: 
+      * Para poder obtener una factura con la versión.
+      * Poderla copiar.
+    * ```ActualizarFactura```:
+      * Pegar la factura copiada de ```ObtenerFactura```.
+      * Si se ejecuta 1 vez, funciona correctamente, pero si se hace 2 veces, se produce una excepción, ya que se está enviando la versión que estaba anteriormente.
+* En el caso de **concurrencia por campo**:
+  * Hay que mandar el valor del campo nuevo y el original.
+  * Clase ```GeneroActualizacionDTO```: tendrá el nombre nuevo y el original. 
+  * Clase ```GenerosController```:
+    * Revisar método ```PutConflictoConcurrenciaCampoDBContextDesconectado```.
+
+## 9.10 Tablas temporales (vigentes + histórico): introducción<a name="Tema_09_EF_Avanzado_Tablas_Intro"></a>
+* Las tablas temporales permiten tener un histórico de todos los cambios que suceden en una tabla.
+* Almacena los cambios que ha sufrido un registro, proporcionando un seguimiento del mismo.
+* En la documentación oficial de Microsoft, se presenta este esquema y flujo de acciones:
+![My Image](09_Tablas_Temporales_Esquema.PNG)
+* Básicamente tendremos:
+  * **Una tabla temporal (o vigente)**, que es la que contiene los datos vigentes. Por ejemplo, la tabla ```[Generos]```.
+  * **Una tabla histórica**, que contiene los distintos cambios que han ocurrido en los datos de la tabla temporal (modificación o borrado, pero no inserción). Por ejemplo, la tabla ```[GenerosHistory]```.
+  * **Campos ```PeriodStart``` y ```PeriodEnd```**: es necesario que en ambas tablas haya unos campos que indiquen el inicio y fin. Por defecto se llaman ```PeriodStart``` y ```PeriodEnd```, aunque se pueden cambiar.
+* Posteriormente se podrán hacer consultas a los registros históricos de las entidades.
+* Para configurar la tabla ```[Generos]``` como una tabla temporal:
+  * Clase ```GeneroConfig```: 
+    * A través de Fluent API, se indica que la tabla es temporal con ```.IsTemporal()```.
+    * Se configuran las propiedades ```PeriodStart``` y ```PeriodEnd``` para que acepten minutos. Esto es necesario porque a nivel global cualquier DateTime se ha indicado que por defecto no utilizará minutos, etc.
+  * Se agrega la migración ```GeneroTemporal```.
+  * En Base de datos:
+    * La tabla se habrá guardado como (```System-versioned```)
+    * Se habrán creado los campos ```PeriodStart``` y ```PeriodEnd``` (en la imagen ```FechaDesde``` y ```FechaHasta```, ya que se realizarán acciones de nombrado personalizadas):
+![My Image](09_Tablas_Temporales_Esquema2.PNG)
+
+* Un enlace que lo explica muy bien es el siguiente: [Campus MVP - Manejo de tablas temporales de SQL Server con Entity Framework](https://www.campusmvp.es/recursos/post/manejo-de-tablas-temporales-de-sql-server-con-entity-framework-en-net-6-0.aspx)
+
+## 9.11 Tablas temporales: inserción, edición, borrado<a name="Tema_09_EF_Avanzado_Tablas_CRUD"></a>
+* Una vez configurada la tabla, la inserción de registros será automática.
+* Se pueden realizar verificaciones mediante: 
+  * Clase ```GenerosController```:
+    * ```Post(Genero genero)```
+    * ```Delete(int id)```
+  * Resultados en las tablas ```[Generos]``` y ```[GenerosHistory]```.
+
+## 9.12 Tablas temporales: consulta de tabla temporal e histórica (TemporalAll)<a name="Tema_09_EF_Avanzado_Tablas_TemporalAsOf"></a>
+* Se puede consultar tanto la tabla temporal como la histórica.
+* Ejemplo:
+  * Carga de datos:
+    * Se ha creado el endpoint ```ModificarVariasVeces``` en ```GenerosController``` para simular una modificación de un género n veces.
+    * Ejecutar dicho EndPoint.
+  * Mostrar datos de la tabla temporal o vigente:
+    * Clase ```GenerosController```:
+      * Método ```GetTablaTemporalOVigente```. Podemos consultar los datos de ```PeriodStart``` y ```PeriodEnd```.
+  * Mostrar datos de la tabla temporal pero también el histórico:
+    * Clase ```GenerosController```:
+      * Método ```GetTablaTemporalEHistorico```. Podemos consultar los datos tanto vigentes como históricos, mediante```TemporalAll()```.
+
+## 9.13 Tablas temporales: consulta por fecha concreta (TemporalAsOf())<a name="Tema_09_EF_Avanzado_Tablas_TemporalAsOf"></a>
+* Para consultar en una tabla histórica por una fecha específica incluida en el intervalo entre ```PeriodStart``` y ```PeriodEnd```.
+* Ejemplo:
+    * Clase ```GenerosController```:  Método ```GetTemporalAsOf```.
+
+## 9.14 Tablas temporales: consulta por rangos de fechas (TemporalFromTo(), TemporalContainedIn(), TemporalBetween()<a name="Tema_09_EF_Avanzado_Tablas_Temporal__Rangos"></a>
+* Para consultar un rango de fechas existen los siguientes métodos:
+  * **TemporalFromTo**: obtiene todos los registros que estaban activos entre dos horas UTC dadas.
+  * **TemporalBetween**: lo mismo que el anterior, excepto que se incluyen también los registros por la parte superior (o sea, incluye aquellos registros que cumplen con la fecha superior, mientras que el anterior no).
+  * **TemporalContainedIn**: devuelve todos los registros que comenzaron a estar activos y terminaron estando activos entre dos horas UTC dadas.
+* Ejemplos:
+    * Clase ```GenerosController```, métodos: ```GetTemporalFromTo```, ```GetTemporalBetween```y ```GetTemporalContainedIn```.
+
+## 9.15 Tablas temporales: restaurando un registro borrado<a name="Tema_09_EF_Avanzado_Tablas_Temporal_Borrado"></a>
+* Se puede restaurar cualquier versión del registro que se encuentren en la tabla de histórico.
+* Ejemplo:
+    * Clase ```GenerosController```:  Método ```RestaurarBorrado```.
+
+## 9.16 Tablas temporales: personalización de nombre de columnas y de tabla<a name="Tema_09_EF_Avanzado_Tablas_Temporal_Personalizacion"></a>
+* Se pueden personalizar los nombres de:
+  *  Campos ```PeriodStart``` y ```PeriodEnd```. 
+     *  Se podrían cambiar a ```Desde``` y ```Hasta```.
+  *  El nombre de la tabla histórica lleva el nombre de ```[FacturasHistory]```.
+     *  Se podría cambiar a ```[FacturasHistorico]```.
+* Ejemplo:
+    * Clase ```FacturaConfig```, código:  
+```
+opciones.IsTemporal(t =>
+{
+    t.HasPeriodStart("Desde");
+    t.HasPeriodEnd("Hasta");
+    t.UseHistoryTable(name: "FacturasHistorico");
+});
+builder.Property("Desde").HasColumnType("datetime2");
+builder.Property("Hasta").HasColumnType("datetime2");
+```
+  * Se agrega la migración ```FacturasTemporal```.
+  * En Base de datos, el resultado será: ![My Image](09_Tablas_Temporales_Esquema3.PNG)
+
+## 9.17 Trabajando con el DbContext en otro proyecto<a name="Tema_09_EF_Avanzado_Tablas_Temporal_DbContext"></a>
+* Por temas de organización es posible que se decida tener el DBContext en otro proyecto.
+* La diferencia es que, a la hora de ejecutar comandos en el modelo **Code First**, hay que pasar el proyecto que contiene el DBContext, por ejemplo, si el proyecto se llama **Data**:
+```Add-Migration Primera -Proyect Data```
 
 ---
 
