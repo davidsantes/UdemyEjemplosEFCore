@@ -1563,10 +1563,32 @@ builder.Property("Hasta").HasColumnType("datetime2");
 ---
 
 # MÓDULO 10. Entity Framework y pruebas automáticas <a name="Tema_10_Pruebas_Automaticas"></a>
-**Objetivo:** lorem ipsum.
+**Objetivo:** configurar de manera automática el correcto funcionamiento de nuestras aplicaciones.
 **Principales características:**
-* Lorem ipsum
-* Lorem ipsum
+* Concepto de prueba
+* Pruebas automáticas
+* Pruebas unitarias - Primera prueba
+* Introducción a los Mocks
+* Configurando el Proveedor en memoria
+* La primera prueba unitaria con EF Core
+* Configurando AutoMapper para pruebas - Pruebas negativas
+* Usando LocalDb en pruebas automáticas
+
+## 10.0 Migraciones ⚙️ <a name="Tema_10_Pruebas_Automaticas_Migraciones"></a>
+* Ejecutar la siquiente sentencia en el **Package Manager Console** (cuidado con el proyecto de inicio en la consola), la cual ejecutará todas las migraciones:
+  * ```Update-Database```
+* Realizará las siguientes migraciones:  
+  * Creación de la BDD **[EFCorePeliculasDB_10_EF_Testing]**.
+  * Creación del esquema con todos los ejemplos del tema.
+  * Inserción de datos de prueba.
+
+### 10.0.1 ¿Cómo queda la base de datos? 🔩
+* Similar al esquema [Esquema de base de datos](#Esquema_BDD), aunque se añaden nuevas tablas.
+
+## 10.1 Creando el proyecto <a name="Tema_10_Pruebas_Automaticas_Creacion"></a>
+* Proyecto utilizado: ver carpeta virtual de la solución **10_Pruebas_Automaticas**
+* BDD utilizada: **[EFCorePeliculasDB_10_EF_Testing]**
+
 ---
 
 # MÓDULO 11. Entity Framework y ASP Net Core <a name="Tema_11_EF_Y_ASP"></a>
