@@ -140,11 +140,11 @@ Ejercicios tomados del curso de **Felipe Gavilán: Introducción a Entity Framew
     6. [Usando LocalDb para pruebas de integración](#Tema_10_Test_LocalDb)
 11. **[Entity Framework y ASP Net Core](#Tema_11_EF_Y_ASP)**
     1. [Migraciones](#Tema_11_Asp_Migraciones)
-    2. [Tiempo de Vida de los Servicios](#Tema_11_Asp_Vida)
+    2. [Tiempo de Vida de los Servicios y del DBContext](#Tema_11_Asp_Vida)
     3. [Instanciando el DbContext en un Singleton](#Tema_11_Asp_Singleton)
     4. [Programación Asíncrona](#Tema_11_Asp_Programa_Asincrona)
-    5. [Reciclando el DbContext](#Tema_11_Asp_Reciclando_DbContext)
-    6. [Factoría de DbContexts](#Tema_11_Asp_Factoria_DbContext)
+    5. [Reciclando el DbContext (```AddDbContextPool```)](#Tema_11_Asp_Reciclando_DbContext)
+    6. [Factoría de DbContexts (```AddDbContextFactory```) ](#Tema_11_Asp_Factoria_DbContext)
     7. [Consideraciones para Blazor Server](#Tema_11_Asp_Blazor)
 
 # Toma de contacto  🚀 <a name="Toma_Contacto"></a>
@@ -1805,11 +1805,11 @@ builder.Property("Hasta").HasColumnType("datetime2");
 **Objetivo:** características especiales para ASP .Net Core.
 **Principales características del módulo:**
 1. [Migraciones](#Tema_11_Asp_Migraciones)
-2. [Tiempo de Vida de los Servicios](#Tema_11_Asp_Vida)
+2. [Tiempo de Vida de los Servicios y del DBContext](#Tema_11_Asp_Vida)
 3. [Instanciando el DbContext en un Singleton](#Tema_11_Asp_Singleton)
 4. [Programación Asíncrona](#Tema_11_Asp_Programa_Asincrona)
-5. [Reciclando el DbContext](#Tema_11_Asp_Reciclando_DbContext)
-6. [Factoría de DbContexts](#Tema_11_Asp_Factoria_DbContext)
+5. [Reciclando el DbContext (```AddDbContextPool```)](#Tema_11_Asp_Reciclando_DbContext)
+6. [Factoría de DbContexts (```AddDbContextFactory```) ](#Tema_11_Asp_Factoria_DbContext)
 7. [Consideraciones para Blazor Server](#Tema_11_Asp_Blazor)
 
 ## 11.0 Migraciones ⚙️ <a name="Tema_11_Test_Migraciones"></a>
@@ -1827,14 +1827,52 @@ builder.Property("Hasta").HasColumnType("datetime2");
 * Proyectos utilizados: ver carpeta virtual de la solución **11_EF_Y_ASP**
 * BDD utilizada: **[EFCorePeliculasDB_11_EF_Asp]**
 
-## 11.2 Tiempo de Vida de los Servicios<a name="Tema_11_Asp_Vida"></a>
+## 11.2 Tiempo de Vida de los Servicios y del DBContext<a name="Tema_11_Asp_Vida"></a>
+* Cuando hablamos de servicios nos referimos a interfaces o clases registradas en el sistema de inyección de dependencias.
+* Nuestro ```ApplicationDbContext``` lo registramos de forma centralizada como un servicio utilizando la función ```builder.Services.AddDbContext```.
+* Los servicios se diferencias por su tiempo de vida:
+  * **Transient**: siempre se da una nueva instancia de un servicio.
+  * **Scoped**: retorna la misma instancia de un servicio dentro del mismo contexto https.
+  * **Singleton**: retorna la misma instancia de un servicio siempre. 
+* El ```DbContext``` utiliza **Scoped** por defecto: 
+  * Esto permite que las operaciones que haga un usuario en memoria no afecten a otros usuarios.
+  * Es importante porque el DbContext no es "thread safe" (una misma instancia no debe ser utilizada en varios hilos al mismo tiempo).
 
 ## 11.3 Instanciando el DbContext en un Singleton<a name="Tema_11_Asp_Singleton"></a>
+* Por defecto, el servicio de DbContext es **Scoped**.
+* Sin embargo, puede que haya que utilizar un DBContext dentro de una clase registrada como Singleton. 
+* Por ejemplo, si tenemos que ejecutar tareas en segundo plano, o cada x tiempo, a través de ```IHostedService```, ya que es Singleton.
+* Ejemplo:
+  * Clase ```ServicioSingletonFallo```: es un ejemplo de una clase registrada como Singleton, y que inyecta el DBContext. Si se ejecuta la aplicación dará el siguiente error: ```System.AggregateException: 'Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: EFCorePeliculas.Servicios.ServicioSingletonFallo Lifetime: Singleton ImplementationType: EFCorePeliculas.Servicios.ServicioSingletonFallo': Cannot consume scoped service 'EFCorePeliculas.ApplicationDbContext' from singleton 'EFCorePeliculas.Servicios.ServicioSingletonFallo'.)'```
+  * Clase ```ServicioSingletonCorrecto```: para poder registrarla como Singleton, se inyecta ```IServiceProvider```. A partir de este momento puedo instanciar el DBContext a través de un contexto.
 
 ## 11.4 Programación Asíncrona<a name="Tema_11_Asp_Programa_Asincrona"></a>
+* Es buena práctica utilizar programación asíncrona cuando se realizan operaciones I/O en ASP.NET Core.
+* Al utilizar programación asíncrona, el hilo que realizó la petición es liberado y puede hacer otras tareas.
+* En un ambiente web es fundamental, pues son los hilos los que responden a peticiones http.
+* De esta manera, se pueden utilizar al máximo los hilos disponibles para responder a peticiones http (**escalabilidad vertical**).
+![My Image](11_ASP_Best_Practices.PNG)
 
-## 11.5 Reciclando el DbContext<a name="Tema_11_Asp_Reciclando_DbContext"></a>
+## 11.5 Reciclando el DbContext (```AddDbContextPool```) <a name="Tema_11_Asp_Reciclando_DbContext"></a>
+* Normalmente el DBContext es un objeto rápido de instanciar.
+* En escenarios de alta demanda instanciar y eliminar el DBContext tiene su penalización.
+* Para evitarlo, se puede reciclar el DBContext y reutilizar las instancias por la aplicación.
+* Limitaciones:
+  * El DBContext pasa a ser un servicio Singleton.
+  * No se podrá inyectar servicios en el constructor del ```ApplicationDbContext```.
+* Ejemplo:
+  * Clase ```Program```: Utilizar ```builder.Services.AddDbContextPool<ApplicationDbContext>```.
 
-## 11.6 Factoría de DbContexts<a name="Tema_11_Asp_Factoria_DbContext"></a>
+## 11.6 Factoría de DbContexts (```AddDbContextFactory```) <a name="Tema_11_Asp_Factoria_DbContext"></a>
+* En ocasiones es posible que se quiera instanciar el DBContext manualmente y al mismo tiempo, tener la clase centralizada en ```Program.cs```.
+* Para eso se utiliza ```AddDbContextFactory```, que permite registrar una factoría.
+* Ejemplo:
+  * Clase ```Program```: utilizar ```builder.Services.AddDbContextFactory<ApplicationDbContext>```.
+  * Clase ```GenerosController```: 
+    * Se inyecta ```IDbContextFactory<ApplicationDbContext> dbContextFactory```.
+    * Revisar método ```Get()```, donde se hace referencia a la factoría.
 
 ## 11.7 Consideraciones para Blazor Server<a name="Tema_11_Asp_Blazor"></a>
+* Blazor Server (diferente a Blazor Web Assembly) es un sistema con estado, la conexión cliente - servidor sigue viva mientras el usuario use la aplicación.
+* Se podría dar el caso de tener varios usuarios utilizando el mismo DBContext, lo que puede provocar errores inesperados.
+* La recomendación de Microsoft es utilizar una instancia de DBContext por operación. Conviene utilizar la factoría ```AddDbContextFactory```. 

@@ -15,19 +15,26 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+//Hace que pueda reciclar las instancias de DbContext:
+//builder.Services.AddDbContextPool<ApplicationDbContext>
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opciones =>
 {
-    opciones.UseSqlServer(connectionString, sqlServer => sqlServer.UseNetTopologySuite());
-    opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    //opciones.UseModel(ApplicationDbContextModel.Instance);
-    //opciones.UseLazyLoadingProxies();
+        opciones.UseSqlServer(connectionString, sqlServer => sqlServer.UseNetTopologySuite());
+        opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        //opciones.UseModel(ApplicationDbContextModel.Instance);
+        //opciones.UseLazyLoadingProxies();
 }
-    );
+);
 
 builder.Services.AddScoped<IActualizadorObservableCollection, ActualizadorObservableCollection>();
 builder.Services.AddScoped<IServicioUsuario, ServicioUsuario>();
 builder.Services.AddScoped<IEventosDbContext, EventosDbContext>();
-builder.Services.AddSingleton<Singleton>();
+
+//Registro de DBContext como singleton a través de IServiceProvider: si se ejecuta este código NO fallará:
+builder.Services.AddSingleton<ServicioSingletonCorrecto>();
+//Registro de DBContext como singleton a través de ApplicationDbContext: si se ejecuta este código SI fallará:
+//builder.Services.AddSingleton<ServicioSingletonFallo>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

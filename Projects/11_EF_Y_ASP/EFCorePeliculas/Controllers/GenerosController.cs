@@ -15,8 +15,10 @@ namespace EFCorePeliculas.Controllers
         private readonly IMapper mapper;
         private readonly IDbContextFactory<ApplicationDbContext> dbContextFactory;
 
-        public GenerosController(ApplicationDbContext context, IMapper mapper,
-            IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public GenerosController(
+            ApplicationDbContext context
+            ,IMapper mapper
+            ,IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             this.context = context;
             this.mapper = mapper;
@@ -26,6 +28,7 @@ namespace EFCorePeliculas.Controllers
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get()
         {
+            //Utilización de la factoría dbContextFactory:
             using (var nuevoContext = dbContextFactory.CreateDbContext())
             {
                 nuevoContext.Logs.Add(new Log
